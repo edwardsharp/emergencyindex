@@ -5,14 +5,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from './app-material.module';
 
 import { AppComponent } from './app.component';
+import { ProjectDescriptionComponent } from './project-description/project-description.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ProjectDescriptionComponent
   ],
   imports: [
-    BrowserModule
     BrowserModule,
     BrowserAnimationsModule,
     AppMaterialModule
