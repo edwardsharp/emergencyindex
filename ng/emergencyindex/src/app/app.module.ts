@@ -7,7 +7,7 @@ import { AppMaterialModule } from './app-material.module';
 import { AppComponent } from './app.component';
 import { ProjectComponent } from './project/project.component';
 
-import { RouterModule, Routes }   from '@angular/router';
+import { Routes, RouterModule }  from '@angular/router';
 import { HomeComponent } from './home/home.component';
 const appRoutes: Routes = [
   { 
