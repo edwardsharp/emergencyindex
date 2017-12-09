@@ -1,18 +1,29 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { Routes, RouterModule }  from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from './app-material.module';
 
 import { AppComponent } from './app.component';
-import { ProjectComponent } from './project/project.component';
-
-import { Routes, RouterModule }  from '@angular/router';
+import { AuthComponent } from './auth/auth.component';
+import { AuthService } from './auth/auth.service';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeComponent } from './home/home.component';
+import { ProjectComponent } from './project/project.component';
+import { ProjectListComponent } from './project/project-list.component';
+import { ProjectService } from './project/project.service';
+
 const appRoutes: Routes = [
+  {
+    path: 'auth',
+    component: AuthComponent
+  },
+  {
+    path: 'list',
+    component: ProjectListComponent
+  },
   { 
     path: 'project',  
-    pathMatch: 'full',
     component: ProjectComponent 
   },
   { 
@@ -25,7 +36,7 @@ const appRoutes: Routes = [
   //   redirectTo: '/foobar',
   //   pathMatch: 'full'
   // }
-  // ,{ path: '**', component: PageNotFoundComponent }
+  ,{ path: '**', component: PageNotFoundComponent }
 ];
 
 
@@ -33,7 +44,10 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     ProjectComponent,
-    HomeComponent
+    HomeComponent,
+    ProjectListComponent,
+    PageNotFoundComponent,
+    AuthComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -44,7 +58,7 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     AppMaterialModule
   ],
-  providers: [],
+  providers: [ProjectService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
