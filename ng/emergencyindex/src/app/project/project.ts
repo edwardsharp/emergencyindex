@@ -1,6 +1,7 @@
 export class Project {
   _id: string;
-
+  _rev?: string;
+  
   title: string;
   first_date: string;
   location: string;

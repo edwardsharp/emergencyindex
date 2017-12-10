@@ -12,6 +12,12 @@ module.exports = function (config) {
       require('karma-coverage-istanbul-reporter'),
       require('@angular/cli/plugins/karma')
     ],
+    files: [
+      "./src/assets/pouchdb.min.js",
+      "./src/assets/pouchdb.find.min.js",
+      "./src/assets/pouchdb.fruitdown.min.js",
+      { pattern: './src/assets/*.js' } //load (order is important) 3rd party libz for testing...
+    ],
     client:{
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
