@@ -1,7 +1,9 @@
 # couchdb
 
 
-## docker stuff
+## docker 2.1.1 stuff
+
+https://github.com/apache/couchdb-docker/blob/master/2.1.1/Dockerfile
 
 build: 
 
@@ -9,7 +11,7 @@ build:
 
 run (locally) with persistant data (./data/ directory):
 
-`docker run -p 5984:5984 -v $(pwd)/data:/usr/local/var/lib/couchdb --name emergency-db 3dwardsharp/emergency-db`
+`docker run -p 5984:5984 -v $(pwd)/data:/opt/couchdb/data --name emergency-db 3dwardsharp/emergency-db`
 
 
 misc:

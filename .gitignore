@@ -1,3 +1,5 @@
+couchdb/data/
+
 # Logs
 logs
 *.log
