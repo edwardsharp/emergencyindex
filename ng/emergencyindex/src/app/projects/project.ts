@@ -1,7 +1,8 @@
 export class Project {
   _id: string;
   _rev?: string;
-  
+  _attachments?: object;
+
   name: string;
   email: string;
   phone: string;

@@ -43,12 +43,9 @@ export class ProjectService {
       live: true,
       include_docs: true
     }).on('change', change => {
-      // handle change
-      // console.log('zomg pouchDB change:',change);
       if(change.doc["_id"]){
         const copiedData = this.data.slice();
         const project = change.doc as Project;
-
         const idx = copiedData.indexOf(copiedData.find(d=> d._id == change.id));
         if(change.doc["_deleted"]){
           // console.log('PROJECT CHANGE: SPLICING DELETE idx:',idx,' project:',project);
@@ -68,94 +65,74 @@ export class ProjectService {
     }).on('error', function (err) {
       console.log(err);
     });
-
-    // this.changes.cancel(); // whenever you want to cancel
-        
+    // this.changes.cancel(); // whenever you want to cancel 
   }
 
   async saveProject(project:Project){
-    try{
-      let response = await this.db.put(project);
-      return response;
-    }catch(err){
-      return err;
-    }
+    let response = await this.db.put(project);
+    return response;
   }
 
-  addAttachment(docId:string, attachmentId:string, rev: string, attachment: Blob,type:string){
-    // var attachment = new Blob(['Is there life on Mars?'], {type: 'text/plain'});
-    return this.db.putAttachment(docId, attachmentId, rev, attachment, type);
+  async addAttachment(docId:string, attachmentId:string, rev: string, attachment: Blob, type:string){
+    let response = await this.db.putAttachment(docId, attachmentId, rev, attachment, type);
+    return response;
   }
 
-  removeAttachment(docId:string, attachmentId:string, rev: string){
-    // console.log('gonna try an remove an attachment and then, yeah...',docId,attachmentId,rev);
-    return this.db.removeAttachment(docId, attachmentId, rev);
+  async removeAttachment(docId:string, attachmentId:string, rev: string){
+    let response = await this.db.removeAttachment(docId, attachmentId, rev);
+    return response;
   }
 
   async getProject(id: string) {
-    try{
-      let response = await this.db.allDocs({
-        include_docs: true,
-        attachments: true,
-        descending: true,
-        // revs: true,
-        // revs_info: true,
-        // open_revs: 'all',
-        key: id
-      });
-      if(response.rows && response.rows[0] && response.rows[0].doc){
-        return response.rows[0].doc as Project;
-      }else{
-        return new Project;
-      }
-    }catch(err){
-      console.log('o noz! project.service getProject err:',err);
-      return err;
+    let response = await this.db.allDocs({
+      include_docs: true,
+      attachments: true,
+      descending: true,
+      // revs: true,
+      // revs_info: true,
+      // open_revs: 'all',
+      key: id
+    });
+    if(response.rows && response.rows[0] && response.rows[0].doc){
+      return response.rows[0].doc as Project;
+    }else{
+      return new Project;
     }
   }
 
   async getProjects(limit:number,skip:number) {
-    try{
-      //environment.couch_host
-      let response = await this.db.allDocs({
-        include_docs: true,
-        attachments: false,
-        descending: true,
-        limit: limit,
-        skip: skip
-      });
+    //environment.couch_host
+    let response = await this.db.allDocs({
+      include_docs: true,
+      attachments: false,
+      descending: true,
+      limit: limit,
+      skip: skip
+    });
 
-      const retItems = response.rows
-        .filter(row => !row["id"].startsWith('_design'))
-        .map(row => row.doc as Project);
-      this.total_rows = retItems.length;
-      // console.log('project.service getProjects returning retItems:',retItems);
-      this.dataChange.next(retItems);
-      return retItems;
-    }catch(err){
-      return err;
-    }
+    const retItems = response.rows
+      .filter(row => !row["id"].startsWith('_design'))
+      .map(row => row.doc as Project);
+    this.total_rows = retItems.length;
+    this.dataChange.next(retItems);
+    return retItems;
   }
 
   async removeProject(project: Project){
-    try{
-      let response = await this.db.remove(project._id, project._rev);
-      return response;
-    }catch(err){
-      return err;
-    }
+    let response = await this.db.remove(project._id, project._rev);
+    return response;
   }
 
-  find(q:string): Observable<any[]> {
-
+  async find(q:string) {
     let regexp = new RegExp(q, 'i');
-    return this.db.find({
+    let response = await this.db.find({
       selector: {name: {$regex: regexp}},
       fields: ['_id', 'name'],
       // sort: [{_id: 'desc'}],
       // limit: 25,
       // skip: 0,
-    }).then(res => res["docs"]);
+    });
+    return response["docs"];
   }
 
 

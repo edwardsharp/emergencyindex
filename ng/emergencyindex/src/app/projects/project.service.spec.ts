@@ -91,7 +91,6 @@ describe('ProjectService', () => {
       done();
   });
 
-
   it('should LIST projects (async)',
     async (done) => {
       //CREATE
@@ -110,7 +109,35 @@ describe('ProjectService', () => {
       done();
   });
 
-  //it('should be able to FIND projects (async)');
+  it('should be able to FIND projects (async)', 
+    async (done) => {
+      //CREATE
+      let response = await service.saveProject(project);
+      expect(response.ok).toEqual(true);
 
+      //FIND
+      response = await service.find(project.name);
+      expect(response.length).toBeGreaterThanOrEqual(1);
+
+      done();
+  });
+
+  it('should be able to ADD & REMOVE attachments/images (async)', 
+    async (done) => {
+      //CREATE project
+      let response = await service.saveProject(project);
+      expect(response.ok).toEqual(true);
+
+      //ADD
+      const attachment = new Blob(['Is there life on Mars?'], {type: 'text/plain'});
+      response = await service.addAttachment(project._id, 'test.txt', response.rev, attachment,'text/plain');
+      expect(response.ok).toEqual(true);
+
+      //REMOVE
+      response = await service.removeAttachment(project._id, 'test.txt', response.rev);
+      expect(response.ok).toEqual(true);
+
+      done();
+  });
 
 });
