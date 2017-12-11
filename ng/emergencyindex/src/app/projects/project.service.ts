@@ -122,16 +122,17 @@ export class ProjectService {
       descending: true,
       limit: limit,
       skip: skip
-    }).then(response => {
-      console.log('project.service getProjects returning response.rows:',response.rows);
-      const retItems = response.rows
-        .filter(row => !row["id"].startsWith('_design'))
-        .map(row => row.doc as Project);
-      this.total_rows = retItems.length;
-      console.log('project.service getProjects returning retItems:',retItems);
-      this.dataChange.next(retItems);
-
     });
+    // .then(response => {
+    //   console.log('project.service getProjects returning response.rows:',response.rows);
+    //   const retItems = response.rows
+    //     .filter(row => !row["id"].startsWith('_design'))
+    //     .map(row => row.doc as Project);
+    //   this.total_rows = retItems.length;
+    //   console.log('project.service getProjects returning retItems:',retItems);
+    //   this.dataChange.next(retItems);
+
+    // });
   }
 
   removeProject(project: Project): Promise<any>{

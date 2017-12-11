@@ -1,10 +1,10 @@
-import { TestBed, inject, async, fakeAsync } from '@angular/core/testing';
+import { TestBed, inject, async, fakeAsync, tick } from '@angular/core/testing';
 
 import { Project, ProjectService } from './index';
 
 describe('ProjectService', () => {
   
-  let project;
+  let project: Project;
   let service: ProjectService;
 
   const NAMES = ['Neida', 'Bettina', 'Steve', 'Shena', 'Janella', 'Marge', 'Malka', 'Coleman', 
@@ -48,11 +48,10 @@ describe('ProjectService', () => {
 
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
+    const injector = TestBed.configureTestingModule({
       providers: [ProjectService]
     });
 
-    const injector = TestBed.configureTestingModule({});
 	  service = injector.get(ProjectService);
 
     project = createFakeProject();
@@ -68,31 +67,58 @@ describe('ProjectService', () => {
   	expect(project._id && project.name).toBeDefined();
   });
 
+  //https://stackoverflow.com/questions/47748102/testing-angular-2-services-with-jasmine-using-async-promises
+  it('should be able to CREATE a new project (async)',
+    async (done) => {
+      let response = await service.saveProject(project);
+      expect(response).toEqual(project);
+      done();
+  });
 
-	it('should be able to CREATE and READ a new project (async)',
-	  async( () => {
+	// it('should be able to CREATE and READ a new project (async)',
+	//   async( (done) => {
 
-	  service.saveProject(project).then( 
-	  	project => expect(project).toEqual(project),
-	    err => fail(err) );
+	//   let response = await service.saveProject(project)
+ //    expect(response).toEqual(project);
+	 
+	//   // // spyOn(service, 'saveProject').and.callThrough();
+	//   // service.saveProject(project).then( 
+	//   // 	response => {
 
-	  service.getProject(project._id).then(
-	    project => expect(project).toEqual(project),
-	    err => fail(err)
-	  );
+	//   // 		expect(response).toEqual(project);
+	//   // 		done();
+	//   // 	} );
 
+	// }));
 
-	}));
+	// it('should be able to READ a new project (async)',
+	//   async( () => {
+
+	//   return service.getProject(project._id).then(
+	//     project => expect(project).toEqual(project),
+	//     err => fail(err)
+	//   );
+
+	// }));
+
+	// it('test should wait for FancyService.getTimeoutValue',
+	//   fakeAsync(inject([ProjectService], (service: ProjectService) => {
+
+	//   service.getProjects(10,0).then(
+	//   	tick();
+	//     projects => {expect(projects.length).toBeGreaterThan(1)}
+	//   );
+	// })));
 
   //it('should be able to UPDATE a project');
 
-  it('should LIST projects (async)',
-	  async( () => {
+ //  it('should LIST projects (async)',
+	//   async( () => {
 
-	  service.getProjects(10,0).then(
-	    value => expect(value).toBeTruthy()
-	  );
-	})));
+	//   service.getProjects(10,0).then(
+	//     value => expect(value).toBeTruthy()
+	//   );
+	// }));
 
   //it('should be able to DELETE projects');
 
