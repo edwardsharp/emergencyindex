@@ -9,9 +9,7 @@ import { AuthComponent } from './auth/auth.component';
 import { AuthService } from './auth/auth.service';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeComponent } from './home/home.component';
-import { ProjectComponent } from './project/project.component';
-import { ProjectListComponent } from './project/project-list.component';
-import { ProjectService } from './project/project.service';
+import { Project, ProjectService, ProjectComponent, ProjectListComponent } from './projects';
 
 const appRoutes: Routes = [
   {
