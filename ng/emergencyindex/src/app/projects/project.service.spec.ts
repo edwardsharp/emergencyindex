@@ -8,16 +8,16 @@ describe('ProjectService', () => {
   let service: ProjectService;
 
   const NAMES = ['Neida', 'Bettina', 'Steve', 'Shena', 'Janella', 'Marge', 'Malka', 'Coleman', 
-  	'Susanna', 'Catrina', 'Frederica', 'Robert', 'Isidro', 'Veta', 'Fermin', 'Lajuana', 
-  	'Porter', 'Emeline', 'Magdalene', 'Richard'];
+    'Susanna', 'Catrina', 'Frederica', 'Robert', 'Isidro', 'Veta', 'Fermin', 'Lajuana', 
+    'Porter', 'Emeline', 'Magdalene', 'Richard'];
   const LAST_NAMES = ['Barmore', 'Jumper', 'Preiss', 'Strange', 'Kouba', 'Hsu', 'Rivers', 
-  	'Keating', 'Yerkes', 'Marcinkowski', 'Beardsley', 'Owsley', 'Loach', 'Howey', 'Vanderpool', 
-  	'Karst', 'Happ', 'Shea', 'Hartung', 'Cuomo']
+    'Keating', 'Yerkes', 'Marcinkowski', 'Beardsley', 'Owsley', 'Loach', 'Howey', 'Vanderpool', 
+    'Karst', 'Happ', 'Shea', 'Hartung', 'Cuomo']
 
-	let IDZ = [];
-	for (let i = 0; i < 1000; i++) { 
-	  IDZ.push( Math.floor(new Date(1507096743342 - (100000000 * i) ).getTime()).toString(36) );
-	}
+  let IDZ = [];
+  for (let i = 0; i < 1000; i++) { 
+    IDZ.push( Math.floor(new Date(1507096743342 - (100000000 * i) ).getTime()).toString(36) );
+  }
 
   let createFakeProject = function() {
     const name =
@@ -33,15 +33,15 @@ describe('ProjectService', () => {
     project.phone = Math.floor(100000 + Math.random() * 9000000000).toString();
     
     project.title = `Testing ${IDZ.indexOf(id)}`;
-		project.first_date = '';
-		project.location = '';
-		project.dates = '';
-		project.artist_name = '';
-		project.collaborators = '';
-		project.home = '';
-		project.contact = '';
-		project.links = '';
-		project.description = '';
+    project.first_date = '';
+    project.location = '';
+    project.dates = '';
+    project.artist_name = '';
+    project.collaborators = '';
+    project.home = '';
+    project.contact = '';
+    project.links = '';
+    project.description = '';
 
     return project;
   }
@@ -52,8 +52,7 @@ describe('ProjectService', () => {
       providers: [ProjectService]
     });
 
-	  service = injector.get(ProjectService);
-
+    service = injector.get(ProjectService);
     project = createFakeProject();
 
   });
@@ -63,66 +62,55 @@ describe('ProjectService', () => {
   });
 
   it('should create factory projects', function(){
-  	expect(project).toEqual(jasmine.any(Project));
-  	expect(project._id && project.name).toBeDefined();
+    expect(project).toEqual(jasmine.any(Project));
+    expect(project._id && project.name).toBeDefined();
   });
 
   //https://stackoverflow.com/questions/47748102/testing-angular-2-services-with-jasmine-using-async-promises
-  it('should be able to CREATE a new project (async)',
+  it('should be able to CREATE, READ, UPDATE, & DELETE a new project (async)',
     async (done) => {
+      //CREATE
       let response = await service.saveProject(project);
-      expect(response).toEqual(project);
+      expect(response.ok).toEqual(true);
+
+      //READ
+      let _project = await service.getProject(project._id);
+      // expect(_project).toEqual(jasmine.any(Project));
+      expect(_project.name).toEqual(project.name);
+
+      //UPDATE
+      _project.name = 'zomg d00d';
+      response = await service.saveProject(_project);
+      expect(response.ok).toEqual(true);
+
+      //DELETE
+      _project = await service.getProject(project._id);
+      response = await service.removeProject(_project);
+      expect(response.ok).toEqual(true);
+
       done();
   });
 
-	// it('should be able to CREATE and READ a new project (async)',
-	//   async( (done) => {
 
-	//   let response = await service.saveProject(project)
- //    expect(response).toEqual(project);
-	 
-	//   // // spyOn(service, 'saveProject').and.callThrough();
-	//   // service.saveProject(project).then( 
-	//   // 	response => {
+  it('should LIST projects (async)',
+    async (done) => {
+      //CREATE
+      let response = await service.saveProject(project);
+      expect(response.ok).toEqual(true);
 
-	//   // 		expect(response).toEqual(project);
-	//   // 		done();
-	//   // 	} );
+      //LIST
+      response = await service.getProjects(10,0);
+      expect(response.length).toBeGreaterThanOrEqual(1);
+      
+      //DELETE
+      let _project = await service.getProject(project._id);
+      response = await service.removeProject(_project);
+      expect(response.ok).toEqual(true);
 
-	// }));
+      done();
+  });
 
-	// it('should be able to READ a new project (async)',
-	//   async( () => {
-
-	//   return service.getProject(project._id).then(
-	//     project => expect(project).toEqual(project),
-	//     err => fail(err)
-	//   );
-
-	// }));
-
-	// it('test should wait for FancyService.getTimeoutValue',
-	//   fakeAsync(inject([ProjectService], (service: ProjectService) => {
-
-	//   service.getProjects(10,0).then(
-	//   	tick();
-	//     projects => {expect(projects.length).toBeGreaterThan(1)}
-	//   );
-	// })));
-
-  //it('should be able to UPDATE a project');
-
- //  it('should LIST projects (async)',
-	//   async( () => {
-
-	//   service.getProjects(10,0).then(
-	//     value => expect(value).toBeTruthy()
-	//   );
-	// }));
-
-  //it('should be able to DELETE projects');
-
-  //it('should be able to FIND projects');
+  //it('should be able to FIND projects (async)');
 
 
 });
