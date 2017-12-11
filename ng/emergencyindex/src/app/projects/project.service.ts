@@ -8,17 +8,6 @@ import { Project } from './project';
 import { environment } from '../../environments/environment';
 declare var PouchDB:any;
 
-
-// /** Constants used to fill up our data base. */
-// const NAMES = ['Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack',
-//   'Charlotte', 'Theodore', 'Isla', 'Oliver', 'Isabella', 'Jasper',
-//   'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'];
-
-// let IDZ = [];
-// for (let i = 0; i < 1000; i++) { 
-//   IDZ.push( Math.floor(new Date(1507096743342 - (100000000 * i) ).getTime()).toString(36) );
-// }
-
 @Injectable()
 export class ProjectService {
 
@@ -49,12 +38,6 @@ export class ProjectService {
       console.log('o noz! this.db.createIndex err:',err);
     });
 
-    // init some data...
-    // for (let i = 0; i < 10; i++) { 
-    //   this.addProject(); 
-    //   setTimeout(()=>{for (let i = 0; i < 50; i++) { this.addProject(); }}, 5000);
-    // }
-
     this.changes = this.db.changes({
       since: 'now',
       live: true,
@@ -77,7 +60,7 @@ export class ProjectService {
           console.log('PROJECT CHANGE: PUSHING! idx:',idx,' project:',project);
           copiedData.push(project);
         }
-        console.log('pushing dataChange.next... setTimeout copiedData:',copiedData);
+        console.log('pushing dataChange.next... copiedData:',copiedData);
         this.dataChange.next(copiedData);
       }
     }).on('complete', function(info) {
@@ -90,7 +73,7 @@ export class ProjectService {
         
   }
 
-  saveProject(project:Project){
+  saveProject(project:Project): Promise<any>{
     return this.db.put(project);
   }
 
@@ -104,33 +87,7 @@ export class ProjectService {
     return this.db.removeAttachment(docId, attachmentId, rev);
   }
 
-  // addProject() {
-  //   const copiedData = this.data.slice();
-  //   copiedData.push(this.createFakeProject());
-  //   this.dataChange.next(copiedData);
-  // }
-
-  /** Builds and returns a new User. */
-  // private createFakeProject() {
-  //   const name =
-  //       NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-  //       NAMES[Math.round(Math.random() * (NAMES.length - 1))];
-  //   const id = IDZ[Math.round(Math.random() * (IDZ.length - 1))]
-
-  //   return {
-  //     id: id,
-  //     name: name,
-  //     email: `${name}@example.org`,
-  //     org: `Testing ${IDZ.indexOf(id)}`,
-  //     phone: Math.floor(100000 + Math.random() * 9000000000).toString(),
-  //     notes: 'testing',
-  //     status: 'new',
-  //     tags: []
-  //   };
-  // }
-
-
-  getProject(id: string): Promise<Project> {
+  getProject(id: string): Promise<any> {
     return this.db.allDocs({
       include_docs: true,
       attachments: true,
@@ -139,22 +96,26 @@ export class ProjectService {
       // revs_info: true,
       // open_revs: 'all',
       key: id
-    }).then(response => {
-      console.log('project.service getProject return response:',response);
-      if(response.rows && response.rows[0] && response.rows[0].doc){
-        return response.rows[0].doc as Project;
-      }else{
-        return new Project;
-      }
-    }, err => {
-      console.log('o noz! project.service getProject err:',err);
     });
+
+    // hmm, having a hard time testing this... i would rather return a Project instead of a Promise here...
+    //.then(response => {
+    //   console.log('project.service getProject return response:',response);
+    //   if(response.rows && response.rows[0] && response.rows[0].doc){
+    //     console.log('!!!!!\n!!!!!\n!!!!!\nGONNA RETURN response.rows[0].doc:',response.rows[0].doc,' \nzomg\nzomg\n');
+    //     return response.rows[0].doc as Project;
+    //   }else{
+    //     return new Project;
+    //   }
+    // }, err => {
+    //   console.log('!!!!!\n!!!!!\n!!!!!\no noz! project.service getProject err:',err);
+    //   return err;
+    // });
   }
 
 
-  getProjects(limit:number,skip:number): void {
+  getProjects(limit:number,skip:number): Promise<any> {
     //environment.couch_host
-    // return Promise.resolve(PROJECTS);
     return this.db.allDocs({
       include_docs: true,
       attachments: false,

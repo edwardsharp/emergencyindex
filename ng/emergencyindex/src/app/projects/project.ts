@@ -2,6 +2,10 @@ export class Project {
   _id: string;
   _rev?: string;
   
+  name: string;
+  email: string;
+  phone: string;
+
   title: string;
   first_date: string;
   location: string;

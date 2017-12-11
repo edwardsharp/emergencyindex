@@ -1,13 +1,18 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, inject, async, fakeAsync } from '@angular/core/testing';
 
-import { ProjectService } from './project.service';
+import { Project, ProjectService } from './index';
 
 describe('ProjectService', () => {
   
-  let projectz = [];
-  const NAMES = ['Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack',
-	  'Charlotte', 'Theodore', 'Isla', 'Oliver', 'Isabella', 'Jasper',
-	  'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'];
+  let project;
+  let service: ProjectService;
+
+  const NAMES = ['Neida', 'Bettina', 'Steve', 'Shena', 'Janella', 'Marge', 'Malka', 'Coleman', 
+  	'Susanna', 'Catrina', 'Frederica', 'Robert', 'Isidro', 'Veta', 'Fermin', 'Lajuana', 
+  	'Porter', 'Emeline', 'Magdalene', 'Richard'];
+  const LAST_NAMES = ['Barmore', 'Jumper', 'Preiss', 'Strange', 'Kouba', 'Hsu', 'Rivers', 
+  	'Keating', 'Yerkes', 'Marcinkowski', 'Beardsley', 'Owsley', 'Loach', 'Howey', 'Vanderpool', 
+  	'Karst', 'Happ', 'Shea', 'Hartung', 'Cuomo']
 
 	let IDZ = [];
 	for (let i = 0; i < 1000; i++) { 
@@ -17,33 +22,29 @@ describe('ProjectService', () => {
   let createFakeProject = function() {
     const name =
         NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-        NAMES[Math.round(Math.random() * (NAMES.length - 1))];
+        LAST_NAMES[Math.round(Math.random() * (LAST_NAMES.length - 1))];
     const id = IDZ[Math.round(Math.random() * (IDZ.length - 1))]
 
-    return {
-      id: id,
-      name: name,
-      email: `${name}@example.org`,
-      org: `Testing ${IDZ.indexOf(id)}`,
-      phone: Math.floor(100000 + Math.random() * 9000000000).toString(),
-      notes: 'testing',
-      status: 'new',
-      tags: []
-    };
+    let project = new Project;
+  
+    project._id = id;
+    project.name = name;
+    project.email = `${name}@example.org`;
+    project.phone = Math.floor(100000 + Math.random() * 9000000000).toString();
+    
+    project.title = `Testing ${IDZ.indexOf(id)}`;
+		project.first_date = '';
+		project.location = '';
+		project.dates = '';
+		project.artist_name = '';
+		project.collaborators = '';
+		project.home = '';
+		project.contact = '';
+		project.links = '';
+		project.description = '';
+
+    return project;
   }
-
-  let addProject = function() {
-	  projectz.push( createFakeProject() );
-	}
-
-
-	// init some data...
-	for (let i = 0; i < 10; i++) { 
-	  addProject(); 
-	  //async add more projectz
-	  //setTimeout(()=>{for (let i = 0; i < 50; i++) { addProject(); }}, 5000);
-	}
-
 
 
   beforeEach(() => {
@@ -51,26 +52,51 @@ describe('ProjectService', () => {
       providers: [ProjectService]
     });
 
+    const injector = TestBed.configureTestingModule({});
+	  service = injector.get(ProjectService);
 
+    project = createFakeProject();
 
   });
 
-  it('should be created', inject([ProjectService], (service: ProjectService) => {
+  it('should have a working service', function(){
     expect(service).toBeTruthy();
-  }));
+  });
+
+  it('should create factory projects', function(){
+  	expect(project).toEqual(jasmine.any(Project));
+  	expect(project._id && project.name).toBeDefined();
+  });
 
 
-  //it('should be able to CREATE a new project')
+	it('should be able to CREATE and READ a new project (async)',
+	  async( () => {
 
-  //it('should be able to READ a project')
+	  service.saveProject(project).then( 
+	  	project => expect(project).toEqual(project),
+	    err => fail(err) );
 
-  //it('should be able to UPDATE a project')
+	  service.getProject(project._id).then(
+	    project => expect(project).toEqual(project),
+	    err => fail(err)
+	  );
 
-  //it('should LIST projects')
 
-  //it('should be able to DELETE projects')
+	}));
 
-  //it('should be able to FIND projects')
+  //it('should be able to UPDATE a project');
+
+  it('should LIST projects (async)',
+	  async( () => {
+
+	  service.getProjects(10,0).then(
+	    value => expect(value).toBeTruthy()
+	  );
+	})));
+
+  //it('should be able to DELETE projects');
+
+  //it('should be able to FIND projects');
 
 
 });
