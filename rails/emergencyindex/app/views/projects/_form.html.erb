@@ -12,76 +12,86 @@
   <% end %>
 
   <div class="input-field">
-    <%= form.label :name %>
-    <%= form.text_field :name, id: :project_name %>
+    <%= form.text_field :name, id: :project_name, class: 'validate', required: true, pattern: '.{3,}'  %>
+    <%= form.label :name, data: { error: "Required (minimum of 3 characters)." } %>
   </div>
 
   <div class="input-field">
-    <%= form.label :email %>
-    <%= form.text_field :email, id: :project_email %>
+    <%= form.email_field :email, id: :project_email, class: 'validate', required: true %>
+    <%= form.label :email, data: { error: "Please enter a valid email." } %>
   </div>
 
   <div class="input-field">
+    <%= form.text_field :phone, id: :project_phone, class: 'validate', required: true, pattern: '.{10,}' %>
     <%= form.label :phone %>
-    <%= form.text_field :phone, id: :project_phone %>
   </div>
 
   <div class="input-field">
+    <%= form.text_field :title, id: :project_title, class: 'validate', required: true %>
     <%= form.label :title %>
-    <%= form.text_field :title, id: :project_title %>
   </div>
 
   <div class="input-field">
+    <%= form.text_field :first_date, id: :project_first_date, class: 'validate', required: true %>
     <%= form.label :first_date %>
-    <%= form.text_field :first_date, id: :project_first_date %>
   </div>
 
   <div class="input-field">
+    <%= form.text_field :location, id: :project_location, class: 'validate', required: true %>
     <%= form.label :location %>
-    <%= form.text_field :location, id: :project_location %>
   </div>
 
   <div class="input-field">
+    <%= form.text_field :dates, id: :project_dates, class: 'validate', required: true %>
     <%= form.label :dates %>
-    <%= form.text_field :dates, id: :project_dates %>
   </div>
 
   <div class="input-field">
+    <%= form.text_field :artist_name, id: :project_artist_name, class: 'validate', required: true %>
     <%= form.label :artist_name %>
-    <%= form.text_field :artist_name, id: :project_artist_name %>
   </div>
 
   <div class="input-field">
-    <%= form.label :collaborators %>
     <%= form.text_field :collaborators, id: :project_collaborators %>
+    <%= form.label :collaborators %>
   </div>
 
   <div class="input-field">
-    <%= form.label :home %>
     <%= form.text_field :home, id: :project_home %>
+    <%= form.label :home %>
   </div>
 
   <div class="input-field">
+    <%= form.text_field :contact, id: :project_contact, class: 'validate', required: true %>
     <%= form.label :contact %>
-    <%= form.text_field :contact, id: :project_contact %>
   </div>
 
   <div class="input-field">
-    <%= form.label :links %>
     <%= form.text_field :links, id: :project_links %>
+    <%= form.label :links %>
   </div>
 
   <div class="input-field">
+    <%= form.text_area :description, id: :project_description, class: 'materialize-textarea validate', required: true %>
     <%= form.label :description %>
-    <%= form.text_field :description, id: :project_description %>
   </div>
 
-  <div class="input-field">
-    <%= form.label :image_href %>
-    <%= form.text_field :image_href, id: :project_image_href %>
+<!--   <div class="input-field">
+    <%# form.label :image_href %>
+    <%# form.text_field :image_href, id: :project_image_href %>
+  </div> -->
+
+  <div class="file-field input-field">
+    <div class="btn">
+      <span>File</span>
+      <input type="file">
+    </div>
+    <div class="file-path-wrapper">
+      <input class="file-path validate" type="text">
+    </div>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit class: 'waves-effect waves-light btn' %>
   </div>
 <% end %>
