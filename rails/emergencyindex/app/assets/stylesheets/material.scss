@@ -1,17 +1,15 @@
 @import "https://fonts.googleapis.com/icon?family=Material+Icons";
 
-@import "materialize/components/color";
-@import "materialize/components/variables";
 
-$primary-color: color("black", "base") !default;
-$primary-color-light: lighten($primary-color, 15%) !default;
-$primary-color-dark: darken($primary-color, 15%) !default;
 
-$secondary-color: color("gray", "base") !default;
-$success-color: color("teal", "base") !default;
-$error-color: color("red", "base") !default;
-$link-color: color("light-gray", "darken-1") !default;
+$primary-color: #000 !default;
+$primary-color-light: #a1a1a1 !default;
+$primary-color-dark: #696969 !default;
+
+$secondary-color: #666 !default;
+$success-color: #999 !default;
+$error-color: #c00!default;
+$link-color: #333 !default;
 
 @import 'materialize';
-
 
