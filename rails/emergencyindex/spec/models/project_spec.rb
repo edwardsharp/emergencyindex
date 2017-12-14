@@ -1,5 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Project, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  it 'has a working factory' do
+    expect(FactoryBot.create(:project)).to be_valid
+  end
+
 end
