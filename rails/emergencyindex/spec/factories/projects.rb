@@ -13,5 +13,6 @@ FactoryBot.define do
     contact "MyString"
     links "MyString"
     description "MyString"
+    user
   end
 end

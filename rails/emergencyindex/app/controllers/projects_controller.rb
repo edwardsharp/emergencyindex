@@ -7,7 +7,7 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    @projects = Project.all
+    @projects = policy_scope(Project)
   end
 
   # GET /projects/1
@@ -18,6 +18,7 @@ class ProjectsController < ApplicationController
   # GET /projects/new
   def new
     @project = Project.new
+    @project.user = current_user
   end
 
   # GET /projects/1/edit
@@ -28,6 +29,7 @@ class ProjectsController < ApplicationController
   # POST /projects.json
   def create
     @project = Project.new(project_params)
+    @project.user = current_user
 
     respond_to do |format|
       if @project.save
