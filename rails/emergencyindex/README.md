@@ -1,5 +1,4 @@
-# Emergency
-# INDEX
+# EmergencyINDEX
 
 ## db init
 
@@ -17,24 +16,24 @@ _or_
 
 ## migration notes
 
-there's a trigger function that generates short, unique __string__ IDs. new migrations will need a couple extra thingz (note the trigger references the table name "...`INSERT ON table`..."). since ordering by ID is useless for random stringz, add an index on created_at and use scopes.
+there's a trigger function that generates short, unique __string__ IDs. new migrations will need a couple extra thingz (note the trigger references the table name "...`INSERT ON mytable`..."). since ordering by ID is useless for random stringz, add an index on created_at and use scopes.
 
 ```ruby
-class CreateTable < ActiveRecord::Migration[5.1]
+class CreateMyTable < ActiveRecord::Migration[5.1]
   def up
-    create_table :table, id: :string do |t|
+    create_table :mytable, id: :string do |t|
       ...
     end
 
     execute <<-SQL
-      CREATE TRIGGER trigger_test_genid BEFORE INSERT ON table FOR EACH ROW EXECUTE PROCEDURE unique_short_id();
+      CREATE TRIGGER trigger_test_genid BEFORE INSERT ON mytable FOR EACH ROW EXECUTE PROCEDURE unique_short_id();
     SQL
 
-    add_index :table, :created_at
+    add_index :mytable, :created_at
   end
 
   def down
-    drop_table :table
+    drop_table :mytable
   end
 end
 ```
