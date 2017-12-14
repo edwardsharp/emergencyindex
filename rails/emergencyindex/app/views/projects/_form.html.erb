@@ -76,15 +76,11 @@
     <%= form.label :description %>
   </div>
 
-<!--   <div class="input-field">
-    <%# form.label :image_href %>
-    <%# form.text_field :image_href, id: :project_image_href %>
-  </div> -->
-
   <div class="file-field input-field">
     <div class="btn">
       <span>File</span>
-      <input type="file">
+      
+      <%= form.file_field :attachment %>
     </div>
     <div class="file-path-wrapper">
       <input class="file-path validate" type="text">

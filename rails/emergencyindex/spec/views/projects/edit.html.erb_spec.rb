@@ -4,8 +4,8 @@ RSpec.describe "projects/edit", type: :view do
   before(:each) do
     @project = assign(:project, Project.create!(
       :name => "MyString",
-      :email => "MyString",
-      :phone => "MyString",
+      :email => "test@example.org",
+      :phone => "0123456789",
       :title => "MyString",
       :first_date => "MyString",
       :location => "MyString",
@@ -15,8 +15,7 @@ RSpec.describe "projects/edit", type: :view do
       :home => "MyString",
       :contact => "MyString",
       :links => "MyString",
-      :description => "MyString",
-      :image_href => "MyString"
+      :description => "MyString"
     ))
   end
 
@@ -51,7 +50,6 @@ RSpec.describe "projects/edit", type: :view do
 
       assert_select "input[name=?]", "project[description]"
 
-      assert_select "input[name=?]", "project[image_href]"
     end
   end
 end

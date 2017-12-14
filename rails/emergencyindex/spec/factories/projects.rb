@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :project do
     name "MyString"
-    email "MyString"
-    phone "MyString"
+    email "test@example.org"
+    phone "1234567890"
     title "MyString"
     first_date "MyString"
     location "MyString"
@@ -13,6 +13,5 @@ FactoryBot.define do
     contact "MyString"
     links "MyString"
     description "MyString"
-    image_href "MyString"
   end
 end

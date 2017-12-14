@@ -5,8 +5,8 @@ RSpec.describe "projects/index", type: :view do
     assign(:projects, [
       Project.create!(
         :name => "Name",
-        :email => "Email",
-        :phone => "Phone",
+        :email => "test@example.org",
+        :phone => "1234567890",
         :title => "Title",
         :first_date => "First Date",
         :location => "Location",
@@ -16,13 +16,12 @@ RSpec.describe "projects/index", type: :view do
         :home => "Home",
         :contact => "Contact",
         :links => "Links",
-        :description => "Description",
-        :image_href => "Image Href"
+        :description => "Description"
       ),
       Project.create!(
-        :name => "Name",
-        :email => "Email",
-        :phone => "Phone",
+        :name => "Name Two",
+        :email => "test2@example.org",
+        :phone => "1234567890",
         :title => "Title",
         :first_date => "First Date",
         :location => "Location",
@@ -33,7 +32,6 @@ RSpec.describe "projects/index", type: :view do
         :contact => "Contact",
         :links => "Links",
         :description => "Description",
-        :image_href => "Image Href"
       )
     ])
   end
@@ -53,6 +51,5 @@ RSpec.describe "projects/index", type: :view do
     assert_select "tr>td", :text => "Contact".to_s, :count => 2
     assert_select "tr>td", :text => "Links".to_s, :count => 2
     assert_select "tr>td", :text => "Description".to_s, :count => 2
-    assert_select "tr>td", :text => "Image Href".to_s, :count => 2
   end
 end

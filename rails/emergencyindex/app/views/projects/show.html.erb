@@ -1,4 +1,17 @@
 <p>
+  <strong>Artist name:</strong>
+  <%= @project.artist_name %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @project.title %>
+</p>
+
+<%= image_tag @project.attachment.url if @project.attachment.present? %>
+
+
+<p>
   <strong>Name:</strong>
   <%= @project.name %>
 </p>
@@ -13,10 +26,7 @@
   <%= @project.phone %>
 </p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @project.title %>
-</p>
+
 
 <p>
   <strong>First date:</strong>
@@ -31,11 +41,6 @@
 <p>
   <strong>Dates:</strong>
   <%= @project.dates %>
-</p>
-
-<p>
-  <strong>Artist name:</strong>
-  <%= @project.artist_name %>
 </p>
 
 <p>
@@ -61,11 +66,6 @@
 <p>
   <strong>Description:</strong>
   <%= @project.description %>
-</p>
-
-<p>
-  <strong>Image href:</strong>
-  <%= @project.image_href %>
 </p>
 
 <%= link_to 'Edit', edit_project_path(@project) %> |

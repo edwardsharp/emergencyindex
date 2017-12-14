@@ -4,8 +4,8 @@ RSpec.describe "projects/new", type: :view do
   before(:each) do
     assign(:project, Project.new(
       :name => "MyString",
-      :email => "MyString",
-      :phone => "MyString",
+      :email => "test@example.org",
+      :phone => "1234567890",
       :title => "MyString",
       :first_date => "MyString",
       :location => "MyString",
@@ -15,8 +15,7 @@ RSpec.describe "projects/new", type: :view do
       :home => "MyString",
       :contact => "MyString",
       :links => "MyString",
-      :description => "MyString",
-      :image_href => "MyString"
+      :description => "MyString"
     ))
   end
 
@@ -51,7 +50,6 @@ RSpec.describe "projects/new", type: :view do
 
       assert_select "input[name=?]", "project[description]"
 
-      assert_select "input[name=?]", "project[image_href]"
     end
   end
 end

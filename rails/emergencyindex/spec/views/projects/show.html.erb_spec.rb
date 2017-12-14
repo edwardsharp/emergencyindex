@@ -4,8 +4,8 @@ RSpec.describe "projects/show", type: :view do
   before(:each) do
     @project = assign(:project, Project.create!(
       :name => "Name",
-      :email => "Email",
-      :phone => "Phone",
+      :email => "test@example.org",
+      :phone => "1234567890",
       :title => "Title",
       :first_date => "First Date",
       :location => "Location",
@@ -15,8 +15,7 @@ RSpec.describe "projects/show", type: :view do
       :home => "Home",
       :contact => "Contact",
       :links => "Links",
-      :description => "Description",
-      :image_href => "Image Href"
+      :description => "Description"
     ))
   end
 

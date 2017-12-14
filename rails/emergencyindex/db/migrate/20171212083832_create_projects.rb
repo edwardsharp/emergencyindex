@@ -14,7 +14,6 @@ class CreateProjects < ActiveRecord::Migration[5.1]
       t.string :contact
       t.string :links
       t.string :description
-      t.string :image_href
 
       t.timestamps
     end
