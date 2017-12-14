@@ -48,7 +48,7 @@ RSpec.describe "projects/new", type: :view do
 
       assert_select "input[name=?]", "project[links]"
 
-      assert_select "input[name=?]", "project[description]"
+      assert_select "textarea[name=?]", "project[description]"
 
     end
   end

@@ -34,6 +34,5 @@ RSpec.describe "projects/show", type: :view do
     expect(rendered).to match(/Contact/)
     expect(rendered).to match(/Links/)
     expect(rendered).to match(/Description/)
-    expect(rendered).to match(/Image Href/)
   end
 end
