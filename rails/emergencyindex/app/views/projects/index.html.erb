@@ -3,14 +3,15 @@
 <table class="highlight responsive-table">
   <thead>
     <tr>
+      <th>Artist name</th>
+      <th>Title</th>
+      <th>Created At</th>
       <th>Name</th>
       <th>Email</th>
       <th>Phone</th>
-      <th>Title</th>
       <th>First date</th>
       <th>Location</th>
       <th>Dates</th>
-      <th>Artist name</th>
       <th>Collaborators</th>
       <th>Home</th>
       <th>Contact</th>
@@ -24,14 +25,15 @@
   <tbody>
     <% @projects.each do |project| %>
       <tr>
+        <td><%= project.artist_name %></td>
+        <td><%= project.title %></td>
+        <td><%= l project.created_at, format: :short %></td>
         <td><%= project.name %></td>
         <td><%= project.email %></td>
         <td><%= project.phone %></td>
-        <td><%= project.title %></td>
         <td><%= project.first_date %></td>
         <td><%= project.location %></td>
         <td><%= project.dates %></td>
-        <td><%= project.artist_name %></td>
         <td><%= project.collaborators %></td>
         <td><%= project.home %></td>
         <td><%= project.contact %></td>

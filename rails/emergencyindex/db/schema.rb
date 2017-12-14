@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20171214004154) do
   enable_extension "hstore"
   enable_extension "pgcrypto"
 
-  create_table "projects", force: :cascade do |t|
+  create_table "projects", id: :string, force: :cascade do |t|
     t.string "name"
     t.string "email"
     t.string "phone"
@@ -32,16 +32,16 @@ ActiveRecord::Schema.define(version: 20171214004154) do
     t.string "contact"
     t.string "links"
     t.string "description"
-    t.string "image_href"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "attachment_file_name"
     t.string "attachment_content_type"
     t.integer "attachment_file_size"
     t.datetime "attachment_updated_at"
+    t.index ["created_at"], name: "index_projects_on_created_at"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :string, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -52,10 +52,20 @@ ActiveRecord::Schema.define(version: 20171214004154) do
     t.datetime "last_sign_in_at"
     t.inet "current_sign_in_ip"
     t.inet "last_sign_in_ip"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.integer "failed_attempts", default: 0, null: false
+    t.string "unlock_token"
+    t.datetime "locked_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
 end
