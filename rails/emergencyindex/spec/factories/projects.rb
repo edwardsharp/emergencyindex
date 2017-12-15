@@ -12,7 +12,7 @@ FactoryBot.define do
     home "MyString"
     contact "MyString"
     links "MyString"
-    description "MyString"
+    description "A project description."
     user
   end
 end

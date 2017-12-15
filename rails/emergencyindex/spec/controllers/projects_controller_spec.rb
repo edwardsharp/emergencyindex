@@ -27,7 +27,9 @@ RSpec.describe ProjectsController, type: :controller do
 
   setup do
     @request.env["devise.mapping"] = Devise.mappings[:user]
-    sign_in FactoryBot.create(:user)
+    u = FactoryBot.create(:user)
+    sign_in u
+    @project = FactoryBot.create(:project, user: u)
   end
 
   # let(:project) { FactoryBot.create(:project) }
@@ -36,7 +38,7 @@ RSpec.describe ProjectsController, type: :controller do
   # Project. As you add validations to Project, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    FactoryBot.attributes_for(:project)
+    @project.attributes
   }
 
   let(:invalid_attributes) {
@@ -90,7 +92,7 @@ RSpec.describe ProjectsController, type: :controller do
 
       it "redirects to the created project" do
         post :create, params: {project: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(Project.last)
+        expect(response).to redirect_to(Project.first)
       end
     end
 

@@ -8,6 +8,7 @@ describe ProjectPolicy do
   context "for a visitor" do
     let(:user) { nil }
 
+    it { should     permit(:index)   }
     it { should     permit(:show)    }
 
     it { should_not permit(:create)  }
@@ -21,6 +22,7 @@ describe ProjectPolicy do
     let(:user) { FactoryBot.create(:user){ |user| project.user = user } }
     # let(:project) { project.user = user }
 
+    it { should permit(:index)   }
     it { should permit(:show)    }
     it { should permit(:create)  }
     it { should permit(:new)     }
@@ -32,6 +34,7 @@ describe ProjectPolicy do
   context "for an admin" do
     let(:user) { FactoryBot.create(:admin) }
 
+    it { should permit(:index)   }
     it { should permit(:show)    }
     it { should permit(:create)  }
     it { should permit(:new)     }

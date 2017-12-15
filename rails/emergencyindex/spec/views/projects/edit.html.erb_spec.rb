@@ -2,21 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "projects/edit", type: :view do
   before(:each) do
-    @project = assign(:project, Project.create!(
-      :name => "MyString",
-      :email => "test@example.org",
-      :phone => "0123456789",
-      :title => "MyString",
-      :first_date => "MyString",
-      :location => "MyString",
-      :dates => "MyString",
-      :artist_name => "MyString",
-      :collaborators => "MyString",
-      :home => "MyString",
-      :contact => "MyString",
-      :links => "MyString",
-      :description => "MyString"
-    ))
+    @project = assign(:project, FactoryBot.create(:project))
   end
 
   it "renders the edit project form" do

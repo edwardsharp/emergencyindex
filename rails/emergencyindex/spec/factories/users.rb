@@ -14,4 +14,10 @@ FactoryBot.define do
     admin true
   end
 
+  factory :unconfirmed, class: User do
+    email { "unconfirmed#{SecureRandom.hex}@example.org" }
+    password "password"
+    password_confirmation "password"
+  end
+
 end
