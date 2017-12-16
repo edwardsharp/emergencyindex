@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171214202154) do
+ActiveRecord::Schema.define(version: 20171214004154) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,9 +19,7 @@ ActiveRecord::Schema.define(version: 20171214202154) do
   enable_extension "pgcrypto"
 
   create_table "projects", id: :string, force: :cascade do |t|
-    t.string "name"
-    t.string "email"
-    t.string "phone"
+    t.string "user_id"
     t.string "title"
     t.string "first_date"
     t.string "location"
@@ -32,19 +30,22 @@ ActiveRecord::Schema.define(version: 20171214202154) do
     t.string "contact"
     t.string "links"
     t.string "description"
+    t.boolean "published", default: false
+    t.string "published_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "attachment_file_name"
     t.string "attachment_content_type"
     t.integer "attachment_file_size"
     t.datetime "attachment_updated_at"
-    t.string "user_id"
-    t.boolean "published", default: false
     t.index ["created_at"], name: "index_projects_on_created_at"
   end
 
   create_table "users", id: :string, force: :cascade do |t|
+    t.string "name"
     t.string "email", default: "", null: false
+    t.string "phone"
+    t.boolean "admin", default: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -63,7 +64,6 @@ ActiveRecord::Schema.define(version: 20171214202154) do
     t.datetime "locked_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "admin", default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["email"], name: "index_users_on_email", unique: true

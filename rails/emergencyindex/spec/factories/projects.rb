@@ -1,17 +1,14 @@
 FactoryBot.define do
   factory :project do
-    name "MyString"
-    email "test@example.org"
-    phone "1234567890"
-    title "MyString"
-    first_date "MyString"
-    location "MyString"
-    dates "MyString"
-    artist_name "MyString"
-    collaborators "MyString"
-    home "MyString"
-    contact "MyString"
-    links "MyString"
+    title "Project Title"
+    first_date "1/1/2017"
+    location "Panoply Performance Laboratory"
+    dates "666 times in 2017"
+    artist_name "3dwardsharp"
+    collaborators ""
+    home "Brooklyn, NY"
+    contact "hello@lacuna.club"
+    links "http://edwardsharp.net"
     description "A project description."
     user
   end

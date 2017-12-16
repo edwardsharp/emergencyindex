@@ -1,3 +1,18 @@
 // Place all the styles related to the projects controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.file-path-wrapper label{
+  margin-left: 105px;
+}
+
+.dropzone .dz-preview, .dropzone .dz-preview .dz-image{
+  width: 100%;
+  height: auto;
+  margin: 0;
+  border-radius: 0;
+}
+
+.dz-image img{
+  max-width: 100%;
+}

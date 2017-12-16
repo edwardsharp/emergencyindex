@@ -1,6 +1,72 @@
-<%= form_with(model: project, local: true) do |form| %>
+<script type="text/javascript">
+Dropzone.autoDiscover = false;
+
+$(document).on('turbolinks:load', function() {
+  
+  $('.datepicker').pickadate({
+    selectMonths: true,
+    today: false,
+    format: 'yyyy/mm/dd',
+    formatSubmit: 'yyyy/mm/dd',
+    min: '2016/01/01',
+    max: '2016/12/31',
+    onStart: function(){
+      this.set( 'select', '2016/01/01' )
+    }
+  });
+
+  var mockFile = { 
+    name: $('input[name="project[attachment_file_name]"]').val(), 
+    size: $('input[name="project[attachment_file_size]"]').val() };
+
+  $(".dropzone").dropzone({
+    url: $('#project-form').attr('action'),
+    method: 'put', 
+    paramName: 'project[attachment]',
+    uploadMultiple: false,
+    maxFilesize: 100, //mb
+    maxFiles: 1,
+    ignoreHiddenFiles: true,
+    acceptedFiles: 'image/*',
+    addRemoveLinks: true,
+    headers: {
+      'X-CSRF-Token': $('input[name="authenticity_token"]').val()
+    },
+    init: function() {
+      if($('input[name="project[attachment_file_name]"]').val() != ''){
+        // Call the default addedfile event handler
+        this.emit("addedfile", mockFile);
+
+        // And optionally show the thumbnail of the file:
+        this.emit("thumbnail", mockFile, $('input[name="project[attachment_url]"]').val());
+        // Or if the file on your server is not yet in the right
+        // size, you can let Dropzone download and resize it
+        // callback and crossOrigin are optional.
+        // this.createThumbnailFromUrl(mockFile, $('input[name="project[attachment_url]"]').val());
+
+        // Make sure that there is no progress bar, etc...
+        this.emit("complete", mockFile);
+        // this.emit("maxfilesreached", mockFile);
+        // this.options.maxFiles = 0;
+        // this._updateMaxFilesReachedClass();
+        this.removeEventListeners();
+      }
+      this.on("removedfile", function(){
+        this.setupEventListeners();
+      })
+    },
+
+  });
+  
+
+});
+
+
+</script>
+
+<%= form_with(model: project, local: true, id: 'project-form', class: 'row') do |form| %>
   <% if project and project.errors.any? %>
-    <div id="error_explanation">
+    <div id="error_explanation" class="col s12">
       <h2><%= pluralize(project.errors.count, "error") %> prohibited this project from being saved:</h2>
 
       <ul>
@@ -11,80 +77,76 @@
     </div>
   <% end %>
 
-  <div class="input-field">
-    <%= form.text_field :name, id: :project_name, class: 'validate', required: true, pattern: '.{3,}'  %>
-    <%= form.label :name, data: { error: "Required (minimum of 3 characters)." } %>
-  </div>
+  <div class="col s6">
 
-  <div class="input-field">
-    <%= form.email_field :email, id: :project_email, class: 'validate', required: true %>
-    <%= form.label :email, data: { error: "Please enter a valid email." } %>
-  </div>
-
-  <div class="input-field">
-    <%= form.text_field :phone, id: :project_phone, class: 'validate', required: true, pattern: '.{10,}' %>
-    <%= form.label :phone %>
-  </div>
-
-  <div class="input-field">
-    <%= form.text_field :title, id: :project_title, class: 'validate', required: true %>
-    <%= form.label :title %>
-  </div>
-
-  <div class="input-field">
-    <%= form.text_field :first_date, id: :project_first_date, class: 'validate', required: true %>
-    <%= form.label :first_date %>
-  </div>
-
-  <div class="input-field">
-    <%= form.text_field :location, id: :project_location, class: 'validate', required: true %>
-    <%= form.label :location %>
-  </div>
-
-  <div class="input-field">
-    <%= form.text_field :dates, id: :project_dates, class: 'validate', required: true %>
-    <%= form.label :dates %>
-  </div>
-
-  <div class="input-field">
-    <%= form.text_field :artist_name, id: :project_artist_name, class: 'validate', required: true %>
-    <%= form.label :artist_name %>
-  </div>
-
-  <div class="input-field">
-    <%= form.text_field :collaborators, id: :project_collaborators %>
-    <%= form.label :collaborators %>
-  </div>
-
-  <div class="input-field">
-    <%= form.text_field :home, id: :project_home %>
-    <%= form.label :home %>
-  </div>
-
-  <div class="input-field">
-    <%= form.text_field :contact, id: :project_contact, class: 'validate', required: true %>
-    <%= form.label :contact %>
-  </div>
-
-  <div class="input-field">
-    <%= form.text_field :links, id: :project_links %>
-    <%= form.label :links %>
-  </div>
-
-  <div class="input-field">
-    <%= form.text_area :description, id: :project_description, class: 'materialize-textarea validate', required: true %>
-    <%= form.label :description %>
-  </div>
-
-  <div class="file-field input-field">
-    <div class="btn">
-      <span>File</span>
-      
-      <%= form.file_field :attachment %>
+  <% if project.attachment and project.attachment.url %>
+    <%= form.hidden_field :attachment_file_name, value: project.attachment_file_name %>  
+    <%= form.hidden_field :attachment_url, value: project.attachment.url %>
+    <%= form.hidden_field :attachment_file_size, value: project.attachment_file_size %>
+  <% end %>
+  <% unless project.new_record? %>
+    <div id="attachment-dropzone" class="dropzone">
+      <div class="fallback">
+        <%= form.file_field :attachment %>
+      </div>
     </div>
-    <div class="file-path-wrapper">
-      <input class="file-path validate" type="text">
+  <% end %>
+    
+
+    <div class="input-field">
+      <%= form.text_field :title, id: :project_title, class: 'validate', required: true %>
+      <%= form.label :title %>
     </div>
+
+    <div class="input-field">
+      <%= form.text_field :first_date, id: :project_first_date, class: 'validate datepicker', required: true %>
+      <%= form.label :first_date %>
+    </div>
+
+    <div class="input-field">
+      <%= form.text_field :location, id: :project_location, class: 'validate', required: true %>
+      <%= form.label :location %>
+    </div>
+
+    <div class="input-field">
+      <%= form.text_field :dates, id: :project_dates, class: 'validate', required: true %>
+      <%= form.label :dates %>
+    </div>
+
+    <div class="input-field">
+      <%= form.text_field :artist_name, id: :project_artist_name, class: 'validate', required: true %>
+      <%= form.label :artist_name %>
+    </div>
+
+    <div class="input-field">
+      <%= form.text_field :collaborators, id: :project_collaborators %>
+      <%= form.label :collaborators %>
+    </div>
+
+    <div class="input-field">
+      <%= form.text_field :home, id: :project_home %>
+      <%= form.label :home %>
+    </div>
+
+    <div class="input-field">
+      <%= form.text_field :contact, id: :project_contact, class: 'validate', required: true %>
+      <%= form.label :contact %>
+    </div>
+
+    <div class="input-field">
+      <%= form.text_field :links, id: :project_links %>
+      <%= form.label :links %>
+    </div>
+
+  </div>
+  <div class="col s6">
+
+    <div class="input-field">
+      <%= form.text_area :description, id: :project_description, class: 'materialize-textarea validate', required: true %>
+      <%= form.label :description %>
+    </div>
+
+    
   </div>
 
   <div class="actions">

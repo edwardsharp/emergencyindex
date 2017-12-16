@@ -3,26 +3,44 @@
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
+  <div class="input-field">
+    <%= f.text_field :name, id: :user_name, class: 'validate', required: true, pattern: '.{3,}', autofocus: true  %>
+    <%= f.label :name, data: { error: "Required (minimum of 3 characters)." } %>
   </div>
 
-  <div class="field">
+  <div class="input-field">
+    <%= f.email_field :email, id: :user_email, class: 'validate', required: true %>
+    <%= f.label :email, data: { error: "Please enter a valid email." } %>
+  </div>
+
+  <div class="input-field">
+    <%= f.text_field :phone, id: :user_phone, class: 'validate', required: true, pattern: '.{10,}' %>
+    <%= f.label :phone %>
+  </div>
+
+  <div class="input-field">
+    
+    <%= f.email_field :email %>
+    <%= f.label :email %>
+  </div>
+
+  <div class="input-field">
+    
+    <%= f.password_field :password, autocomplete: "off", pattern: '.{6,}' %>
     <%= f.label :password %>
     <% if @minimum_password_length %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
+    <% end %>
   </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+  <div class="input-field">
+    
+    <%= f.password_field :password_confirmation, autocomplete: "off", pattern: '.{6,}' %>
+    <%= f.label :password_confirmation %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Sign up" %>
+    <%= f.submit "Register", class: 'waves-effect waves-light btn' %>
   </div>
 <% end %>
 

@@ -1,9 +1,7 @@
 class CreateProjects < ActiveRecord::Migration[5.1]
   def up
     create_table :projects, id: :string do |t|
-      t.string :name
-      t.string :email
-      t.string :phone
+      t.string :user_id
       t.string :title
       t.string :first_date
       t.string :location
@@ -14,6 +12,9 @@ class CreateProjects < ActiveRecord::Migration[5.1]
       t.string :contact
       t.string :links
       t.string :description
+      
+      t.boolean :published, default: false
+      t.string :published_by
 
       t.timestamps null: false
     end

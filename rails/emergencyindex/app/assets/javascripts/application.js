@@ -15,4 +15,13 @@
 //= require jquery3
 //= require jquery_ujs
 //= require materialize
+//= require dropzone
 //= require_tree .
+
+$(document).on('turbolinks:load', function() {
+  try{
+  	Materialize.updateTextFields();
+  }catch(e){
+  	//eh...
+  }
+});
