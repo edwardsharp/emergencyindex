@@ -15,7 +15,7 @@ class Project < ApplicationRecord
 
   private
   def project_description
-    if description.scan(/\w+/).length > 400
+    if description and description.scan(/\w+/).length > 400
       errors.add(:description,  "Please limit your description to less than 400 words")
     end
   end
