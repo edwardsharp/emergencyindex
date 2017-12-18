@@ -3,17 +3,12 @@
 <table class="highlight responsive-table">
   <thead>
     <tr>
-      <th>Artist name</th>
+      <th>Date Submitted</th>
+      <th>Name</th>
       <th>Title</th>
-      <th>Created At</th>
       <th>First date</th>
-      <th>Location</th>
-      <th>Dates</th>
-      <th>Collaborators</th>
+      <th>Venue</th>
       <th>Home</th>
-      <th>Contact</th>
-      <th>Links</th>
-      <th>Description</th>
       <th>Image</th>
       <th colspan="3"></th>
     </tr>
@@ -22,17 +17,12 @@
   <tbody>
     <% @projects.each do |project| %>
       <tr>
-        <td><%= project.artist_name %></td>
-        <td><%= project.title %></td>
         <td><%= l project.created_at, format: :short %></td>
+        <td><%= project.name %></td>
+        <td><%= project.title %></td>
         <td><%= project.first_date %></td>
-        <td><%= project.location %></td>
-        <td><%= project.dates %></td>
-        <td><%= project.collaborators %></td>
+        <td><%= project.venue %></td>
         <td><%= project.home %></td>
-        <td><%= project.contact %></td>
-        <td><%= project.links %></td>
-        <td><%= project.description %></td>
         <td><%= image_tag project.attachment.url(:thumb) if project.attachment.present? %></td>
         <td><%= link_to 'Show', project %></td>
         <td><%= link_to 'Edit', edit_project_path(project) %></td>

@@ -20,3 +20,35 @@
 .dropzone{
   margin-bottom: 1.5em;
 }
+
+label[for="project_already_submitted"] {
+  margin-bottom: 1.5em;
+}
+
+#attachment-error{
+  color: red;
+}
+
+#project_description{
+  min-height: 75vh
+}
+
+.description{
+  white-space: pre-wrap;
+}
+
+.material-placeholder{
+    margin-top: 5em;
+  }
+
+.project-img{
+  max-width: 100%;
+  width: auto;
+  max-height: 50vh;
+  height: auto;
+}
+
+.project-img.active{
+  max-width: none;
+  max-height: none;
+}

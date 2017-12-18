@@ -5,6 +5,9 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.1]
       t.string :name
       t.string :email
       t.string :phone
+      t.string :postal
+      t.boolean :interested_in_production
+      t.boolean :interested_in_hosting
 
       t.boolean :admin, default: false
 

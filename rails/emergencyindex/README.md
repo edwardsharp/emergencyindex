@@ -2,9 +2,11 @@
 
 ## db init
 
-`rake db:drop db:create db:migrate`
+`rake db:schema:load`
 
-_note:_ avoid `db:schema:load` since the migrations contain raw sql that's not encapsulated in schema.rb (#todo: use .sql schema file?)
+_or_
+
+`rake db:drop db:create db:migrate`
 
 ## start
 

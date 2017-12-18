@@ -1,14 +1,16 @@
 FactoryBot.define do
   factory :project do
     title "Project Title"
+    name "3dwardsharp"
+    already_submitted false
     first_date "1/1/2017"
-    location "Panoply Performance Laboratory"
-    dates "666 times in 2017"
-    artist_name "3dwardsharp"
-    collaborators ""
+    sequence :times_performed do |n|
+      n
+    end
+    venue "Panoply Performance Laboratory"
+    city "Brooklyn"
+    state_country "NY, USA"
     home "Brooklyn, NY"
-    contact "hello@lacuna.club"
-    links "http://edwardsharp.net"
     description "A project description."
     user
   end

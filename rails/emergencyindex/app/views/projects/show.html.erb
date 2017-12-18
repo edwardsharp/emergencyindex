@@ -1,55 +1,81 @@
-<p>
-  <strong>Artist name:</strong>
-  <%= @project.artist_name %>
-</p>
+<style type="text/css">
+/*  .photo-credit{
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    float: right;
+  }
+  .photo-credit em{
+    left: 6em;
+    position: relative;
+  }*/
+</style>
+<script type="text/javascript">
+$(document).on('ready turbolinks:load', function() {
+  $('.materialboxed').materialbox();
+});
+</script>
 
-<p>
-  <strong>Title:</strong>
-  <%= @project.title %>
-</p>
+<div class='row'>
+  <div class="col s12 m4">
+    <%- if @project.attachment.present? %>
+      
+      <%= image_tag @project.attachment.url(:large), class: 'materialboxed project-img', 'data-caption': "photo credit: #{@project.photo_credit}"  %>
+      <div class="photo-credit">
+        <em>photo: <%= @project.photo_credit %></em>
+      </div>
+    <%- end %>
 
-<%= image_tag @project.attachment.url if @project.attachment.present? %>
+    <h5>
+      <strong><%= @project.title %></strong>
+    </h5>
 
+    <p>
+      First performed on <%= @project.first_date_text %>
+      <br />
+      <%= @project.venue %>, <%= @project.city %>, <%= @project.state_country %>
+      <br />
+      performed <%= @project.times_performed_text %> in 2016.
+    </p>
 
-<p>
-  <strong>First date:</strong>
-  <%= @project.first_date %>
-</p>
+    <h5>
+      <strong><%= @project.name %></strong>
+    </h5>
 
-<p>
-  <strong>Location:</strong>
-  <%= @project.location %>
-</p>
+    <%- unless @project.collaborators.blank? %>
+    <p>
+      <%= @project.collaborators %>
+    </p>
+    <%- end %>
 
-<p>
-  <strong>Dates:</strong>
-  <%= @project.dates %>
-</p>
+    <p>
+      <%= @project.home %>
+      <br />
+      <%= mail_to @project.published_contact unless @project.published_contact.blank? %>
+      <%- unless @project.links.blank? %>
+        <br />
+        <% @project.links.split.each do |link| %>
+          <%= link_to(link, link) %>
+        <% end %>
+      <%- end %>
+    </p>
+  </div>
 
-<p>
-  <strong>Collaborators:</strong>
-  <%= @project.collaborators %>
-</p>
+  <div class="col s12 m8">
+    <h5>
+      <strong><%= @project.title %></strong>
+    </h5>
 
-<p>
-  <strong>Home:</strong>
-  <%= @project.home %>
-</p>
+    <h6>
+      <strong><%= @project.name %></strong>
+    </h6>
 
-<p>
-  <strong>Contact:</strong>
-  <%= @project.contact %>
-</p>
-
-<p>
-  <strong>Links:</strong>
-  <%= @project.links %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @project.description %>
-</p>
-
+    <p class="description">
+      <%= @project.description %>
+    </p>
+  </div>
+</div>
 <%= link_to 'Edit', edit_project_path(@project) %> |
 <%= link_to 'Back', projects_path %>

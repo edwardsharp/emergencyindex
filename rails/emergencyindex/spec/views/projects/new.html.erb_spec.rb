@@ -16,19 +16,17 @@ RSpec.describe "projects/new", type: :view do
 
       assert_select "input[name=?]", "title"
 
+      assert_select "input[name=?]", "name"
+
       assert_select "input[name=?]", "first_date"
 
-      assert_select "input[name=?]", "location"
+      assert_select "input[name=?]", "times_performed"
 
-      assert_select "input[name=?]", "dates"
-
-      assert_select "input[name=?]", "artist_name"
-
-      assert_select "input[name=?]", "collaborators"
+      assert_select "input[name=?]", "venue"
 
       assert_select "input[name=?]", "home"
 
-      assert_select "input[name=?]", "contact"
+      assert_select "input[name=?]", "published_contact"
 
       assert_select "input[name=?]", "links"
 

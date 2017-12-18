@@ -1,22 +1,33 @@
 class CreateProjects < ActiveRecord::Migration[5.1]
   def up
     create_table :projects, id: :string do |t|
-      t.string :user_id
+      
+      t.string :contact_name
+      t.string :contact_email
+      t.string :contact_postal
+      t.string :contact_phone
+
       t.string :title
-      t.string :first_date
-      t.string :location
-      t.string :dates
-      t.string :artist_name
+      t.string :name
+      t.boolean :already_submitted
       t.string :collaborators
+      t.string :first_date
+      t.integer :times_performed, default: 1
+      t.string :venue
+      t.string :city
+      t.string :state_country
       t.string :home
-      t.string :contact
+      t.string :published_contact
       t.string :links
       t.string :description
+      t.string :photo_credit
       
       t.boolean :published, default: false
       t.string :published_by
 
       t.timestamps null: false
+      t.string :user_id
+
     end
 
     execute <<-SQL
@@ -24,6 +35,7 @@ class CreateProjects < ActiveRecord::Migration[5.1]
     SQL
 
     add_index :projects, :created_at
+    add_index :projects, :first_date
   end
 
   def down

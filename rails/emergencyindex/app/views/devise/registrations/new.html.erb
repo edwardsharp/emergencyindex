@@ -4,24 +4,23 @@
   <%= devise_error_messages! %>
 
   <div class="input-field">
-    <%= f.text_field :name, id: :user_name, class: 'validate', required: true, pattern: '.{3,}', autofocus: true  %>
+    <%= f.text_field :name, id: :name, class: 'validate', required: true, pattern: '.{3,}', autofocus: true  %>
     <%= f.label :name, data: { error: "Required (minimum of 3 characters)." } %>
   </div>
 
   <div class="input-field">
-    <%= f.email_field :email, id: :user_email, class: 'validate', required: true %>
-    <%= f.label :email, data: { error: "Please enter a valid email." } %>
-  </div>
-
-  <div class="input-field">
-    <%= f.text_field :phone, id: :user_phone, class: 'validate', required: true, pattern: '.{10,}' %>
+    <%= f.text_field :phone, id: :phone, class: 'validate', required: true, pattern: '.{10,}' %>
     <%= f.label :phone %>
   </div>
 
   <div class="input-field">
-    
-    <%= f.email_field :email %>
-    <%= f.label :email %>
+    <%= f.text_area :postal, id: :postal, class: 'materialize-textarea validate', required: true %>
+    <%= f.label :postal %>
+  </div>
+
+  <div class="input-field">
+    <%= f.email_field :email, id: :email, class: 'validate', required: true %>
+    <%= f.label :email, data: { error: "Please enter a valid email." } %>
   </div>
 
   <div class="input-field">

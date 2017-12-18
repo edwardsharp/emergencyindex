@@ -19,6 +19,11 @@ class ProjectsController < ApplicationController
   def new
     @project = Project.new
     @project.user = current_user
+    @project.contact_name = current_user.name
+    @project.contact_email = current_user.email
+    @project.contact_postal = current_user.postal
+    @project.contact_phone = current_user.phone
+    @project.name = current_user.name.upcase
   end
 
   # GET /projects/1/edit
@@ -36,7 +41,7 @@ class ProjectsController < ApplicationController
         format.html { redirect_to @project, notice: 'Project was successfully created.' }
         format.json { render :show, status: :created, location: @project }
       else
-        format.html { render :new }
+        format.html { render :edit }
         format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
@@ -74,6 +79,9 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:title, :first_date, :location, :dates, :artist_name, :collaborators, :home, :contact, :links, :description, :attachment)
+      params.require(:project).permit(:contact_name, :contact_email, :contact_postal, :contact_phone, :title, :name, :already_submitted, :collaborators, :first_date, :times_performed, :venue, :city, :state_country, :home, :published_contact, :links, :description, :attachment, :photo_credit)
     end
+
+
+
 end

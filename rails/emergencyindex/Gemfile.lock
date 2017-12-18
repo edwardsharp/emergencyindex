@@ -121,6 +121,8 @@ GEM
     nio4r (2.1.0)
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
+    numbers_and_words (0.11.3)
+      i18n
     orm_adapter (0.5.0)
     paperclip (5.1.0)
       activemodel (>= 4.2.0)
@@ -190,7 +192,7 @@ GEM
     rspec-support (3.7.0)
     ruby_dep (1.5.0)
     rubyzip (1.2.1)
-    sass (3.5.3)
+    sass (3.5.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -260,7 +262,8 @@ DEPENDENCIES
   jquery-rails
   listen (>= 3.0.5, < 3.2)
   mailgun-ruby
-  materialize-sass
+  materialize-sass (= 0.100.2)
+  numbers_and_words
   paperclip
   pg
   puma (~> 3.7)

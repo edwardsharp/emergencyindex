@@ -12,19 +12,13 @@ RSpec.describe "projects/edit", type: :view do
 
       assert_select "input[name=?]", "project[title]"
 
+      assert_select "input[name=?]", "project[name]"
+
       assert_select "input[name=?]", "project[first_date]"
-
-      assert_select "input[name=?]", "project[location]"
-
-      assert_select "input[name=?]", "project[dates]"
-
-      assert_select "input[name=?]", "project[artist_name]"
 
       assert_select "input[name=?]", "project[collaborators]"
 
       assert_select "input[name=?]", "project[home]"
-
-      assert_select "input[name=?]", "project[contact]"
 
       assert_select "input[name=?]", "project[links]"
 
