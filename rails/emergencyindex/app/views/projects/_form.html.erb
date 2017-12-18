@@ -79,12 +79,12 @@ $(document).on('turbolinks:load', function() {
 
   <div class="col s6">
 
-  <% if project.attachment and project.attachment.url %>
+  <% if project and project.attachment.url %>
     <%= form.hidden_field :attachment_file_name, value: project.attachment_file_name %>  
     <%= form.hidden_field :attachment_url, value: project.attachment.url %>
     <%= form.hidden_field :attachment_file_size, value: project.attachment_file_size %>
   <% end %>
-  <% unless project.new_record? %>
+  <% unless project and project.new_record? %>
     <div id="attachment-dropzone" class="dropzone">
       <div class="fallback">
         <%= form.file_field :attachment %>

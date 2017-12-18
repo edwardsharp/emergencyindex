@@ -10,6 +10,6 @@ RSpec.describe "projects/index", type: :view do
 
   it "renders a list of projects" do
     render
-    assert_select "tr>td", :text => "MyString".to_s
+    assert_select "tr>td", :text => "Project Title".to_s
   end
 end
