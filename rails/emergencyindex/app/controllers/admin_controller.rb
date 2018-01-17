@@ -8,6 +8,6 @@ class AdminController < ApplicationController
 
   private 
   def require_admin
-    render_404
+    render_403
   end
 end
