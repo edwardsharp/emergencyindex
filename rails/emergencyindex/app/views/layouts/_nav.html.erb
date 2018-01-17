@@ -1,0 +1,69 @@
+<style type="text/css">
+	#nav {
+		top: 0;
+		
+	}
+
+</style>
+
+<div id="nav" class="fixed-action-btn click-to-toggle">
+	<a href="#" data-activates="slide-out" class="button-collapse btn-floating btn-large"><i class="material-icons medium">menu</i></a>
+</div>
+
+<ul id="slide-out" class="side-nav<%= ' fixed' if controller_name == 'home' %>">
+<!--   <li><div class="user-view">
+    <div class="background">
+      <img src="">
+    </div>
+    <a href="#!user"><img class="circle" src=""></a>
+    <a href="#!name"><span class="white-text name">Foo Bar</span></a>
+    <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
+  </div></li> -->
+ 
+  <!-- <li><div class="divider"></div></li> -->
+
+  <li><a href="/projects" class="waves-effect">Projects</a></li>
+	<% if user_signed_in? %>
+		<li><%= link_to('Submit New Project', new_project_path, class: 'waves-effect') %></li>
+		<li><%= link_to('Edit Registration', edit_user_registration_path, class: 'waves-effect') %></li>
+		<li><%= link_to('Logout', destroy_user_session_path, method: :delete, class: 'waves-effect') %></li>
+	<% else %>
+	  <li><%= link_to('Login', new_user_session_path, class: 'waves-effect')  %></li>
+	  <li><%= link_to('Register', new_user_registration_path, class: 'waves-effect')  %></li>
+	<% end %>
+
+	<% if controller_name == 'projects' && action_name == 'show' %>
+		<li><%= link_to 'Edit This', edit_project_path(@project), class: 'waves-effect' %></li>
+	<% end %>
+
+</ul>
+
+
+<script type="text/javascript">
+
+	$('.button-collapse').sideNav({
+      // menuWidth: 300,
+      edge: 'right',
+      closeOnClick: true, 
+      draggable: true
+    }
+  );
+
+	// var nav = document.getElementById("nav");
+	// var mouseoverTimeout;
+
+ //  nav.addEventListener("mouseover", function( event ) {   
+ //    mouseoverTimeout = setTimeout(function(){
+ //    	event.target.style.backgroundColor = "purple";
+	//     console.log('purple!');
+ //    }, 150)
+ //  }, false);
+  
+ 
+ //  nav.addEventListener("mouseleave", function( event ) {   
+ //   event.target.style.backgroundColor = "";
+ //    clearTimeout(mouseoverTimeout)
+ //  }, false);
+  
+
+</script>

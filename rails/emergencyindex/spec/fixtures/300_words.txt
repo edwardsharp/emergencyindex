@@ -1,300 +1,48 @@
-clue
-impress
-future
-duty
-industry
-Mars
-bike
-tail
-radio
-comprehensive
-preparation
-twin
-secular
-land
-button
-pioneer
-origin
-honor
-scramble
-disgrace
-flash
-environmental
-costume
-situation
-worry
-innocent
-salvation
-glance
-spontaneous
-unlikely
-crowd
-wording
-temptation
-stubborn
-impound
-photography
-frighten
-dictate
-accumulation
-creation
-folk music
-casualty
-space
-pigeon
-trouser
-bishop
-kid
-vigorous
-Koran
-multiply
-progress
-scenario
-shelf
-chaos
-portion
-habit
-private
-patrol
-country
-promote
-attack
-arrangement
-coma
-breast
-hell
-tablet
-predator
-racism
-escape
-equation
-gutter
-balance
-date
-canvas
-missile
-myth
-clearance
-grass
-beam
-rebel
-meet
-company
-hypnothize
-long
-coat
-diameter
-rocket
-employee
-message
-doll
-patch
-copy
-tube
-play
-snap
-calculation
-literature
-money
-bread
-positive
-art
-right wing
-architecture
-circulate
-infect
-dough
-trunk
-node
-cook
-distort
-hour
-bare
-declaration
-traffic
-loyalty
-virus
-conference
-bill
-equal
-convulsion
-needle
-freeze
-panel
-tower
-tender
-comment
-dive
-lift
-import
-raw
-decay
-trail
-infection
-pole
-edge
-sofa
-reward
-dish
-elbow
-flower
-reinforce
-citizen
-responsibility
-spin
-exaggerate
-solo
-layer
-axis
-superintendent
-admiration
-slap
-line
-well
-suite
-embarrassment
-horror
-order
-executive
-grounds
-preach
-number
-asylum
-stomach
-bar
-permission
-manufacture
-agreement
-figure
-intermediate
-personality
-reason
-environment
-influence
-uncle
-dawn
-discriminate
-qualified
-impulse
-meat
-garage
-departure
-cherry
-relationship
-cultural
-fashionable
-length
-unit
-simplicity
-modernize
-navy
-expectation
-provoke
-add
-investigation
-see
-rebellion
-far
-similar
-cooperative
-skip
-cage
-tiger
-prejudice
-peak
-ridge
-large
-helmet
-power
-strategic
-brown
-filter
-insurance
-troop
-fastidious
-physics
-thread
-decide
-minimize
-exploit
-quote
-fairy
-lick
-weakness
-shark
-pier
-walk
-referral
-workshop
-ribbon
-twist
-aid
-small
-collar
-miscarriage
-ceiling
-syndrome
-agent
-owl
-incongruous
-professional
-entertain
-master
-aquarium
-hang
-rock
-fireplace
-network
-beer
-part
-spill
-crew
-cheat
-process
-professor
-bang
-location
-egg white
-hover
-award
-peasant
-terminal
-recycle
-veteran
-van
-cheek
-relax
-urgency
-top
-band
-fantasy
-acid
-marketing
-short
-wealth
-slam
-bat
-wave
-advice
-dedicate
-delete
-lie
-secretary
-lazy
-take
-ancestor
-need
-posture
-scandal
-bathtub
-morale
-pair
-lot
-choice
-directory
-put
-perfume
-ethics
-fool
-producer
-mole
+clue           cage     skip art             progress     crew       slap
+impress tiger right wing scenario cheat line multiply spill admiration positive
+future         prejudice     architecture    shelf        process    well
+duty           peak          circulate       chaos        professor  suite
+industry       ridge         infect          portion      bang       embarrassment
+Mars           large         dough           habit        location   horror
+bike           helmet        trunk           private          white  order
+tail           power         node            patrol       hover      executive
+radio          strategic     cook            country      award      grounds
+comprehensive  brown         distort         promote      peasant    preach
+preparation    filter        hour            attack       terminal   number
+twin           insurance     bare            arrangement  recycle    asylum
+secular        troop         declaration     coma         veteran    stomach
+land           fastidious    traffic         breast       van        bar
+button         physics       loyalty         hell         cheek      permission
+pioneer        thread        virus           tablet       relax      manufacture
+origin         decide        conference      predator     urgency    agreement
+honor          minimize      bill            racism       top        figure
+scramble       exploit       equal           escape       band       intermediate
+disgrace       quote         convulsion      equation     fantasy    personality
+flash          fairy         needle          gutter       acid       reason
+environmental  lick          freeze          balance      marketing  environment
+costume        weakness      panel           date         short      influence
+situation      shark         tower           canvas       wealth     uncle
+worry          pier          tender          missile      slam       dawn
+innocent walk comment myth bat discriminat salvation referral dive clearance wave
+glance         workshop      lift            grass        advice     impulse
+spontaneous    ribbon        import          beam         dedicate   meat
+unlikely       twist         raw qualified   rebel        delete     garage
+crowd          aid           decay           meet         lie        departur
+wording        small         trail           company      secretary  cherry
+temptation     collar        infection       hypnothize   lazy       relationship
+stubborn       miscarriage   pole            long         take       cultural
+impound        ceiling       edge            coat         ancestor   fashionable
+photography    syndrome      sofa            diameter     need       length
+frighten       agent         reward          rocket       posture    unit
+dictate        owl           dish            employee     scandal    simplicity
+accumulation   incongruous   elbow           message      bathtub    modernize
+creation       professional  flower          doll         morale     navy
+folk music     entertain     reinforce       patch        pair       expectation
+casualty       master        citizen         copy         lot        provok
+space          aquarium      responsibility  tube         choice     add
+pigeon         hang          spin            play         directory  investigation
+trouser        rock          exaggerate      snap         put        se
+bishop         fireplace     solo            calculation  perfume    rebellion
+kid            network       layer           literature   ethics     far
+vigorous       beer          axis            money        fool       similar
+mole          part          superintendent  bread        producer   cooperative

@@ -30,16 +30,28 @@ label[for="project_already_submitted"] {
 }
 
 #project_description{
-  min-height: 75vh
+  min-height: 75vh;
 }
 
-.description{
+#project_description, .description{
   white-space: pre-wrap;
+  font-size: 15px;
+  font-family: "Lucida Sans Typewriter", "Lucida Console", monaco, monospace;
 }
 
 .material-placeholder{
-    margin-top: 5em;
-  }
+    margin-top: 2em;
+}
+
+.project-img.active{
+  max-width: none;
+  max-height: none;
+}
+
+.right-panel{
+  padding-left: 2.5em !important;
+  padding-right: 2.5em !important;
+}
 
 .project-img{
   max-width: 100%;
@@ -48,7 +60,32 @@ label[for="project_already_submitted"] {
   height: auto;
 }
 
-.project-img.active{
-  max-width: none;
-  max-height: none;
+.photo-credit{
+  position: absolute;
+  text-align: right;
+  -moz-transform: rotate(-90deg) translate(0, -110%);
+  -webkit-transform: rotate(-90deg) translate(0, -110%);
+  -o-transform: rotate(-90deg) translate(0, -110%);
+  -ms-transform: rotate(-90deg) translate(0, -110%);
+  transform: rotate(-90deg) translate(0, -110%);
+  -ms-transform-origin: left top;
+  -webkit-transform-origin: left top;
+  transform-origin: left top;
+  max-width: 20vw;
 }
+
+@media #{$small-and-down} {
+  .project-img{
+    max-height: none;
+  }
+  .photo-credit{
+    max-width: none;
+  }
+
+  .right-panel{
+    padding-left: 1em !important;
+    padding-right: 1em !important;
+  }
+
+}
+
