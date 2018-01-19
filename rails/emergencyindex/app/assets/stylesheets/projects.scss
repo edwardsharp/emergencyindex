@@ -74,6 +74,10 @@ label[for="project_already_submitted"] {
   max-width: 20vw;
 }
 
+.select2-container{
+  width: 100%!important;
+}
+
 @media #{$small-and-down} {
   .project-img{
     max-height: none;

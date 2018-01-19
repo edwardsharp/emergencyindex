@@ -3,7 +3,7 @@ class ProjectsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy]
 
   before_action :set_project, only: [:show, :edit, :update, :destroy]
-  
+
   # GET /projects
   # GET /projects.json
   def index
@@ -79,7 +79,7 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:contact_name, :contact_email, :contact_postal, :contact_phone, :title, :name, :already_submitted, :collaborators, :first_date, :times_performed, :venue, :city, :state_country, :home, :published_contact, :links, :description, :attachment, :photo_credit)
+      params.require(:project).permit(:contact_name, :contact_email, :contact_postal, :contact_phone, :title, :name, :already_submitted, :collaborators, :first_date, :times_performed, :venue, :city, :state_country, :home, :published_contact, :links, :description, :attachment, :photo_credit, tag_list: [])
     end
 
 

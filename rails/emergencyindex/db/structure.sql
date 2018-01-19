@@ -155,6 +155,71 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: taggings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE taggings (
+    id bigint NOT NULL,
+    tag_id bigint,
+    taggable_type character varying,
+    taggable_id character varying,
+    tagger_type character varying,
+    tagger_id character varying,
+    context character varying(128),
+    created_at timestamp without time zone
+);
+
+
+--
+-- Name: taggings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE taggings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: taggings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE taggings_id_seq OWNED BY taggings.id;
+
+
+--
+-- Name: tags; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE tags (
+    id bigint NOT NULL,
+    name character varying,
+    taggings_count integer DEFAULT 0
+);
+
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE tags_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE tags_id_seq OWNED BY tags.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -189,6 +254,20 @@ CREATE TABLE users (
 
 
 --
+-- Name: taggings id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY taggings ALTER COLUMN id SET DEFAULT nextval('taggings_id_seq'::regclass);
+
+
+--
+-- Name: tags id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY tags ALTER COLUMN id SET DEFAULT nextval('tags_id_seq'::regclass);
+
+
+--
 -- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -213,6 +292,22 @@ ALTER TABLE ONLY schema_migrations
 
 
 --
+-- Name: taggings taggings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY taggings
+    ADD CONSTRAINT taggings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tags tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY tags
+    ADD CONSTRAINT tags_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -232,6 +327,76 @@ CREATE INDEX index_projects_on_created_at ON projects USING btree (created_at);
 --
 
 CREATE INDEX index_projects_on_first_date ON projects USING btree (first_date);
+
+
+--
+-- Name: index_taggings_on_context; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_taggings_on_context ON taggings USING btree (context);
+
+
+--
+-- Name: index_taggings_on_tag_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_taggings_on_tag_id ON taggings USING btree (tag_id);
+
+
+--
+-- Name: index_taggings_on_taggable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_taggings_on_taggable_id ON taggings USING btree (taggable_id);
+
+
+--
+-- Name: index_taggings_on_taggable_id_and_taggable_type_and_context; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_taggings_on_taggable_id_and_taggable_type_and_context ON taggings USING btree (taggable_id, taggable_type, context);
+
+
+--
+-- Name: index_taggings_on_taggable_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_taggings_on_taggable_type ON taggings USING btree (taggable_type);
+
+
+--
+-- Name: index_taggings_on_taggable_type_and_taggable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_taggings_on_taggable_type_and_taggable_id ON taggings USING btree (taggable_type, taggable_id);
+
+
+--
+-- Name: index_taggings_on_tagger_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_taggings_on_tagger_id ON taggings USING btree (tagger_id);
+
+
+--
+-- Name: index_taggings_on_tagger_id_and_tagger_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_taggings_on_tagger_id_and_tagger_type ON taggings USING btree (tagger_id, tagger_type);
+
+
+--
+-- Name: index_taggings_on_tagger_type_and_tagger_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_taggings_on_tagger_type_and_tagger_id ON taggings USING btree (tagger_type, tagger_id);
+
+
+--
+-- Name: index_tags_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_tags_on_name ON tags USING btree (name);
 
 
 --
@@ -270,6 +435,20 @@ CREATE UNIQUE INDEX index_users_on_unlock_token ON users USING btree (unlock_tok
 
 
 --
+-- Name: taggings_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX taggings_idx ON taggings USING btree (tag_id, taggable_id, taggable_type, context, tagger_id, tagger_type);
+
+
+--
+-- Name: taggings_idy; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX taggings_idy ON taggings USING btree (taggable_id, taggable_type, tagger_id, context);
+
+
+--
 -- Name: projects trigger_test_genid; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -293,6 +472,12 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20171210035259'),
 ('20171212083832'),
 ('20171212085211'),
-('20171214004154');
+('20171214004154'),
+('20180118212243'),
+('20180118212244'),
+('20180118212245'),
+('20180118212246'),
+('20180118212248'),
+('20180119013453');
 
 

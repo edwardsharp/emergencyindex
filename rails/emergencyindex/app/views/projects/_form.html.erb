@@ -121,9 +121,22 @@
       <%= form.text_area :description, id: :project_description, class: 'materialize-textarea validate', required: true %>
       <%= form.label :description %>
     </div>
+
+    <div class="input-field">
+      <span>Tags</span>
+      <%= form.collection_select(:tag_list, Project.tags_on(:tags), :name, :name, {selected: @project.all_tags_on(:tags).map(&:name)}, {multiple: true, id: 'project_tags', class: 'form-control'}) %>
+
+    </div>
   </div>
+
 
   <div class="actions">
     <%= form.submit class: 'waves-effect waves-light btn' %>
   </div>
 <% end %>
+
+<script type="text/javascript">
+  $("#project_tags").select2({
+    tags: true
+  });
+</script>

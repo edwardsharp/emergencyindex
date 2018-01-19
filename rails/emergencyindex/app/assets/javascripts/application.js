@@ -16,6 +16,7 @@
 //= require jquery_ujs
 //= require materialize-sprockets
 //= require dropzone
+//= require select2.min
 //= require_tree .
 
 $(document).on('turbolinks:load', function() {

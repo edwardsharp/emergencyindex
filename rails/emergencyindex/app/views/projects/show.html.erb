@@ -61,6 +61,17 @@ $(document).on('ready turbolinks:load', function() {
     <p class="description">
       <%= @project.description %>
     </p>
+
+    <% unless @project.all_tags_list.blank? %>
+    <p>
+      <span>Tags:</span>
+      <% @project.all_tags_list.each_with_index do |tag, idx| %>
+        <b>
+          <%= tag %><%= ',' if idx < @project.all_tags_list.count - 1 %>
+        </b>
+      <% end %>
+    </p>
+    <% end %>
   </div>
 </div>
 

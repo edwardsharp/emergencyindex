@@ -17,6 +17,8 @@ class Project < ApplicationRecord
 
   default_scope { order(created_at: :desc) }
 
+  acts_as_taggable
+  
   def word_count
     description.scan(/\w+/).length rescue 0
   end
