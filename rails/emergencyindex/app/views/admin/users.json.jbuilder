@@ -1,0 +1,1 @@
+json.array! User.all.limit(1000), :email, :name

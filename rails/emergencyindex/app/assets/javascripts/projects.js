@@ -8,7 +8,7 @@ $(document).on('ready turbolinks:load', function() {
 	
 	setTimeout(function(){
 		// $('#project_description').focus();
-		console.log('gonna resize a textarea!!!');
+		// console.log('gonna resize a textarea!!!');
 		$('textarea').each(function() {
 	    $(this).trigger('autoresize');
 	  });
@@ -20,12 +20,13 @@ $(document).on('ready turbolinks:load', function() {
 
   $('.datepicker').pickadate({
     selectMonths: true,
+    selectYears: 15,
     today: false,
     clear: false,
     format: 'yyyy/mm/dd',
     formatSubmit: 'yyyy/mm/dd',
-    min: '2016/01/01',
-    max: '2016/12/31',
+    min: '1900/01/01',
+    max: '2099/12/31',
     onStart: function(){
       this.set( 'select', '2016/01/01' )
     }

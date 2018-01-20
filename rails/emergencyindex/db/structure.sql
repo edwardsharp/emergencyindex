@@ -141,7 +141,8 @@ CREATE TABLE projects (
     attachment_file_name character varying,
     attachment_content_type character varying,
     attachment_file_size integer,
-    attachment_updated_at timestamp without time zone
+    attachment_updated_at timestamp without time zone,
+    volume_id character varying
 );
 
 
@@ -254,6 +255,22 @@ CREATE TABLE users (
 
 
 --
+-- Name: volumes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE volumes (
+    id character varying NOT NULL,
+    year integer,
+    open_date_string character varying,
+    close_date_string character varying,
+    open_date timestamp without time zone,
+    close_date timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
 -- Name: taggings id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -313,6 +330,14 @@ ALTER TABLE ONLY tags
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: volumes volumes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY volumes
+    ADD CONSTRAINT volumes_pkey PRIMARY KEY (id);
 
 
 --
@@ -435,6 +460,13 @@ CREATE UNIQUE INDEX index_users_on_unlock_token ON users USING btree (unlock_tok
 
 
 --
+-- Name: index_volumes_on_year; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_volumes_on_year ON volumes USING btree (year);
+
+
+--
 -- Name: taggings_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -463,6 +495,13 @@ CREATE TRIGGER trigger_test_genid BEFORE INSERT ON users FOR EACH ROW EXECUTE PR
 
 
 --
+-- Name: volumes trigger_test_genid; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trigger_test_genid BEFORE INSERT ON volumes FOR EACH ROW EXECUTE PROCEDURE unique_short_id();
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -478,6 +517,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180118212245'),
 ('20180118212246'),
 ('20180118212248'),
-('20180119013453');
+('20180119013453'),
+('20180119224012');
 
 

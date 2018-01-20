@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   
-  get 'admin/index'
+  get 'admin', to: 'admin#index'
+  get 'admin/users', to: 'admin#users'
+  post 'admin/new_volume', to: 'admin#new_volume'
 
   devise_for :users, path_names: { 
     sign_in:  'login', 

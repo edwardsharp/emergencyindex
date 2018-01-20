@@ -1,47 +1,94 @@
 <style type="text/css">
-	#nav {
-		top: 0;
-		
-	}
-
+  #nav {
+    top: 0;
+  }
+  #user-nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  #user-nav a{
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+  a.username{
+    min-width: 50%;
+    max-width: 85%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+  .nav-heading{
+    width: 100%;
+    text-align: right;
+    padding-right: 2em;
+  }
+  .nav-item{
+    padding: 0 32px;
+    font-weight: bold;
+  }
+  .logout i{
+    margin-top: 16px;
+  }
 </style>
 
 <div id="nav" class="fixed-action-btn click-to-toggle">
-	<a href="#" data-activates="slide-out" class="button-collapse btn-floating btn-large"><i class="material-icons medium">menu</i></a>
+  <a href="#" data-activates="slide-out" class="button-collapse btn-floating btn-large tooltipped" data-delay="250", data-tooltip="Show Menu"><i class="material-icons medium">radio_button_checked</i></a>
 </div>
 
-<ul id="slide-out" class="side-nav<%= ' fixed' if controller_name == 'home' %>">
-<!--   <li><div class="user-view">
-    <div class="background">
-      <img src="">
+<ul id="slide-out" class="side-nav<%= ' fixed' if controller_name == 'home' or controller_name == 'admin' %>">
+  <li>
+    <div id="user-nav">
+    <% if user_signed_in? %>
+      <!-- <div class="background">
+        <img src="">
+      </div> -->
+      <!-- <a href="#!user"><img class="circle" src=""></a> -->
+      <%= link_to edit_user_registration_path, class: 'waves-effect waves-light tooltipped username', 'data-tooltip': 'Edit Registration' do %>
+        <%= current_user.name %>
+        <% if current_user.admin? %>
+          <i class="material-icons tiny">verified_user</i>
+        <% end %>
+      <% end %>
+      <%= link_to('<i class="material-icons">power_settings_new</i>'.html_safe, destroy_user_session_path, method: :delete, class: 'waves-effect tooltipped logout', 'data-tooltip': 'Log out') %>
+    <% else %>
+      <%= link_to('Login', new_user_session_path, class: 'waves-effect') %>
+      <%= link_to('Register', new_user_registration_path, class: 'waves-effect')  %>
+    <% end %>
     </div>
-    <a href="#!user"><img class="circle" src=""></a>
-    <a href="#!name"><span class="white-text name">Foo Bar</span></a>
-    <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
-  </div></li> -->
- 
-  <!-- <li><div class="divider"></div></li> -->
+
+    <% if user_signed_in? and current_user.admin? %>
+      <li><div class="divider"></div></li>
+      <li>
+        <% if controller_name == 'admin' %>
+          <span class="nav-item">Admin</span>
+        <% else %>
+          <a href="/admin" class="waves-effect">Admin</a>
+        <% end %>
+      </li>
+
+    <% end %>
+
+  </li>
+
+  <li><div class="divider"></div></li>
 
   <li><a href="/projects" class="waves-effect">Projects</a></li>
-	<% if user_signed_in? %>
-		<li><%= link_to('Submit New Project', new_project_path, class: 'waves-effect') %></li>
-		<li><%= link_to('Edit Registration', edit_user_registration_path, class: 'waves-effect') %></li>
-		<li><%= link_to('Logout', destroy_user_session_path, method: :delete, class: 'waves-effect') %></li>
-	<% else %>
-	  <li><%= link_to('Login', new_user_session_path, class: 'waves-effect')  %></li>
-	  <li><%= link_to('Register', new_user_registration_path, class: 'waves-effect')  %></li>
-	<% end %>
+  <% if user_signed_in? %>
+    <li><%= link_to('Submit New Project', new_project_path, class: 'waves-effect') %></li>
+  <% end %>
 
-	<% if controller_name == 'projects' && action_name == 'show' %>
-		<li><%= link_to 'Edit This', edit_project_path(@project), class: 'waves-effect' %></li>
-	<% end %>
+  <% if controller_name == 'projects' && action_name == 'show' %>
+    <li><%= link_to 'Edit this project', edit_project_path(@project), class: 'waves-effect' %></li>
+  <% end %>
 
 </ul>
 
 
 <script type="text/javascript">
 
-	$('.button-collapse').sideNav({
+  $('.button-collapse').sideNav({
       // menuWidth: 300,
       edge: 'right',
       closeOnClick: true, 
@@ -49,13 +96,13 @@
     }
   );
 
-	// var nav = document.getElementById("nav");
-	// var mouseoverTimeout;
+  // var nav = document.getElementById("nav");
+  // var mouseoverTimeout;
 
  //  nav.addEventListener("mouseover", function( event ) {   
  //    mouseoverTimeout = setTimeout(function(){
- //    	event.target.style.backgroundColor = "purple";
-	//     console.log('purple!');
+ //     event.target.style.backgroundColor = "purple";
+  //     console.log('purple!');
  //    }, 150)
  //  }, false);
   

@@ -11,5 +11,9 @@ $success-color: #999 !default;
 $error-color: #c00!default;
 $link-color: #333 !default;
 
+button{
+  border: none;
+}
+
 @import 'materialize';
 

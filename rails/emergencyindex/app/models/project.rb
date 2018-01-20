@@ -1,6 +1,7 @@
 class Project < ApplicationRecord
 
   belongs_to :user
+  belongs_to :volume
 
   validates :title, :name, :first_date, :times_performed,
     :venue, :city, :state_country, :times_performed, :home, :description, 
@@ -18,7 +19,7 @@ class Project < ApplicationRecord
   default_scope { order(created_at: :desc) }
 
   acts_as_taggable
-  
+
   def word_count
     description.scan(/\w+/).length rescue 0
   end
