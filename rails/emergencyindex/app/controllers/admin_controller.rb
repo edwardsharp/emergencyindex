@@ -18,9 +18,8 @@ class AdminController < ApplicationController
 
   #get /admin/projects_list.js
   def projects_list
-    @q = Project.ransack(params[:q])
-    @projects = @q.result #.page(params[:page])
-    
+    ransack_projects
+
     respond_to do |format|
       format.js { render :projects_list}
     end

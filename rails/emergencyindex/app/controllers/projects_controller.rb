@@ -7,10 +7,7 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    # @projects = policy_scope(Project)
-
-    @q = policy_scope(Project).ransack(params[:q])
-    @projects = @q.result #.page(params[:page])
+    ransack_projects
   end
 
   # GET /projects/1
@@ -38,6 +35,8 @@ class ProjectsController < ApplicationController
   def create
     @project = Project.new(project_params)
     @project.user = current_user
+
+    @project.volume = Volume.order(:year).last
 
     respond_to do |format|
       if @project.save

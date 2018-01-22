@@ -23,7 +23,7 @@ $(document).on('ready turbolinks:load', function() {
       <br />
       <%= @project.venue %>, <%= @project.city %>, <%= @project.state_country %>
       <br />
-      performed <%= @project.times_performed_text %> in 2016.
+      performed <%= @project.times_performed_text %> in <%= @project.volume.year %>.
     </p>
 
     <h5>

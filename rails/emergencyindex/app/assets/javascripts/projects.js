@@ -4,8 +4,13 @@
 Dropzone.autoDiscover = false;
 
 var projectRowClick = function(e,url){
-  console.log('projectRowClick! e:',e,'url:',url);
-  // window.location = url;
+  // console.log('projectRowClick! e:',e,'url:',url);
+  window.location = url;
+}
+
+function getParameterByName(name) {
+  var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+  return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
 
 $(document).on('ready turbolinks:load', function() {
@@ -18,6 +23,13 @@ $(document).on('ready turbolinks:load', function() {
 	  });
 	}, 100);
   
+
+  if(getParameterByName('q%5Bname_or_title_or_venue_or_home_or_first_date_or_tags_name_or_description_cont%5D')){
+    // eek!
+    $('#q_name_or_title_or_venue_or_home_or_first_date_or_tags_name_or_description_cont').val(
+      getParameterByName('q%5Bname_or_title_or_venue_or_home_or_first_date_or_tags_name_or_description_cont%5D')
+    )
+  }
 
   //when navigating between pages we need to call this (fuckin' turbolinkz) 
   $.rails.refreshCSRFTokens();
