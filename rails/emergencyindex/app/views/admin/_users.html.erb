@@ -1,21 +1,19 @@
 <%= search_form_for @users_q, url: '/admin/users-list', remote: true, class: 'row' do |f| %>
-  <div class="input-field-fix col s3 l2">
+  <div class="input-field-fix col s3 m2 l2">
     <%= f.check_box :admin_true %>
     <%= f.label :admin_true, 'Admins' %>
   </div>
-  <div class="input-field col s5 l8">
+  <div class="input-field col s4 m6 l7">
     <%= f.search_field :name_or_email_cont %>
     <%= f.label :name_or_email_cont, "Search" %>
   </div>
-  <div class="input-field col s2 l1">
+  <div class="input-field col s5 m4 l3">
     <button class="btn waves-effect waves-light tooltipped" type="submit" name="submit" data-tooltip="Search Users">
       <i class="material-icons">search</i>
     </button>
-  </div>
-
-  <div class="input-field col s2 l1">
     <button id="new-user-modal-trigger" class="waves-effect waves-light btn tooltipped" data-tooltip="Create New User"><i class="material-icons">person_add</i></button>
   </div>
+
 <% end %>
 
 
