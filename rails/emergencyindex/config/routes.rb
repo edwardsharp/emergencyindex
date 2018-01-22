@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   
   get 'admin', to: 'admin#index'
+  post 'admin/new_user', to: 'admin#new_user'
   post 'admin/new_volume', to: 'admin#new_volume'
   get 'admin/projects-list', to: 'admin#projects_list'
   get 'admin/users-list', to: 'admin#users_list'

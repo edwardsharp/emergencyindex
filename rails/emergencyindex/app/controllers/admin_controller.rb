@@ -42,7 +42,27 @@ class AdminController < ApplicationController
     end
   end
 
+  #POST /admin/new_user
+  def new_user
 
+    @user = User.new(user_params)
+    
+    passwd = Devise.friendly_token.first(25)
+    @user.password = passwd
+    @user.password_confirmation = passwd
+
+    if @user.phone.blank?
+      @user.phone = 0
+    end
+
+    respond_to do |format|
+      if @user.save
+        format.json { render json: {}, status: :created }
+      else
+        format.json { render json: @user.errors.full_messages, status: :unprocessable_entity }
+      end
+    end
+  end
 
   #POST /admin/new_volume
   def new_volume
@@ -51,7 +71,7 @@ class AdminController < ApplicationController
 
     respond_to do |format|
       if @volume.save
-        format.json { render :volumes, status: :created }
+        format.json { render json: {}, status: :created }
       else
         format.json { render json: @volume.errors.full_messages, status: :unprocessable_entity }
       end
@@ -63,7 +83,12 @@ class AdminController < ApplicationController
     render_403 unless current_user.admin?
   end
 
+  def user_params
+    params.require(:user).permit(:email, :name, :phone, :postal)
+  end
+
   def volume_params
     params.require(:volume).permit(:year, :open_date_string, :close_date_string)
   end
+
 end

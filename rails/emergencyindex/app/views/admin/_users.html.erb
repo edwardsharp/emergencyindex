@@ -1,21 +1,26 @@
-<%= search_form_for @users_q, url: '/admin/users-list', remote: true, class: 'row' do |f| %>
-  <div class="input-field-fix col s3 m2 l2">
-    <%= f.check_box :admin_true %>
-    <%= f.label :admin_true, 'Admins' %>
-  </div>
-  <div class="input-field col s4 m6 l7">
-    <%= f.search_field :name_or_email_cont %>
-    <%= f.label :name_or_email_cont, "Search" %>
-  </div>
-  <div class="input-field col s5 m4 l3">
-    <button class="btn waves-effect waves-light tooltipped" type="submit" name="submit" data-tooltip="Search Users">
-      <i class="material-icons">search</i>
-    </button>
-    <button id="new-user-modal-trigger" class="waves-effect waves-light btn tooltipped" data-tooltip="Create New User"><i class="material-icons">person_add</i></button>
-  </div>
+<div class="row">
+  <%= search_form_for @users_q, url: '/admin/users-list', remote: true do |f| %>
+    <div class="input-field-fix col s3 m2 l2">
+      <%= f.check_box :admin_true %>
+      <%= f.label :admin_true, 'Admins' %>
+    </div>
+    <div class="input-field col s4 m5 l7">
+      <%= f.search_field :name_or_email_cont %>
+      <%= f.label :name_or_email_cont, "Search" %>
+    </div>
+    <div class="input-field col s2">
+      <button class="btn waves-effect waves-light tooltipped" type="submit" name="submit" data-tooltip="Search Users">
+        <i class="material-icons">search</i>
+      </button>
+      
+    </div>
 
-<% end %>
-
+  <% end %>
+  <div class="col s3 m3 l1">
+    <button id="new-user-modal-trigger" class="waves-effect waves-light btn tooltipped" data-tooltip="Create New User">  <i class="material-icons">person_add</i>
+      </button>
+    </div>
+</div>
 
 
 <div id="users-list">
@@ -25,10 +30,35 @@
 <div id="new-user-modal" class="modal modal-fixed-footer">
   <div class="modal-content">
     <h4>Create New User</h4>
-    <p>A bunch of text</p>
+    <br>
+    <%= form_with(url: '/admin/new_user', model: User.new, remote: true, id: 'user-form', class: 'row') do |f| %>
+      
+      <div class="input-field">
+        <%= f.email_field :email, id: :email, class: 'validate', required: true %>
+        <%= f.label :email, data: { error: "Please enter a valid email." } %>
+      </div>
+
+      <div class="input-field">
+        <%= f.text_field :name, id: :name, class: 'validate', required: true, pattern: '.{3,}', autofocus: true  %>
+        <%= f.label :name, data: { error: "Required (minimum of 3 characters)." } %>
+      </div>
+
+      <div class="input-field">
+        <%= f.text_field :phone, id: :phone, pattern: '.{10,}' %>
+        <%= f.label :phone %>
+      </div>
+
+      <div class="input-field">
+        <%= f.text_area :postal, id: :postal, class: 'materialize-textarea' %>
+        <%= f.label :postal %>
+      </div>
+
+      
+    <% end %>
   </div>
   <div class="modal-footer">
-    <button class="modal-action modal-close waves-effect btn-flat btn">Save</button>
+    <span id="new-user-error" class='red-text'></span>
+    <button id="save-user" class="waves-effect btn-flat btn">Create</button>
   </div>
 </div>
 
@@ -44,5 +74,27 @@ $(document).on('turbolinks:load', function() {
     $('#new-user-modal-trigger').on('click', showNewUserModal);
   }
 
+
+  $('#save-user').click(function(){
+    $('#new-user-error').html('');
+    $('#user-form').submit();
+  });
+
+
+  $("#user-form").bind('ajax:success', function() {
+    $('#user-form').trigger('reset');
+    $('#new-user-modal').modal('close');
+  });
+
+  $("#user-form").bind('ajax:error', function(e,resp) {
+    $('#new-user-error').html('Error!');
+    if(resp.responseJSON && resp.responseJSON[0]){
+      $('#new-user-error').html('Error: ' + resp.responseJSON[0]);
+    }
+  });
+
 });
 </script>
+
+
+
