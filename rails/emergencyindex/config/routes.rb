@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'admin', to: 'admin#index'
   get 'admin/users', to: 'admin#users'
   post 'admin/new_volume', to: 'admin#new_volume'
+  get 'admin/projects-list', to: 'admin#projects_list'
 
   devise_for :users, path_names: { 
     sign_in:  'login', 

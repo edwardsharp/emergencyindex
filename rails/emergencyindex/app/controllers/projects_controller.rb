@@ -7,7 +7,10 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    @projects = policy_scope(Project)
+    # @projects = policy_scope(Project)
+
+    @q = policy_scope(Project).ransack(params[:q])
+    @projects = @q.result #.page(params[:page])
   end
 
   # GET /projects/1
@@ -69,6 +72,11 @@ class ProjectsController < ApplicationController
       format.html { redirect_to projects_url, notice: 'Project was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  # GET /projects/tags
+  def project_tags
+
   end
 
   private

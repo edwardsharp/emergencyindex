@@ -3,12 +3,26 @@ class AdminController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin
 
+  # skip_before_action :verify_authenticity_token if Rails.env.development?
+
   def index
+    @q = Project.ransack(params[:q])
+    # @projects = @q.result
   end
 
   def users
     respond_to do |format|
       format.json { render :users }
+    end
+  end
+
+  #get /admin/projects_list.js
+  def projects_list
+    @q = Project.ransack(params[:q])
+    @projects = @q.result #.page(params[:page])
+    
+    respond_to do |format|
+      format.js { render :projects_list}
     end
   end
 
@@ -21,7 +35,7 @@ class AdminController < ApplicationController
       if @volume.save
         format.json { render :volumes, status: :created }
       else
-        format.json { render json: @volume.errors, status: :unprocessable_entity }
+        format.json { render json: @volume.errors.full_messages, status: :unprocessable_entity }
       end
     end
   end

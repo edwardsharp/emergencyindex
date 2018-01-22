@@ -1,0 +1,13 @@
+<% if @projects.blank? %>
+  <p class="center">
+    <% if @q.conditions.blank? %>
+        <%= Project.where(published: true).count %> published projects
+        <br>
+        <%= Project.where(published: false).count %> unpublished projects
+    <% else %>
+      No projects found!
+    <% end %>
+  </p>
+<% else %>
+  <%= render 'projects/projects_table' %>
+<% end %>

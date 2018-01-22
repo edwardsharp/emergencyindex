@@ -3,9 +3,13 @@
 
 Dropzone.autoDiscover = false;
 
+var projectRowClick = function(e,url){
+  console.log('projectRowClick! e:',e,'url:',url);
+  // window.location = url;
+}
+
 $(document).on('ready turbolinks:load', function() {
 
-	
 	setTimeout(function(){
 		// $('#project_description').focus();
 		// console.log('gonna resize a textarea!!!');

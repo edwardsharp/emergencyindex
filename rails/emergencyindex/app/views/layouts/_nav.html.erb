@@ -1,6 +1,7 @@
 <style type="text/css">
   #nav {
     top: 0;
+    max-height: 100px;
   }
   #user-nav{
     display: flex;
@@ -37,7 +38,7 @@
   <a href="#" data-activates="slide-out" class="button-collapse btn-floating btn-large tooltipped" data-delay="250", data-tooltip="Show Menu"><i class="material-icons medium">radio_button_checked</i></a>
 </div>
 
-<ul id="slide-out" class="side-nav<%= ' fixed' if controller_name == 'home' or controller_name == 'admin' %>">
+<ul id="slide-out" class="side-nav<%= ' fixed' if controller_name == 'home' %>">
   <li>
     <div id="user-nav">
     <% if user_signed_in? %>

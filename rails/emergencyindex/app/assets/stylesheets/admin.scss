@@ -2,10 +2,6 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#admin-container{
-  margin-right: 300px;
-}
-
 .collection-header{
   display: flex;
   justify-content: space-between;
@@ -18,14 +14,15 @@
   align-items: flex-end;
 }
 
+.input-field-fix{
+  padding-top: 1em !important;
+}
+
 input[type="checkbox"]:not(:checked):disabled + label:before {
   display: none;
 }
 
 @media #{$medium-and-down} {
-  #admin-container{
-    margin-right: 0;
-  }
   .collapsible-body{
     padding: 1rem;
   }

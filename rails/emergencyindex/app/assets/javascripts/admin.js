@@ -3,4 +3,7 @@
 
 $(document).on('turbolinks:load', function() {
 	$('.mat-select').material_select();
+
+	$('#q_volume_year_in').material_select();
+
 });

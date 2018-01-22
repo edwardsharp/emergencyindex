@@ -1,48 +1,62 @@
 <div class="row">
-	<div class="col s5">
-		<select class="mat-select" multiple>
-	    <option value="" disabled selected>Filter Users</option>
-	    <option value="admins">Admins</option>
-	    <option value="nonadmin">Non-Admins</option>
-	    <option value="3">Option 3</option>
-	  </select>
-	</div>
-	<div class="col s5">
-		<div class="row">
+  <div class="col s5">
+    <select class="mat-select" multiple>
+      <option value="" disabled selected>Filter Users</option>
+      <option value="admins">Admins</option>
+      <option value="nonadmin">Non-Admins</option>
+      <option value="3">Option 3</option>
+    </select>
+  </div>
+  <div class="col s5">
+    <div class="row">
       <div class="input-field col s12">
         <i class="material-icons prefix">search</i>
         <input type="text" id="autocomplete-input" class="autocomplete">
         <label for="autocomplete-input">Search Users</label>
       </div>
     </div>
-	</div>
-	<div class="col s2">
-	  <button id="new-user-modal-trigger" class="waves-effect waves-light btn tooltipped" data-tooltip="Create New User"><i class="material-icons">person_add</i></button>
-	</div>
+  </div>
+  <div class="col s2">
+    <button id="new-user-modal-trigger" class="waves-effect waves-light btn tooltipped" data-tooltip="Create New User"><i class="material-icons">person_add</i></button>
+  </div>
 </div>
 
 <ul class="collection with-header">
   <% User.all.each do |user| %>
-	  <li class="collection-item">
-			<%= "#{user.name} - #{user.email} (#{user.projects.count} Project#{'s' if user.projects.count == 0 or user.projects.count > 1})" %>
-			<span>
-	  		<button class="waves-effect tooltipped" data-tooltip="Edit User">
-	  			<i class="material-icons">edit</i>
-	  		</button>
-	  		<% if user.admin? %>
-	  			<button class="waves-effect tooltipped" data-tooltip="Remove Admin Role">
-		  			<i class="material-icons">highlight_off</i>
-		  		</button>
-	  		<% else %>
-		  		<button class="waves-effect tooltipped" data-tooltip="Make Admin">
-		  			<i class="material-icons">verified_user</i>
-		  		</button>
-		  	<% end %>
-		  	<button class="waves-effect tooltipped" data-tooltip="Delete User">
-	  			<i class="material-icons">delete_forever</i>
-	  		</button>
-	  	</span>
-	  </li>
+    <li class="collection-item">
+      <% if user.confirmed? %>
+        <%= "#{user.name} - #{user.email} (#{user.projects.count} Project#{'s' if user.projects.count == 0 or user.projects.count > 1})" %>
+      <% else %>
+        <%= "#{user.name} - #{user.email} (unconfirmed)" %>
+      <% end %>
+
+      <i class="tooltipped" data-tooltip="Created At"><small><%= l user.created_at, format: :short %></small></i>
+      
+      <span>
+        <button class="waves-effect tooltipped" data-tooltip="Edit User">
+          <i class="material-icons">edit</i>
+        </button>
+        <% unless user.confirmed? %>
+          <button class="waves-effect tooltipped" data-tooltip="Resend confirmation email">
+            <i class="material-icons">mail</i>
+          </button>
+          <!-- u.resend_confirmation_instructions -->
+        <% end %>
+
+        <% if user.admin? %>
+          <button class="waves-effect tooltipped" data-tooltip="Remove Admin Role">
+            <i class="material-icons">highlight_off</i>
+          </button>
+        <% elsif user.confirmed? %>
+          <button class="waves-effect tooltipped" data-tooltip="Make Admin">
+            <i class="material-icons">verified_user</i>
+          </button>
+        <% end %>
+        <button class="waves-effect tooltipped" data-tooltip="Delete User">
+          <i class="material-icons">delete_forever</i>
+        </button>
+      </span>
+    </li>
   <% end %>
 
 </ul>
@@ -59,15 +73,15 @@
 
 <script type="text/javascript">
 $(document).on('turbolinks:load', function() {
-	//jesus-fuck turbolinkz/jquery (!!!)
-	function showNewUserModal() {
-	  $('#new-user-modal').modal();
-		$('#new-user-modal').modal('open');
-	}
-	if($('#new-user-modal-trigger').length > 0){
-		$('#new-user-modal-trigger').off('click', showNewUserModal);
-		$('#new-user-modal-trigger').on('click', showNewUserModal);
-	}
+  //jesus-fuck turbolinkz/jquery (!!!)
+  function showNewUserModal() {
+    $('#new-user-modal').modal();
+    $('#new-user-modal').modal('open');
+  }
+  if($('#new-user-modal-trigger').length > 0){
+    $('#new-user-modal-trigger').off('click', showNewUserModal);
+    $('#new-user-modal-trigger').on('click', showNewUserModal);
+  }
 
   $.ajax({
     type: 'GET',

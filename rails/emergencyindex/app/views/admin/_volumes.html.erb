@@ -1,4 +1,4 @@
-<ul class="collection with-header">
+<ul id="volumes-collection" class="collection with-header">
   <li class="collection-header">
   	<span> </span>
   	<button id="new-volume-modal-trigger" class="waves-effect waves-light btn tooltipped" data-tooltip="Create New Volume"><i class="material-icons">add</i></button>
@@ -41,6 +41,7 @@
     <% end %>
   </div>
   <div class="modal-footer">
+  	<span id="new-volume-error" class='red-text'></span>
     <button id="save-volume" class="waves-effect btn-flat btn">Save</button>
   </div>
 </div>
@@ -58,7 +59,21 @@ $(document).on('turbolinks:load', function() {
 	}
 
 	$('#save-volume').click(function(){
+		$('#new-volume-error').html('');
 		$('#volume-form').submit();
-	})
+	});
+
+
+	$("#volume-form").bind('ajax:success', function() {
+		$('#volumes-collection').append('<li class="collection-item">'+$('#volume_year').val()+' (0 Projects)</li>');
+		$('#volume_year').val('');
+		$('#new-volume-modal').modal('close');
+  });
+
+  $("#volume-form").bind('ajax:error', function(e,resp) {
+		$('#new-volume-error').html('Error: ' + resp.responseJSON[0]);
+  });
+
+
 });
 </script>
