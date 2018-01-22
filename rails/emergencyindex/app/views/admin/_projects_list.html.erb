@@ -5,7 +5,7 @@
         <br>
         <%= Project.where(published: false).count %> unpublished projects
     <% else %>
-      No projects found!
+      No <span id="project-pub"></span> projects found!
     <% end %>
   </p>
 <% else %>

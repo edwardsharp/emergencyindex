@@ -1,0 +1,50 @@
+<% if @users.blank? %>
+  <p class="center">
+    <% if @users_q.conditions.blank? %>
+        <%= User.where(admin: false).count %> users
+        <br>
+        <%= User.where(admin: true).count %> admin users
+    <% else %>
+      No users found!
+    <% end %>
+  </p>
+<% else %>
+  <ul class="collection with-header">
+    <% @users.each do |user| %>
+      <li class="collection-item">
+        <% if user.confirmed? %>
+          <%= "#{user.name} - #{user.email} (#{user.projects.count} Project#{'s' if user.projects.count == 0 or user.projects.count > 1})" %>
+        <% else %>
+          <%= "#{user.name} - #{user.email} (unconfirmed)" %>
+        <% end %>
+
+        <i class="tooltipped" data-tooltip="Created At"><small><%= l user.created_at, format: :short %></small></i>
+        
+        <span>
+          <button class="waves-effect tooltipped" data-tooltip="Edit User">
+            <i class="material-icons">edit</i>
+          </button>
+          <% unless user.confirmed? %>
+            <button class="waves-effect tooltipped" data-tooltip="Resend confirmation email">
+              <i class="material-icons">mail</i>
+            </button>
+            <!-- u.resend_confirmation_instructions -->
+          <% end %>
+
+          <% if user.admin? %>
+            <button class="waves-effect tooltipped" data-tooltip="Remove Admin Role">
+              <i class="material-icons">highlight_off</i>
+            </button>
+          <% elsif user.confirmed? %>
+            <button class="waves-effect tooltipped" data-tooltip="Make Admin">
+              <i class="material-icons">verified_user</i>
+            </button>
+          <% end %>
+          <button class="waves-effect tooltipped" data-tooltip="Delete User">
+            <i class="material-icons">delete_forever</i>
+          </button>
+        </span>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

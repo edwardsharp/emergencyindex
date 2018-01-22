@@ -8,11 +8,28 @@ class AdminController < ApplicationController
   def index
     @q = Project.ransack(params[:q])
     # @projects = @q.result
+
+    @users_q = User.ransack(params[:users_q])
+    # @users = User.limit(1000)
+
   end
 
-  def users
+  #get /admin/users-list.js
+  def users_list
+
+    @users_q = User.ransack(params[:q])
+    @users = @users_q.result(distinct: true) #.page(params[:page])
+
+    if @users.blank? and params[:q][:admin_true]
+      #try to look for adminz...
+      params[:q].delete(:admin_true)
+      Rails.logger.debug "\n\n #{params[:q].inspect} \n\n"
+      @users_q = User.ransack(params[:q])
+      @users = @users_q.result(distinct: true) #.page(params[:page])
+    end
+
     respond_to do |format|
-      format.json { render :users }
+      format.js { render :users_list }
     end
   end
 
@@ -24,6 +41,8 @@ class AdminController < ApplicationController
       format.js { render :projects_list}
     end
   end
+
+
 
   #POST /admin/new_volume
   def new_volume
