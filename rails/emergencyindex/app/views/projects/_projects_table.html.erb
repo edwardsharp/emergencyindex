@@ -5,16 +5,16 @@
     <thead>
       <tr>
         <% if user_signed_in? and current_user.admin? %>
-        <th>Submitted</th>
-        <th>Published</th>
+        <th class="ellipsis maxwidth">Submitted</th>
+        <th class="ellipsis maxwidth">Published</th>
         <% end %>
-        <th>Volume</th>
-        <th>Name</th>
-        <th>Title</th>
-        <th>First date</th>
-        <th>Venue</th>
-        <th>Home</th>
-        <th>Image</th>
+        <th class="ellipsis maxwidth">Volume</th>
+        <th class="ellipsis">Name</th>
+        <th class="ellipsis">Title</th>
+        <th class="ellipsis">First date</th>
+        <th class="ellipsis">Venue</th>
+        <th class="ellipsis">Home</th>
+        <th class="ellipsis">Image</th>
         <th colspan="3"></th>
       </tr>
     </thead>
@@ -23,16 +23,16 @@
       <% @projects.each do |project| %>
         <tr onclick="projectRowClick(this,'<%= url_for project %>')">
           <% if user_signed_in? and current_user.admin? %>
-          <td><%= l project.created_at, format: :short %></td>
-          <td><%= project.published %></td>
+          <td class="ellipsis maxwidth"><%= l project.created_at, format: :short %></td>
+          <td class="ellipsis maxwidth"><%= project.published %></td>
           <% end %>
-          <td><%= project.volume.year %>
-          <td><%= project.name %></td>
-          <td><%= project.title %></td>
-          <td><%= project.first_date %></td>
-          <td><%= project.venue %></td>
-          <td><%= project.home %></td>
-          <td><%= image_tag project.attachment.url(:thumb) if project.attachment.present? %></td>
+          <td class="maxwidth"><%= project.volume.year %>
+          <td class="ellipsis minwidth"><%= project.name %></td>
+          <td class="ellipsis minwidth"><%= project.title %></td>
+          <td class="ellipsis"><%= project.first_date %></td>
+          <td class="ellipsis"><%= project.venue %></td>
+          <td class="ellipsis"><%= project.home %></td>
+          <td class="ellipsis"><%= image_tag project.attachment.url(:thumb) if project.attachment.present? %></td>
           <td><%= link_to '<i class="material-icons prefix tooltipped" data-tooltip="Permalink">link</i>'.html_safe, project, class: 'btn btn-flat btn-icon waves-effect' %></td>
           <% if user_signed_in? %>
           <td><%= link_to '<i class="material-icons prefix tooltipped" data-tooltip="Edit">edit</i>'.html_safe, edit_project_path(project), onclick: 'event.cancelBubble=true', class: 'btn btn-flat btn-icon waves-effect' if current_user.admin? or current_user.id == project.user_id %></td>

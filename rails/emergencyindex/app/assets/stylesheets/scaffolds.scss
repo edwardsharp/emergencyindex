@@ -41,6 +41,31 @@ td {
   padding: 0 5px 7px;
 }
 
+th.ellipsis, td.ellipsis {
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+td.minwidth {
+  min-width: 100px;
+}
+
+th.maxwidth, td.maxwidth {
+  max-width: 75px;
+}
+
+
+@media #{$medium-and-down} {
+  th.ellipsis, td.ellipsis {
+    max-width: initial;
+    overflow: initial;
+    text-overflow: initial;
+    white-space: initial;
+  }
+}
+
 div {
   &.field, &.actions {
     margin: 1.5em 0;
