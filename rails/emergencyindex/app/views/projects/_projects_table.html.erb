@@ -21,14 +21,20 @@
 
     <tbody>
       <% @projects.each do |project| %>
-        <tr onclick="projectRowClick(this,'<%= url_for project %>')">
+        <tr>
           <% if user_signed_in? and current_user.admin? %>
             <td class="ellipsis maxwidth"><%= l project.created_at, format: :short %></td>
             <td class="ellipsis maxwidth">
               <%# project.published %>
-              <button class="toggle-publish btn btn-flat btn-icon waves-effect" data-project-id="<%= project.id %>" data-project-published="<%= project.published ? 'Publish' : 'Unpublish' %>">
+            <!--   <button class="toggle-publish btn btn-flat btn-icon waves-effect" data-project-id="<%= project.id %>" data-project-published="<%= project.published ? 'Publish' : 'Unpublish' %>">
                 <%= (project.published ? 'Unpublish' : 'Publish')  %>
-              </button>
+              </button> -->
+              <div class="switch">
+                <label>
+                  <input type="checkbox" <%= "checked" if project.published %> class="toggle-publish" data-project-id="<%= project.id %>">
+                  <span class="lever"></span>
+                </label>
+              </div>
               
             </td>
           <% end %>
@@ -71,7 +77,8 @@ $( function() {
   });
 
 
-  var togglePublish = function(){
+
+  $('.toggle-publish').change(function(e){
 
     var _this = $(this); 
 
@@ -80,23 +87,22 @@ $( function() {
       method: "POST",
       data: { project: { id : $(this).attr('data-project-id') } },
       success: function(){
-        var oldPub = _this.data('project-published');
-        var newPub = oldPub == 'Publish' ? 'Unpublish' : 'Publish';
-        console.log('_this oldPub:',oldPub,' newPub:',newPub);
+        // var oldPub = _this.data('project-published');
+        var newPub = _this.is(":checked") ? 'Published' : 'Unpublished';
+        // console.log('_this oldPub:',oldPub,' newPub:',newPub);
         //fucking jquery :(
-        _this.removeData('project-published');
-        _this.attr('data-project-published', oldPub);
-        _this.html(oldPub);
-        Materialize.toast('Project '+newPub+'ed', 5000);
+        // _this.removeData('project-published');
+        // _this.attr('data-project-published', oldPub);
+        // _this.html(oldPub);
+        Materialize.toast('Project '+newPub, 5000);
+        // $(this).attr("checked", !_this.is(":checked"));
       }
     });
-    return false;
 
-  }
-
-  $('.toggle-publish').click(togglePublish);
+  });
 
   
+
 });
 </script>
 <% end %>
