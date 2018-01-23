@@ -82,6 +82,10 @@ label[for="project_already_submitted"] {
   width: 100%!important;
 }
 
+.project-pub{
+  margin-left: 33%;
+}
+
 @media #{$small-and-down} {
   .project-img{
     max-height: none;
