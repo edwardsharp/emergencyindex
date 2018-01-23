@@ -1,2 +1,6 @@
+<% if @email_changed %>
+Materialize.toast('Confirmation instructions sent to <%= @new_email %>', 5000);
+<% end %>
+$('.material-tooltip').remove();
 $('#users-list').html("<%= j render('users_list', users: @users) %>");
 $('.tooltipped').tooltip();

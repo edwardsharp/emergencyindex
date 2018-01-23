@@ -1,61 +1,32 @@
 <ul id="volumes-collection" class="collection with-header">
-  <li class="collection-header">
-  	<span> </span>
-  	<button id="new-volume-modal-trigger" class="waves-effect waves-light btn tooltipped" data-tooltip="Create New Volume"><i class="material-icons">add</i></button>
-  </li>
+  
+	<li class="collection-header">
+		<span> </span>
+		<button id="volume-modal-trigger" class="waves-effect waves-light btn tooltipped" data-tooltip="Create New Volume"><i class="material-icons">add</i></button>
+	</li>
 
-  <%= '<p>...no volumes yet</p>'.html_safe if Volume.all.blank? %>
-  <% Volume.all.each do |volume| %>
-	  <li class="collection-item">
-
-	  		<%= volume.year %> (<%= volume.projects.count %> Project<%= 's' if volume.projects.count == 0 or volume.projects.count > 1 %>)
-	  		<% if volume.projects.count == 0 %>
-		  		<button class="waves-effect btn-floating btn tooltipped" data-tooltip="Delete Volume">
-		  			<i class="material-icons">delete_forever</i>
-		  		</button>
-		  	<% end %>
-	  		
-
-	  </li>
-  <% end %>
-
+	<%= '<p>...no volumes yet</p>'.html_safe if Volume.all.blank? %>
+  <div id="volumes-list">
+	  <%= render 'volumes_list' %>
+	</div>
 </ul>
 
-<div id="new-volume-modal" class="modal modal-fixed-footer">
-  <div class="modal-content">
-    <h4>Create New Volume</h4>
-    <br>
-    <%= form_with(url: '/admin/new_volume', model: Volume.new, remote: true, id: 'volume-form', class: 'row') do |form| %>
-    	 <div class="input-field">
-	      <%= form.number_field :year, id: :volume_year, class: 'validate', required: true, min: 2000, max: 2100 %>
-	      <%= form.label :year %>
-	    </div>
-	    <div class="input-field">
-	      <%= form.text_field :open_date_string, id: :volume_open_date, class: 'datepicker' %>
-	      <%= form.label :open_date %>
-	    </div>
-	    <div class="input-field">
-	      <%= form.text_field :close_date_string, id: :volume_close_date, class: 'datepicker' %>
-	      <%= form.label :close_date %>
-	    </div>
-    <% end %>
-  </div>
-  <div class="modal-footer">
-  	<span id="new-volume-error" class='red-text'></span>
-    <button id="save-volume" class="waves-effect btn-flat btn">Create</button>
-  </div>
+<div id="volume-modal" class="modal modal-fixed-footer">
+  <%= render 'volume_modal' %>
 </div>
 
 <script type="text/javascript">
 $(document).on('turbolinks:load', function() {
 	//jesus-fuck turbolinkz/jquery (!!!)
 	function showNewVolumeModal() {
-	  $('#new-volume-modal').modal();
-		$('#new-volume-modal').modal('open');
+	  $.ajax({
+		  url: "/admin/edit_volume",
+		  method: "GET"
+		});
 	}
-	if($('#new-volume-modal-trigger').length > 0){
-		$('#new-volume-modal-trigger').off('click', showNewVolumeModal);
-		$('#new-volume-modal-trigger').on('click', showNewVolumeModal);
+	if($('#volume-modal-trigger').length > 0){
+		$('#volume-modal-trigger').off('click', showNewVolumeModal);
+		$('#volume-modal-trigger').on('click', showNewVolumeModal);
 	}
 
 	$('#save-volume').click(function(){
@@ -65,15 +36,13 @@ $(document).on('turbolinks:load', function() {
 
 
 	$("#volume-form").bind('ajax:success', function() {
-		$('#volumes-collection').append('<li class="collection-item">'+$('#volume_year').val()+' (0 Projects)</li>');
-		$('#volume_year').val('');
-		$('#new-volume-modal').modal('close');
+		$('#volume-modal').modal('close');
   });
 
   $("#volume-form").bind('ajax:error', function(e,resp) {
+  	console.log('_volumes volume-form ajax:err resp',resp);
 		$('#new-volume-error').html('Error: ' + resp.responseJSON[0]);
   });
-
 
 });
 </script>

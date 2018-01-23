@@ -36,10 +36,33 @@
           <td><%= link_to '<i class="material-icons prefix tooltipped" data-tooltip="Permalink">link</i>'.html_safe, project, class: 'btn btn-flat btn-icon waves-effect' %></td>
           <% if user_signed_in? %>
           <td><%= link_to '<i class="material-icons prefix tooltipped" data-tooltip="Edit">edit</i>'.html_safe, edit_project_path(project), onclick: 'event.cancelBubble=true', class: 'btn btn-flat btn-icon waves-effect' if current_user.admin? or current_user.id == project.user_id %></td>
-          <td><%= link_to '<i class="material-icons prefix tooltipped" data-tooltip="Delete">delete_forever</i>'.html_safe, project, onclick: 'event.cancelBubble=true', method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-flat btn-icon waves-effect' if current_user.admin? or current_user.id == project.user_id %></td>
+          <td><%= link_to '<i class="material-icons prefix tooltipped" data-tooltip="Delete">delete_forever</i>'.html_safe, project, onclick: 'event.cancelBubble=true', method: :delete, data: { confirm: 'Are you sure?' }, class: 'delete-project btn btn-flat btn-icon waves-effect', 'data-project-id': project.id if current_user.admin? or current_user.id == project.user_id %></td>
           <% end %>
         </tr>
       <% end %>
     </tbody>
   </table>
+<% end %>
+<% if current_user.admin? or current_user.id == project.user_id %>
+<script type="text/javascript">
+$( function() {
+  $('.delete-project').click(function(e){
+    e.preventDefault();
+    //e.stopPropagation();
+    if(confirm("Are you sure?")){
+      $.ajax({
+        url: "/admin/delete_project",
+        method: "DELETE",
+        data: { project: { id : $(this).data('project-id') } },
+        success: function(){
+           Materialize.toast('Project deleted!', 5000)
+        }
+      });
+    }
+    else{
+      return false;
+    }
+  });
+});
+</script>
 <% end %>

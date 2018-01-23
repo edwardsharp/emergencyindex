@@ -1,0 +1,42 @@
+$('#volume-modal').html("<%= j render('volume_modal', volume: @volume) %>");
+try{Materialize.updateTextFields();}catch(e){}
+$('.tooltipped').tooltip();
+$('#volume-modal').modal();
+$('#volume-modal').modal('open');
+$('#save-volume').click(function(){
+	$('#new-volume-error').html('');
+	$('#volume-form').submit();
+});
+$("#volume-form").bind('ajax:success', function() {
+	// $('#volumes-collection').append('<li class="collection-item">'+$('#volume_year').val()+' (0 Projects)</li>');
+	$('#volume-form')[0].reset();
+	$('#volume-modal').modal('close');
+});
+$("#volume-form").bind('ajax:error', function(e,resp) {
+	console.log('volume-form ajax:err resp',resp);
+	$('#new-volume-error').html('Error: ' + resp.responseJSON[0]);
+});
+
+var d = new Date();
+d = d.getFullYear();
+
+$('.datepicker').pickadate({
+  selectMonths: true,
+  selectYears: 15,
+  today: false,
+  clear: false,
+  format: 'yyyy/mm/dd',
+  formatSubmit: 'yyyy/mm/dd',
+  min: '1900/01/01',
+  max: '2099/12/31',
+  <% if @volume.new_record? %>
+	onStart: function(){
+    this.set( 'select', d+'/01/01' )
+  }
+	<% end %>
+  
+});
+
+
+
+

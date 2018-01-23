@@ -1,0 +1,45 @@
+<% Volume.all.each do |volume| %>
+<li class="collection-item">
+
+		<%= volume.year %> (<%= volume.projects.count %> Project<%= 's' if volume.projects.count == 0 or volume.projects.count > 1 %>)
+
+		<span>Open: <%= volume.open_date_string %></span>
+
+		<span>Close: <%= volume.close_date_string %></span>
+		<span>
+			<button class="edit-volume waves-effect btn-flat btn tooltipped" data-tooltip="Edit Volume" data-volume-id="<%= volume.id %>">
+				<i class="material-icons">edit</i>
+			</button>
+
+			<button class="delete-volume waves-effect btn-flat btn tooltipped" data-tooltip="Delete Volume" <%= "disabled" if volume.projects.count > 0 %> data-volume-id="<%= volume.id %>">
+				<i class="material-icons">delete_forever</i>
+			</button>
+
+		</span>
+
+</li>
+<% end %>
+
+<script type="text/javascript">
+$( function() {
+	$('.delete-volume').click(function(){
+		if(confirm("Are you sure?")){
+	    $.ajax({
+			  url: "/admin/delete_volume",
+			  method: "DELETE",
+			  data: { volume: { id : $(this).data('volume-id') } }
+			});
+	  }
+	  else{
+	  	return false;
+	  }
+	});
+	$('.edit-volume').click(function(){
+		$.ajax({
+		  url: "/admin/edit_volume",
+		  method: "GET",
+		  data: { volume: { id : $(this).data('volume-id') } }
+		});
+	});
+});
+</script>

@@ -1,0 +1,3 @@
+$('#user-edit').html("<%= j render('user_edit_modal', user: @user) %>");
+try{Materialize.updateTextFields();}catch(e){}
+$('.tooltipped').tooltip();

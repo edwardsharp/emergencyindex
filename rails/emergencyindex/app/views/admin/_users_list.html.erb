@@ -21,26 +21,29 @@
         <i class="tooltipped" data-tooltip="Created At"><small><%= l user.created_at, format: :short %></small></i>
         
         <span>
-          <button class="waves-effect tooltipped" data-tooltip="Edit User">
+          <button class="edit-user btn btn-flat btn-icon waves-effect tooltipped" data-tooltip="Edit User" data-user-id="<%= user.id %>">
             <i class="material-icons">edit</i>
           </button>
           <% unless user.confirmed? %>
-            <button class="waves-effect tooltipped" data-tooltip="Resend confirmation email">
+            <button class="resend-user-confirmation btn btn-flat btn-icon waves-effect tooltipped" data-tooltip="Resend confirmation email" data-user-id="<%= user.id %>">
               <i class="material-icons">mail</i>
             </button>
-            <!-- u.resend_confirmation_instructions -->
           <% end %>
 
+          <button class="reset-user-password btn btn-flat btn-icon waves-effect tooltipped" data-tooltip="Send reset password email" data-user-id="<%= user.id %>">
+            <i class="material-icons">lock_open</i>
+          </button>
+
           <% if user.admin? %>
-            <button class="waves-effect tooltipped" data-tooltip="Remove Admin Role">
+            <button class="user-admin btn btn-flat btn-icon waves-effect tooltipped" data-tooltip="Remove Admin Role" data-user-id="<%= user.id %>">
               <i class="material-icons">highlight_off</i>
             </button>
           <% elsif user.confirmed? %>
-            <button class="waves-effect tooltipped" data-tooltip="Make Admin">
+            <button class="user-admin btn btn-flat btn-icon waves-effect tooltipped" data-tooltip="Make Admin" data-user-id="<%= user.id %>">
               <i class="material-icons">verified_user</i>
             </button>
           <% end %>
-          <button class="waves-effect tooltipped" data-tooltip="Delete User">
+          <button class="delete-user btn btn-flat btn-icon waves-effect tooltipped" data-tooltip="Delete User" data-user-id="<%= user.id %>">
             <i class="material-icons">delete_forever</i>
           </button>
         </span>
@@ -48,3 +51,62 @@
     <% end %>
   </ul>
 <% end %>
+
+<script type="text/javascript">
+$( function() {
+  
+  $('.edit-user').click(function(){
+    // /admin/resend_user_confirmation
+    $.ajax({
+      url: "/admin/user_edit",
+      method: "GET",
+      data: { user: { id : $(this).data('user-id') } }
+    });
+  });
+
+  $('.resend-user-confirmation').click(function(){
+    // /admin/resend_user_confirmation
+    $.ajax({
+      url: "/admin/resend_user_confirmation",
+      method: "POST",
+      data: { user: { id : $(this).data('user-id') } },
+      success: function(){
+        Materialize.toast('Confirmation instructions sent!', 5000)
+      }
+    });
+  });
+  $('.reset-user-password').click(function(){
+    // /admin/reset_user_password
+    $.ajax({
+      url: "/admin/reset_user_password",
+      method: "POST",
+      data: { user: { id : $(this).data('user-id') } },
+      success: function(){
+         Materialize.toast('Password reset email sent!', 5000)
+      }
+    });
+  });
+  $('.user-admin').click(function(){
+    // /admin/user_admin
+    $.ajax({
+      url: "/admin/user_admin",
+      method: "POST",
+      data: { user: { id : $(this).data('user-id') } }
+    });
+  });
+  $('.delete-user').click(function(){
+    if(confirm("Are you sure?")){
+      $.ajax({
+        url: "/admin/delete_user",
+        method: "DELETE",
+        data: { user: { id : $(this).data('user-id') } }
+      });
+    }
+    else{
+      return false;
+    }
+  });
+
+
+});
+</script>
