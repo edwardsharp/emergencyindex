@@ -23,8 +23,14 @@
       <% @projects.each do |project| %>
         <tr onclick="projectRowClick(this,'<%= url_for project %>')">
           <% if user_signed_in? and current_user.admin? %>
-          <td class="ellipsis maxwidth"><%= l project.created_at, format: :short %></td>
-          <td class="ellipsis maxwidth"><%= project.published %></td>
+            <td class="ellipsis maxwidth"><%= l project.created_at, format: :short %></td>
+            <td class="ellipsis maxwidth">
+              <%# project.published %>
+              <button class="toggle-publish btn btn-flat btn-icon waves-effect" data-project-id="<%= project.id %>" data-project-published="<%= project.published ? 'Publish' : 'Unpublish' %>">
+                <%= (project.published ? 'Unpublish' : 'Publish')  %>
+              </button>
+              
+            </td>
           <% end %>
           <td class="maxwidth"><%= project.volume.year %>
           <td class="ellipsis minwidth"><%= project.name %></td>
@@ -36,14 +42,14 @@
           <td><%= link_to '<i class="material-icons prefix tooltipped" data-tooltip="Permalink">link</i>'.html_safe, project, class: 'btn btn-flat btn-icon waves-effect' %></td>
           <% if user_signed_in? %>
           <td><%= link_to '<i class="material-icons prefix tooltipped" data-tooltip="Edit">edit</i>'.html_safe, edit_project_path(project), onclick: 'event.cancelBubble=true', class: 'btn btn-flat btn-icon waves-effect' if current_user.admin? or current_user.id == project.user_id %></td>
-          <td><%= link_to '<i class="material-icons prefix tooltipped" data-tooltip="Delete">delete_forever</i>'.html_safe, project, onclick: 'event.cancelBubble=true', method: :delete, data: { confirm: 'Are you sure?' }, class: 'delete-project btn btn-flat btn-icon waves-effect', 'data-project-id': project.id if current_user.admin? or current_user.id == project.user_id %></td>
+          <td><%= link_to '<i class="material-icons prefix tooltipped" data-tooltip="Delete">delete_forever</i>'.html_safe, project, method: :delete, class: 'delete-project btn btn-flat btn-icon waves-effect', 'data-project-id': project.id if user_signed_in? and (current_user.admin? or current_user.id == project.user_id) %></td>
           <% end %>
         </tr>
       <% end %>
     </tbody>
   </table>
 <% end %>
-<% if current_user.admin? or current_user.id == project.user_id %>
+<% if user_signed_in? and (current_user.admin? or current_user.id == project.user_id) %>
 <script type="text/javascript">
 $( function() {
   $('.delete-project').click(function(e){
@@ -63,6 +69,36 @@ $( function() {
       return false;
     }
   });
+
+
+  var togglePublish = function(){
+
+    var _this = $(this); 
+
+    $.ajax({
+      url: "/admin/project_toggle_publish",
+      method: "POST",
+      data: { project: { id : $(this).attr('data-project-id') } },
+      success: function(){
+        var oldPub = _this.data('project-published');
+        var newPub = oldPub == 'Publish' ? 'Unpublish' : 'Publish';
+        console.log('_this oldPub:',oldPub,' newPub:',newPub);
+        //fucking jquery :(
+        _this.removeData('project-published');
+        _this.attr('data-project-published', oldPub);
+        _this.html(oldPub);
+        Materialize.toast('Project '+newPub+'ed', 5000);
+      }
+    });
+    return false;
+
+  }
+
+  $('.toggle-publish').click(togglePublish);
+
+  
 });
 </script>
 <% end %>
+
+

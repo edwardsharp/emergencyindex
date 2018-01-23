@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   
   get 'admin', to: 'admin#index'
-  
+
   get 'admin/users-list', to: 'admin#users_list'
   post 'admin/new_user', to: 'admin#new_user'
   delete 'admin/delete_user', to: 'admin#delete_user'
@@ -18,7 +18,7 @@ Rails.application.routes.draw do
 
   get 'admin/projects-list', to: 'admin#projects_list'
   delete 'admin/delete_project', to: 'admin#delete_project'
-  
+  post 'admin/project_toggle_publish', to: 'admin#project_toggle_publish'
 
   devise_for :users, path_names: { 
     sign_in:  'login', 

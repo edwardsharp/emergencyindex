@@ -71,7 +71,7 @@ class AdminController < ApplicationController
 
     @email_changed = user_params[:email] != @user.email
     @new_email = user_params[:email]
-    
+
     respond_to do |format|
       if @user.update_attributes(user_params)
         format.js { render :users_list }
@@ -200,6 +200,20 @@ class AdminController < ApplicationController
     end
   end
 
+  #post /admin/project_toggle_publish
+  def project_toggle_publish
+    @project = Project.find(params[:project][:id])
+    @project.published = !@project.published
+    ransack_projects
+
+    respond_to do |format|
+      if @project.save
+        format.js { render json: {}, status: 200 }
+      else
+        format.json { render json: {}, status: :unprocessable_entity }
+      end
+    end
+  end
 
   private 
   def require_admin
