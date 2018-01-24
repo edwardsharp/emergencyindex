@@ -20,6 +20,7 @@
 //= require_tree .
 
 $(document).on('turbolinks:load', function() {
+  $('.mat-select').material_select('destroy');
   $('.mat-select').material_select();
   try{
   	// M.updateTextFields();
