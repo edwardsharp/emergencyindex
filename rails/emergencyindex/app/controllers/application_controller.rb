@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
     render file: "#{Rails.root}/public/403.html",  status: :not_found
   end
 
-  def ransack_projects
+  def ransack_projects user_scope=nil
     # whoa! https://github.com/activerecord-hackery/ransack/issues/218#issuecomment-16504630
     if params[:q]
       params[:q][:combinator] = 'and'
@@ -23,13 +23,19 @@ class ApplicationController < ActionController::Base
       custom_words.split(' ').each_with_index do |word, index|
         params[:q][:groupings][index] = {name_or_title_or_venue_or_home_or_first_date_or_tags_name_or_description_cont: word} 
       end
-
-      @q = policy_scope(Project).search(params[:q])
-      @projects = @q.result(distinct: true)
-
+      if user_scope
+        @q = policy_scope(Project).where(user: current_user).search(params[:q])
+      else
+        @q = policy_scope(Project).search(params[:q])
+      end
     else
-      @q = policy_scope(Project).ransack(params[:q])
-      @projects = @q.result(distinct: true)
+      if user_scope
+        @q = policy_scope(Project).where(user: current_user).ransack(params[:q])
+      else
+        @q = policy_scope(Project).ransack(params[:q])
+      end
     end
+
+    @projects = @q.result(distinct: true)
   end
 end

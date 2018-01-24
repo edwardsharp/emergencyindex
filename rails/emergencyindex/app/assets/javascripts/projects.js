@@ -106,5 +106,24 @@ $(document).on('ready turbolinks:load', function() {
 
     });
   }
+  
+  $('.delete-project').unbind('click');
+  $('.delete-project').click(function(e){
+    e.preventDefault();
+    //e.stopPropagation();
+    if(confirm("Are you sure?")){
+      $.ajax({
+        url: "/admin/delete_project",
+        method: "DELETE",
+        data: { project: { id : $(this).data('project-id') } },
+        success: function(){
+           Materialize.toast('Project deleted!', 5000)
+        }
+      });
+    }
+    else{
+      return false;
+    }
+  });
 
 });

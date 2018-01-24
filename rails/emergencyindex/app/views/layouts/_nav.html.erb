@@ -75,9 +75,14 @@
 
   <li><div class="divider"></div></li>
 
-  <li><a href="/projects" class="waves-effect">Projects</a></li>
+  <li><a href="/indexes" class="waves-effect">Indexes</a></li>
+
   <% if user_signed_in? %>
+    <li><a href="/my_projects" class="waves-effect">My Projects</a></li>
+    <li><a href="/projects" class="waves-effect">All Projects</a></li>
     <li><%= link_to('Submit New Project', new_project_path, class: 'waves-effect') %></li>
+  <% else %>
+    <li><a href="/projects" class="waves-effect">Projects</a></li>
   <% end %>
 
   <% if controller_name == 'projects' && action_name == 'show' %>

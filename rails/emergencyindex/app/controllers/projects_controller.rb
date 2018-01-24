@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
   
-  before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy]
+  before_action :authenticate_user!, only: [:my_projects, :new, :edit, :create, :update, :destroy]
 
   before_action :set_project, only: [:show, :edit, :update, :destroy]
 
@@ -8,6 +8,12 @@ class ProjectsController < ApplicationController
   # GET /projects.json
   def index
     ransack_projects
+  end
+
+  # GET /my_projects
+  def my_projects
+    ransack_projects(user_scope: true)
+    
   end
 
   # GET /projects/1

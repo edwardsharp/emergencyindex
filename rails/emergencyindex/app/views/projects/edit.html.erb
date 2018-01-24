@@ -1,3 +1,6 @@
-<h1>Editing Project <%= link_to '<i class="material-icons">remove_red_eye</i>'.html_safe, @project, class: 'waves-effect btn-flat tooltipped', 'data-delay': 100, 'data-tooltip': 'Show Project' %> </h1>
+<h1>Editing Project 
+	<%= link_to '<i class="material-icons">remove_red_eye</i>'.html_safe, @project, class: 'waves-effect btn-flat tooltipped', 'data-delay': 100, 'data-tooltip': 'Show Project' %> 
+	<%= link_to '<i class="material-icons prefix tooltipped" data-tooltip="Delete Project">delete_forever</i>'.html_safe, @project, method: :delete, class: 'delete-project btn btn-flat waves-effect', 'data-project-id': @project.id %>
+</h1>
 
 <%= render 'form', project: @project %>

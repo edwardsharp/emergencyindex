@@ -23,6 +23,10 @@ input[type="checkbox"]:not(:checked):disabled + label:before {
   display: none;
 }
 
+.collection-with-overflow{
+  overflow: visible;
+}
+
 @media #{$medium-and-down} {
   .collapsible-body{
     padding: 1rem;

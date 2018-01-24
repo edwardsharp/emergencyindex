@@ -1,0 +1,16 @@
+<ul class="collapsible popout" data-collapsible="accordion">
+  <li class="collection-item header"><h4><%= link_to 'Index', indexes_path %> &rarr; Places</h4></li>
+  <% @places.each do |place| %>
+	  <li>
+	    <div class="collapsible-header flex-header"><span><%= place[0] %></span><span class="new badge" data-badge-caption="project<%= 's' if place[1].count != 1 %>"><%= place[1].count %></span></div>
+	    <div class="collapsible-body">
+	    	<div class="collection">
+	    		<b>&nbsp;Projects</b>
+		    	<% place[1].each do |project| %>
+			    	<%= link_to project.title, project_path(project.id), class: 'collection-item' %>
+		    	<% end %>
+		    </div>
+	    </div>
+	  </li>
+	<% end %>
+</ul>

@@ -50,7 +50,7 @@ class ProjectPolicy
       if user and user.admin?
         scope.all
       elsif user
-        scope.where(user: user)
+        scope.where(published: true)
       else
         scope.where(published: true)
       end

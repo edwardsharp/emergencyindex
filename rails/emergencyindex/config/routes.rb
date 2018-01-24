@@ -30,5 +30,11 @@ Rails.application.routes.draw do
   root to: "home#index"
 
   resources :projects
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  get 'my_projects', to: 'projects#my_projects'
+
+  get 'indexes', to: 'indexes#index'
+  get 'indexes/terms'
+  get 'indexes/contributors'
+  get 'indexes/places'
+
 end

@@ -18,6 +18,8 @@ class Project < ApplicationRecord
 
   default_scope { order(created_at: :desc) }
 
+  scope :published, -> { where(published: true) }
+  
   acts_as_taggable
 
   def word_count

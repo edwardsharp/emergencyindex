@@ -9,8 +9,9 @@
     <% end %>
   </p>
 <% else %>
-  <ul class="collection with-header">
+  <ul class="collection with-header collection-with-overflow">
     <% @users.each do |user| %>
+      
       <li class="collection-item">
         <% if user.confirmed? %>
           <%= "#{user.name} - #{user.email} (#{user.projects.count} Project#{'s' if user.projects.count == 0 or user.projects.count > 1})" %>
@@ -20,33 +21,39 @@
 
         <i class="tooltipped" data-tooltip="Created At"><small><%= l user.created_at, format: :short %></small></i>
         
-        <span>
-          <button class="edit-user btn btn-flat btn-icon waves-effect tooltipped" data-tooltip="Edit User" data-user-id="<%= user.id %>">
-            <i class="material-icons">edit</i>
-          </button>
-          <% unless user.confirmed? %>
-            <button class="resend-user-confirmation btn btn-flat btn-icon waves-effect tooltipped" data-tooltip="Resend confirmation email" data-user-id="<%= user.id %>">
-              <i class="material-icons">mail</i>
-            </button>
-          <% end %>
 
-          <button class="reset-user-password btn btn-flat btn-icon waves-effect tooltipped" data-tooltip="Send reset password email" data-user-id="<%= user.id %>">
-            <i class="material-icons">lock_open</i>
-          </button>
+        <!-- Dropdown Trigger -->
+        <a class='dropdown-button btn btn-flat' href='#' data-activates='dropdown<%= user.id%>'><i class="material-icons">arrow_drop_down</i></a>
+
+        <!-- Dropdown -->
+        <ul id='dropdown<%= user.id%>' class='dropdown-content'>
+          <li><a class="edit-user" data-user-id="<%= user.id %>">
+            <i class="material-icons">edit</i>Edit User
+          </a></li>
+          <% unless user.confirmed? %>
+            <li><a class="resend-user-confirmation" data-user-id="<%= user.id %>">
+              <i class="material-icons">mail</i>Resend confirmation email
+            </a></li>
+          <% end %>
+          <li><a class="reset-user-password" data-user-id="<%= user.id %>">
+            <i class="material-icons">lock_open</i>Send reset password email
+          </a></li>
 
           <% if user.admin? %>
-            <button class="user-admin btn btn-flat btn-icon waves-effect tooltipped" data-tooltip="Remove Admin Role" data-user-id="<%= user.id %>">
-              <i class="material-icons">highlight_off</i>
-            </button>
+            <li><a class="user-admin" data-user-id="<%= user.id %>">
+              <i class="material-icons">highlight_off</i>Remove Admin Role
+            </a></li>
           <% elsif user.confirmed? %>
-            <button class="user-admin btn btn-flat btn-icon waves-effect tooltipped" data-tooltip="Make Admin" data-user-id="<%= user.id %>">
-              <i class="material-icons">verified_user</i>
-            </button>
+            <li><a class="user-admin" data-user-id="<%= user.id %>">
+              <i class="material-icons">verified_user</i>Make Admin
+            </a></li>
           <% end %>
-          <button class="delete-user btn btn-flat btn-icon waves-effect tooltipped" data-tooltip="Delete User" data-user-id="<%= user.id %>">
-            <i class="material-icons">delete_forever</i>
-          </button>
-        </span>
+          <li><a class="delete-user" data-user-id="<%= user.id %>">
+            <i class="material-icons">delete_forever</i>Delete User
+          </a></li>
+          
+        </ul>
+
       </li>
     <% end %>
   </ul>
@@ -106,6 +113,18 @@ $( function() {
       return false;
     }
   });
+
+   $('.dropdown-button').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      constrainWidth: false, // Does not change width of dropdown to that of the activator
+      hover: false, // Activate on hover
+      gutter: 0, // Spacing from edge
+      belowOrigin: false, // Displays dropdown below the button
+      alignment: 'left', // Displays dropdown with edge aligned to the left of button
+      stopPropagation: true // Stops event propagation
+    }
+  );
 
 
 });
