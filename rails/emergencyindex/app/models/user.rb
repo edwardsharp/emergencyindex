@@ -19,5 +19,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :confirmable, :lockable
 
   acts_as_tagger
+
+  self.per_page = 100
   
 end

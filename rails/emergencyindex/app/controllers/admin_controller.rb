@@ -19,13 +19,13 @@ class AdminController < ApplicationController
   def users_list
 
     @users_q = User.ransack(params[:q])
-    @users = @users_q.result(distinct: true) #.page(params[:page])
+    @users = @users_q.result(distinct: true).page(params[:page])
 
     if @users.blank? and params[:q][:admin_true]
       #try to look for adminz...
       params[:q].delete(:admin_true)
       @users_q = User.ransack(params[:q])
-      @users = @users_q.result(distinct: true) #.page(params[:page])
+      @users = @users_q.result(distinct: true).page(params[:page])
     end
 
     respond_to do |format|
