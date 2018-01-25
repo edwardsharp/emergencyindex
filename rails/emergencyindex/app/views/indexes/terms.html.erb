@@ -6,11 +6,12 @@
 	    <div class="collapsible-body">
 	    	<div class="collection">
 	    		<b>&nbsp;Projects</b>
-		    	<% Project.published.tagged_with(term.name).pluck(:title, :id).each do |project| %>
-			    	<%= link_to project[0], project_path(project[1]), class: 'collection-item' %>
+		    	<% Project.published.tagged_with(term.name).pluck(:title, :name, :id).each do |project| %>
+			    	<%= link_to "#{project[0]} - #{project[1]}", project_path(project[2]), class: 'collection-item' %>
 		    	<% end %>
 		    </div>
 	    </div>
 	  </li>
 	<% end %>
 </ul>
+<%= will_paginate @terms %>

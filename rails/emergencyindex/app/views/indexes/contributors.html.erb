@@ -7,8 +7,8 @@
 	    	
 	    	<div class="collection">
 	    		<b>&nbsp;Projects</b>
-		    	<% user.projects.published.pluck(:title, :id).each do |project| %>
-			    	<%= link_to project[0], project_path(project[1]), class: 'collection-item' %>
+		    	<% user.projects.published.pluck(:title, :name, :id).each do |project| %>
+			    	<%= link_to "#{project[0]} - #{project[1]}", project_path(project[2]), class: 'collection-item' %>
 		    	<% end %>
 		    </div>
 
@@ -16,3 +16,4 @@
 	  </li>
 	<% end %>
 </ul>
+<%= will_paginate @contributors %>

@@ -7,10 +7,11 @@
 	    	<div class="collection">
 	    		<b>&nbsp;Projects</b>
 		    	<% place[1].each do |project| %>
-			    	<%= link_to project.title, project_path(project.id), class: 'collection-item' %>
+			    	<%= link_to "#{project.title} - #{project.name}", project_path(project.id), class: 'collection-item' %>
 		    	<% end %>
 		    </div>
 	    </div>
 	  </li>
 	<% end %>
 </ul>
+<%= will_paginate @paginate_places %>
