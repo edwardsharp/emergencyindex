@@ -31,6 +31,7 @@ Rails.application.routes.draw do
 
   resources :projects
   get 'my_projects', to: 'projects#my_projects'
+  get 'scrollspy', to: 'projects#scrollspy'
 
   get 'indexes', to: 'indexes#index'
   get 'indexes/terms'

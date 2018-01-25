@@ -17,6 +17,8 @@
 //= require materialize-sprockets
 //= require dropzone
 //= require select2.min
+//= require scrollspy
+//= require jquery.ba-throttle-debounce.min
 //= require_tree .
 
 $(document).on('turbolinks:load', function() {

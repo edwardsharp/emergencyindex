@@ -38,7 +38,8 @@
   <a href="#" data-activates="slide-out" class="button-collapse btn-floating btn-large tooltipped" data-delay="250", data-tooltip="Show Menu"><i class="material-icons medium">radio_button_checked</i></a>
 </div>
 
-<ul id="slide-out" class="side-nav<%= ' fixed' if controller_name == 'home' %>">
+<ul id="slide-out" class="side-nav<%= ' fixed' if controller_name == 'home' or controller_name == 'projects' %>">
+  <div class="sticky-nav">
   <li>
     <div id="user-nav">
     <% if user_signed_in? %>
@@ -58,20 +59,18 @@
       <%= link_to('Register', new_user_registration_path, class: 'waves-effect')  %>
     <% end %>
     </div>
-
-    <% if user_signed_in? and current_user.admin? %>
-      <li><div class="divider"></div></li>
-      <li>
-        <% if controller_name == 'admin' %>
-          <span class="nav-item">Admin</span>
-        <% else %>
-          <a href="/admin" class="waves-effect">Admin</a>
-        <% end %>
-      </li>
-
-    <% end %>
-
   </li>
+  <% if user_signed_in? and current_user.admin? %>
+    <li><div class="divider"></div></li>
+    <li>
+      <% if controller_name == 'admin' %>
+        <span class="nav-item">Admin</span>
+      <% else %>
+        <a href="/admin" class="waves-effect">Admin</a>
+      <% end %>
+    </li>
+
+  <% end %>
 
   <li><div class="divider"></div></li>
 
@@ -88,6 +87,18 @@
   <% if controller_name == 'projects' && action_name == 'show' %>
     <li><%= link_to 'Edit this project', edit_project_path(@project), class: 'waves-effect' %></li>
   <% end %>
+
+  </div>
+  <div id="scrollspy-nav">
+    <ul class="section table-of-contents">
+      <li><a href="#introduction" data-turbolinks="false">Introduction</a></li>
+      <li><a href="#structure" data-turbolinks="false">Structure</a></li>
+      <li><a href="#initialization" data-turbolinks="false">Intialization</a></li>
+      <% (0..50).each do |i| %>
+        <li><a href="#s<%= i %>" data-turbolinks="false">s<%= i %></a></li>
+      <% end %>
+    </ul>
+  </div>
 
 </ul>
 
