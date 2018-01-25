@@ -1,7 +1,9 @@
 FactoryBot.define do
   factory :volume do
-    year 1
-    open_date "2018-01-19 17:40:13"
-    close_date "2018-01-19 17:40:13"
+    sequence :year do |n|
+      2000 + n
+    end
+    open_date_string "2018/01/19"
+    close_date_string "2018/01/19"
   end
 end

@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
 
   def ransack_projects user_scope=nil
     # whoa! https://github.com/activerecord-hackery/ransack/issues/218#issuecomment-16504630
-    if params[:q]
+    if params[:q] and params[:q][:name_or_title_or_venue_or_home_or_first_date_or_tags_name_or_description_cont]
       params[:q][:combinator] = 'and'
       params[:q][:groupings] = []
       custom_words = params[:q].delete(:name_or_title_or_venue_or_home_or_first_date_or_tags_name_or_description_cont)
@@ -36,6 +36,6 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    @projects = @q.result(distinct: true)
+    @projects = @q.result(distinct: true).page(params[:page])
   end
 end

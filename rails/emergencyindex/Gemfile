@@ -44,6 +44,7 @@ gem 'mailgun-ruby'
 gem 'numbers_and_words'
 gem 'acts-as-taggable-on', '~> 5.0'
 gem 'ransack'
+gem 'will_paginate', github: 'jonatack/will_paginate'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

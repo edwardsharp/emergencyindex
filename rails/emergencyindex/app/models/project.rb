@@ -22,6 +22,8 @@ class Project < ApplicationRecord
   
   acts_as_taggable
 
+  self.per_page = 1
+
   def word_count
     description.scan(/\w+/).length rescue 0
   end

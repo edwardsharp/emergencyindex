@@ -8,6 +8,10 @@ class ProjectsController < ApplicationController
   # GET /projects.json
   def index
     ransack_projects
+    respond_to do |format|
+      format.html 
+      format.js 
+    end
   end
 
   # GET /my_projects

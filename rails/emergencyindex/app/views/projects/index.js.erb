@@ -1,0 +1,3 @@
+$('.material-tooltip').remove();
+$('#projects-list').html("<%= j render('projects_table', projects: @projects) %>");
+$('.tooltipped').tooltip();

@@ -13,5 +13,6 @@ FactoryBot.define do
     home "Brooklyn, NY"
     description "A project description."
     user
+    volume
   end
 end
