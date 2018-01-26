@@ -26,7 +26,8 @@ class CreateProjects < ActiveRecord::Migration[5.1]
       
       t.boolean :published, default: false
       t.string :published_by
-
+      t.string :pages
+      
       t.jsonb :original_scrape, null: false, default: {}
       t.index :original_scrape, using: :gin
 

@@ -33,13 +33,16 @@ class Project < ApplicationRecord
   end
 
   def times_performed_text
-    if times_performed == 1
+    case times_performed
+    when 1
       'once'
-    elsif times_performed == 2
+    when 2
       'twice'
-    elsif times_performed > 2
+    when 3..10
       "#{times_performed.to_words} times"
-    end 
+    else
+      "#{times_performed} times"
+    end
   end
 
   private
