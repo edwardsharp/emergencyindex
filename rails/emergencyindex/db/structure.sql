@@ -132,9 +132,12 @@ CREATE TABLE projects (
     published_contact character varying,
     links character varying,
     description character varying,
+    description_monospace boolean,
+    footnote character varying,
     photo_credit character varying,
     published boolean DEFAULT false,
     published_by character varying,
+    original_scrape jsonb DEFAULT '{}'::jsonb NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     user_id character varying,
@@ -261,10 +264,9 @@ CREATE TABLE users (
 CREATE TABLE volumes (
     id character varying NOT NULL,
     year integer,
+    name character varying,
     open_date_string character varying,
     close_date_string character varying,
-    open_date timestamp without time zone,
-    close_date timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -352,6 +354,13 @@ CREATE INDEX index_projects_on_created_at ON projects USING btree (created_at);
 --
 
 CREATE INDEX index_projects_on_first_date ON projects USING btree (first_date);
+
+
+--
+-- Name: index_projects_on_original_scrape; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_projects_on_original_scrape ON projects USING gin (original_scrape);
 
 
 --
@@ -457,6 +466,13 @@ CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (re
 --
 
 CREATE UNIQUE INDEX index_users_on_unlock_token ON users USING btree (unlock_token);
+
+
+--
+-- Name: index_volumes_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_volumes_on_name ON volumes USING btree (name);
 
 
 --

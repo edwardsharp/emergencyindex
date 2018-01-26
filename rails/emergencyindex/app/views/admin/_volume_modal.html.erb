@@ -2,9 +2,13 @@
   <h4><%= @volume.new_record? ? 'Create New' : 'Edit' %> Volume</h4>
   <br>
   <%= form_with(url: "/admin/#{@volume.new_record? ? 'new' : 'update' }_volume", model: @volume, remote: true, id: 'volume-form', class: 'row') do |form| %>
-  	 <%= form.hidden_field :id unless @volume.new_record? %>
-  	 <div class="input-field">
-      <%= form.number_field :year, id: :volume_year, class: 'validate', required: true, min: 2000, max: 2100, disabled: (@volume.projects.count > 0) %>
+    <%= form.hidden_field :id unless @volume.new_record? %>
+    <div class="input-field">
+      <%= form.text_field :name, id: :volume_name, class: 'validate', required: true %>
+      <%= form.label :name %>
+    </div>
+    <div class="input-field">
+      <%= form.number_field :year, id: :volume_year, min: 2000, max: 2100 %>
       <%= form.label :year %>
     </div>
     <div class="input-field">
@@ -18,6 +22,6 @@
   <% end %>
 </div>
 <div class="modal-footer">
-	<span id="new-volume-error" class='red-text'></span>
+  <span id="new-volume-error" class='red-text'></span>
   <button id="save-volume" class="waves-effect btn-flat btn"><%= @volume.new_record? ? 'Create' : 'Edit' %></button>
 </div>

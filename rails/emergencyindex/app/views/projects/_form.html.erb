@@ -12,12 +12,18 @@
   <% end %>
 
   <div class="col s6">
-
   <% if project and project.attachment.url %>
     <%= form.hidden_field :attachment_file_name, value: project.attachment_file_name %>  
     <%= form.hidden_field :attachment_url, value: project.attachment.url(:large) %>
     <%= form.hidden_field :attachment_file_size, value: project.attachment_file_size %>
   <% end %>
+
+  <% if current_user.admin? %>
+    <div class="input-field">
+      <%= form.select :volume_id, Volume.all.collect {|p| [ p.name, p.id ] }.unshift(['Volume','Volume']), { disabled: 'Volume'}, class: 'mat-select' %>
+    </div>
+  <% end %>
+
   <% unless project and project.new_record? %>
     <div id="attachment-dropzone" class="dropzone">
       <div class="fallback">
@@ -122,11 +128,23 @@
       <%= form.label :description %>
     </div>
 
+    <div class="row">
+      <div class="col s3">
+        <%= form.check_box :description_monospace, id: :description_monospace %>
+        <%= form.label :description_monospace %>
+      </div>
+      <div class="input-field col s9">
+        <%= form.text_field :footnote, id: :project_footnote %>
+        <%= form.label :footnote %>
+      </div>
+    </div>
+
     <div class="input-field">
       <span class="label">Tags</span>
       <%= form.collection_select(:tag_list, Project.tags_on(:tags), :name, :name, {selected: @project.all_tags_on(:tags).map(&:name)}, {multiple: true, id: 'project_tags', class: 'form-control'}) %>
-
     </div>
+    
+
   </div>
 
 

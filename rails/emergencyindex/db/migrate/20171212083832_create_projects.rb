@@ -20,10 +20,15 @@ class CreateProjects < ActiveRecord::Migration[5.1]
       t.string :published_contact
       t.string :links
       t.string :description
+      t.boolean :description_monospace
+      t.string :footnote
       t.string :photo_credit
       
       t.boolean :published, default: false
       t.string :published_by
+
+      t.jsonb :original_scrape, null: false, default: {}
+      t.index :original_scrape, using: :gin
 
       t.timestamps null: false
       t.string :user_id

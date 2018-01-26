@@ -225,7 +225,7 @@ class AdminController < ApplicationController
   end
 
   def volume_params
-    params.require(:volume).permit(:id, :year, :open_date_string, :close_date_string)
+    params.require(:volume).permit(:id, :name, :year, :open_date_string, :close_date_string)
   end
 
 end

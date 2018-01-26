@@ -3,10 +3,9 @@ class CreateVolumes < ActiveRecord::Migration[5.1]
     create_table :volumes, id: :string do |t|
 
       t.integer :year
+      t.string :name
       t.string :open_date_string
       t.string :close_date_string
-      t.datetime :open_date
-      t.datetime :close_date
 
       t.timestamps
     end
@@ -16,6 +15,7 @@ class CreateVolumes < ActiveRecord::Migration[5.1]
     SQL
 
     add_index :volumes, :year, unique: true
+    add_index :volumes, :name, unique: true
     add_column :projects, :volume_id, :string
   end
 
