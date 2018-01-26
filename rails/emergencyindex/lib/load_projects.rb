@@ -4,6 +4,13 @@
 require "json"
 
 module LoadProjects
+
+  def self.and_export_json(file: "/Users/edward/Desktop/emergencyINDEX/index1projects_PARSED.json")
+    File.open(file,"w") do |f|
+      f.write(LoadProjects.from_json.to_json)
+    end
+  end
+
   def self.from_json(file: "/Users/edward/Desktop/emergencyINDEX/index1projects.json")
     file = File.read file
     projects = []
@@ -13,15 +20,18 @@ module LoadProjects
         h = info_from(project["info"])
         h["photo_credit"] = project["photo_credit"]
         # h["image"] = project["image"]
-        if h["title"] != project["description"][0]
-          if h["title"] == project["description"][0] + project["description"][1]
-            project["description"][0] = project["description"][0] + project["description"].delete(project["description"][1]) 
+        project["description"][0].upcase!
+        if h["title"].upcase != project["description"][0].upcase
+          if h["title"] == project["description"][0].upcase + project["description"][1].upcase
+            project["description"][0] = project["description"][0].upcase + project["description"].delete(project["description"][1]).upcase
+            project["description"][0].upcase
           end
         end
         project["description"].reject!(&:blank?)
         project["description"].each{|d| d.squish! }
         raise "mismatch title! idx: #{idx}, #{h["title"]} != #{project["description"][0]},\n h: #{h}, \nproject: #{project}" if h["title"] != project["description"][0]
-        raise "mismatch name! idx: #{idx}, #{h["name"]} != #{project["description"][1]},\n h: #{h}, \nproject: #{project}" if h["name"] != project["description"][1]
+        #p "mismatch name! idx: #{idx}, #{h["name"]} != #{project["description"][1]},\n h: #{h}, \nproject: #{project}" if h["name"] != project["description"][1]
+        h["contact_name"] = project["description"][1].upcase
         h["description"] = project["description"][2..999].join("\n\n")
         projects << h
       rescue Exception => e
@@ -34,8 +44,15 @@ module LoadProjects
   def self.info_from(i)
     i.reject!(&:empty?)
 
+    #de-ordinalize day numberz e.g. 12th -> 12
+    deo = Regexp.union(
+      /(\d+)st/,
+      /(\d+)nd/,
+      /(\d+)rd/,
+      /(\d+)th/
+    )
     begin
-      Time.strptime(i[1].gsub('first performed','').gsub('on','').squish, '%B %e, %Y').strftime('%Y/%m/%d')
+      Time.strptime(i[1].gsub('first','').gsub('performed','').gsub('on','').gsub(deo){|r| Regexp.last_match[1..4].find{|a|!a.nil?} }.squish, '%B %e, %Y').strftime('%Y/%m/%d')
     rescue
       #i guess this is a long title name
       i[0] = i[0] + i[1]
@@ -44,13 +61,13 @@ module LoadProjects
 
     begin
       h = { 
-        "title" => i[0].squish,
-        "first_performed" => Time.strptime(i[1].gsub('first performed','').gsub('on','').squish, '%B %e, %Y').strftime('%Y/%m/%d'),
+        "title" => i[0].squish.upcase,
+        "first_performed" => Time.strptime(i[1].gsub('first','').gsub('performed','').gsub('on','').gsub(deo){|r| Regexp.last_match[1..4].find{|a|!a.nil?} }.squish, '%B %e, %Y').strftime('%Y/%m/%d'),
         "venue" =>  i[2].split(',').length > 2 ?  i[2].split(',')[0..-3].join(',').squish : i[2].squish,
         "city" =>  i[2].split(',').length > 1 ? i[2].split(',')[i[2].split(',').length - 2].squish : nil,
         "country" =>  i[2].split(',').length > 1 ? i[2].split(',').last.squish : nil,
-        "times_performed" =>  intfstr(i[3].gsub('performed ','').gsub('in 2011','').gsub('times','').squish),
-        "name" =>  i[4].squish,
+        "times_performed" =>  intfstr(i[3].gsub('performed','').gsub('times','').gsub('in','').gsub('2011','').squish),
+        "name" =>  i[4].squish.upcase,
       }
       if(i.length > 8)
         h.merge!({ 
@@ -65,6 +82,7 @@ module LoadProjects
       end
       h.merge({ "original_scrape" =>  {"info" =>  i}})
     rescue Exception => e
+      p "first_performed: #{i[1]}"
       raise "parse error! e: #{e}\ni: #{i}"
     end
   end
