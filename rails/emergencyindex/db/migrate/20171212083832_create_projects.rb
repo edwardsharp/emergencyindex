@@ -20,14 +20,15 @@ class CreateProjects < ActiveRecord::Migration[5.1]
       t.string :published_contact
       t.string :links
       t.string :description
-      t.boolean :description_monospace
+      t.boolean :description_monospace, default: true
       t.string :footnote
       t.string :photo_credit
       
+      t.boolean :needs_review, default: false
       t.boolean :published, default: false
       t.string :published_by
       t.string :pages
-      
+
       t.jsonb :original_scrape, null: false, default: {}
       t.index :original_scrape, using: :gin
 
