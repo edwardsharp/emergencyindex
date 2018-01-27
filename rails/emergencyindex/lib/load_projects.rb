@@ -28,11 +28,13 @@ module LoadProjects
           end
         end
         project["description"].reject!(&:blank?)
-        project["description"].each{|d| d.squish! }
+        project["description"][0].squish!
+        project["description"][1].squish!
+        # project["description"].each{|d| d.squish! }
         raise "mismatch title! idx: #{idx}, #{h["title"]} != #{project["description"][0]},\n h: #{h}, \nproject: #{project}" if h["title"] != project["description"][0]
         #p "mismatch name! idx: #{idx}, #{h["name"]} != #{project["description"][1]},\n h: #{h}, \nproject: #{project}" if h["name"] != project["description"][1]
         h["contact_name"] = project["description"][1].upcase
-        h["description"] = project["description"][2..999].join("\n\n")
+        h["description"] = project["description"][2..999].join("\n")
         projects << h
       rescue Exception => e
         raise "error! e: #{e}\nproject: #{project}"
