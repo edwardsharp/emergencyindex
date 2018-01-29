@@ -45,8 +45,7 @@ class ProjectsController < ApplicationController
   def create
     @project = Project.new(project_params)
     @project.user = current_user
-
-    @project.volume = Volume.order(:year).last
+    @project.volume_id ||= Volume.order(:year).last.id
 
     respond_to do |format|
       if @project.save
@@ -96,7 +95,7 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:contact_name, :contact_email, :contact_postal, :contact_phone, :title, :name, :already_submitted, :collaborators, :first_date, :times_performed, :venue, :city, :state_country, :home, :published_contact, :links, :description, :attachment, :photo_credit, tag_list: [])
+      params.require(:project).permit(:volume_id, :contact_name, :contact_email, :contact_postal, :contact_phone, :title, :name, :already_submitted, :collaborators, :first_date, :times_performed, :venue, :city, :state_country, :home, :published_contact, :links, :description, :attachment, :photo_credit, tag_list: [])
     end
 
 

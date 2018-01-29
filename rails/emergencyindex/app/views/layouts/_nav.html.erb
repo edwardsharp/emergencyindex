@@ -38,7 +38,7 @@
   <a href="#" data-activates="slide-out" class="button-collapse btn-floating btn-large tooltipped" data-delay="250", data-tooltip="Show Menu"><i class="material-icons medium">radio_button_checked</i></a>
 </div>
 
-<ul id="slide-out" class="side-nav<%= ' fixed' if controller_name == 'home' or controller_name == 'projects' %>">
+<ul id="slide-out" class="side-nav<%= ' fixed' if controller_name == 'home' or (controller_name == 'projects' and action_name == 'index') or (controller_name == 'indexes' and action_name != 'index') or action_name == 'scrollspy' %>">
   <div class="sticky-nav">
   <li>
     <div id="user-nav">
@@ -89,6 +89,7 @@
   <% end %>
 
   </div>
+  <% if action_name == 'scrollspy' %>
   <div id="scrollspy-nav">
     <ul class="section table-of-contents">
       <li><a href="#introduction" data-turbolinks="false">Introduction</a></li>
@@ -99,7 +100,7 @@
       <% end %>
     </ul>
   </div>
-
+  <% end %>
 </ul>
 
 

@@ -1,19 +1,23 @@
-<h1>Projects</h1>
+<div class="fixed-margin">
+  <h1>Projects</h1>
 
-<%= search_form_for @q, class: 'row' do |f| %>
-  <div class="col s4 m3 l2">
-    <%= f.select :volume_year_in, Volume.all.collect {|p| [ p.year, p.year ] }.unshift(['Volume','Volume']), { disabled: 'Volume'}, multiple: true, class: 'mat-select' %>
+  <%= search_form_for @q, class: 'row' do |f| %>
+    <div class="col s4 m3 l2">
+      <%= f.select :volume_year_in, Volume.all.collect {|p| [ p.year, p.year ] }.unshift(['Volume','Volume']), { disabled: 'Volume'}, multiple: true, class: 'mat-select' %>
+    </div>
+    <div class="input-field col s6 m7 l9">
+      <%= f.search_field :name_or_title_or_venue_or_home_or_first_date_or_tags_name_or_description_cont %>
+      <%= f.label :name_or_title_or_venue_or_home_or_first_date_or_tags_name_or_description_cont, 'Search' %>
+    </div>
+    <div class="input-field col s2 l1">
+      <button class="btn btn-flat waves-effect waves-light" type="submit" name="submit">
+        <i class="material-icons">search</i>
+      </button>
+    </div>
+  <% end %>
+
+
+  <div id="projects-list">
+    <%= render 'projects_table' %>
   </div>
-  <div class="input-field col s6 m7 l9">
-    <%= f.search_field :name_or_title_or_venue_or_home_or_first_date_or_tags_name_or_description_cont %>
-    <%= f.label :name_or_title_or_venue_or_home_or_first_date_or_tags_name_or_description_cont, 'Search' %>
-  </div>
-  <div class="input-field col s2 l1">
-    <button class="btn btn-flat waves-effect waves-light" type="submit" name="submit">
-      <i class="material-icons">search</i>
-    </button>
-  </div>
-<% end %>
-<div id="projects-list">
-  <%= render 'projects_table' %>
 </div>

@@ -5,6 +5,67 @@ require "json"
 
 module LoadProjects
 
+  def self.and_create_images(file: "/Users/edward/Desktop/emergencyINDEX/index1projects.json")
+    file = File.read file
+    problemz = []
+    JSON.parse(file).each_with_index do |project, idx|
+      #/Users/edward/Desktop/emergencyINDEX/idx1html2/INDEX1-web-resources/image
+      
+      begin
+        f = File.new("/Users/edward/Desktop/emergencyINDEX/idx1html2/INDEX1-web-resources/image/#{project["image"].gsub('.png','.jpg')}","r")
+      rescue
+        problemz << ['no file found!', idx, project["image"], project["info"][0]]
+        next
+      end
+
+      proj = Project.where("title ILIKE ?", "%#{project["info"][0].squish.upcase}%").first
+
+      problemz << ['no project found!',idx, project["image"], project["info"][0]] if proj.nil?
+      next if proj.nil?
+      proj.attachment = f
+      proj.save!(validate: false)
+
+      # img_probz.each do |img_prob|
+      #   title = img_prob[3].nil? ? img_prob[2] : img_prob[3]
+      #   i = img_prob[3].nil? ? img_prob[1] : img_prob[2]
+      #   proj = Project.where("title ILIKE ?", "%#{title.gsub(',','').squish.upcase}%").first
+      #   proj.attachment = File.new("/Users/edward/Desktop/emergencyINDEX/idx1html2/INDEX1-web-resources/image/#{project["image"].gsub('..','.').gsub('.png','.jpg')}","r")
+      #   proj.save!(validate: false)
+      # end
+    end
+    problemz
+  end
+
+  def self.and_create_projects(file: "/Users/edward/Desktop/emergencyINDEX/index1projects_PARSED_and_fixed.json")
+    file = File.read file
+    problemz = []
+    JSON.parse(file).each do |project|
+      # begin
+      #   project = Project.create! project
+      # rescue
+      #   # p "rescue! project: #{project}"
+      #   problemz << [project, 'CANT CREATE!']
+      #   next
+      # end
+      project = Project.new project.merge({
+        volume: Volume.where(year: 2011).first, 
+        user: User.first, 
+        already_submitted: false, 
+        published: true
+      })
+
+      project.save!(validate: false)
+      # begin
+      #   project.save!
+      # rescue 
+      #   # p "rescue! project: #{project.errors}"
+      #   problemz << [project, project.errors]
+      # end
+    end
+    # p "\n\n\nPROBLEMZ: #{problemz}\n\n\n"
+    problemz
+  end
+
   def self.and_export_json(file: "/Users/edward/Desktop/emergencyINDEX/index1projects_PARSED.json")
     File.open(file,"w") do |f|
       f.write(LoadProjects.from_json.to_json)
@@ -34,7 +95,7 @@ module LoadProjects
         raise "mismatch title! idx: #{idx}, #{h["title"]} != #{project["description"][0]},\n h: #{h}, \nproject: #{project}" if h["title"] != project["description"][0]
         #p "mismatch name! idx: #{idx}, #{h["name"]} != #{project["description"][1]},\n h: #{h}, \nproject: #{project}" if h["name"] != project["description"][1]
         h["contact_name"] = project["description"][1].upcase
-        h["description"] = project["description"][2..999].join("\n")
+        h["description"] = project["description"][2..999].join("\n\n")
         projects << h
       rescue Exception => e
         raise "error! e: #{e}\nproject: #{project}"
@@ -68,7 +129,7 @@ module LoadProjects
         "venue" =>  i[2].split(',').length > 2 ?  i[2].split(',')[0..-3].join(',').squish : i[2].squish,
         "city" =>  i[2].split(',').length > 1 ? i[2].split(',')[i[2].split(',').length - 2].squish : nil,
         "country" =>  i[2].split(',').length > 1 ? i[2].split(',').last.squish : nil,
-        "times_performed" =>  intfstr(i[3].gsub('performed','').gsub('times','').gsub('in','').gsub('2011','').squish),
+        "times_performed" =>  intfstr(i[3].gsub('performed','').gsub('times','').gsub('in 2011','').squish),
         "name" =>  i[4].squish.upcase,
       }
       if(i.length > 8)
