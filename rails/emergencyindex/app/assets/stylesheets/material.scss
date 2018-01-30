@@ -28,9 +28,15 @@ button{
 .btn-icon {
   padding: 0 0.25rem;
 }
+.fixed-margin{
+  margin-right: 300px;
+}
 
 @media #{$medium-and-down} {
   .btn-icon {
     padding: 0 2rem;
+  }
+  .fixed-margin{
+    margin-right: 0;
   }
 }

@@ -35,6 +35,7 @@ Rails.application.routes.draw do
 
   get 'indexes', to: 'indexes#index'
   get 'indexes/terms'
+  get 'indexes/terms/:term', to: 'indexes#term', as: 'index_term'
   get 'indexes/contributors'
   get 'indexes/places'
 

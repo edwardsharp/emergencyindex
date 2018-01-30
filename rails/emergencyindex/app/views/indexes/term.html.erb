@@ -1,0 +1,13 @@
+<div class="collection fixed-margin">
+  
+  <div class="collection-item header"><h4><%= link_to 'Index', indexes_path %> &rarr; <%= link_to 'Terms', indexes_terms_path %> &rarr; <%= params[:term] %></h4></div>
+  
+  <% if @projects.blank? %>
+    <h5 class="collection-item header">No Projects Found!</h5>
+  <% else %>
+    <h5>&nbsp;Projects</h5>
+    <% @projects.each do |project| %>
+      <%= link_to "#{project[0]} - #{project[1]}", project_path(project[2]), class: 'collection-item' %>
+    <% end %>
+  <% end %>
+</div>

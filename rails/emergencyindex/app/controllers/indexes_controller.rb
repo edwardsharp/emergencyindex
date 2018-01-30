@@ -6,8 +6,12 @@ class IndexesController < ApplicationController
     @terms = Project.published
       .unscope(:order)
       .tag_counts
-      .order(:name)
+      .order('LOWER(name)')
       .paginate({page: params[:page], per_page: 100})
+  end
+
+  def term
+    @projects = Project.published.tagged_with(params[:term]).pluck(:title, :name, :id)
   end
 
   def contributors

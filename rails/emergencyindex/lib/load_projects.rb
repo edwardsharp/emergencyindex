@@ -2,40 +2,102 @@
 # -or-
 # load Rails.root.join('lib/load_projects.rb')
 require "json"
+require 'nokogiri'
 
 module LoadProjects
 
-  def self.and_create_terms(file: "/Users/edward/Desktop/emergencyINDEX/index1terms.json")
+  #this one will take a bit...
+  def self.and_create_term_tags(file: "/Users/edward/Desktop/emergencyINDEX/index1terms.json")
+
+    f = File.read file
+    
+    aliases = []
+
+    JSON.parse(f).each do |term|
+      _name = term["name"]
+      _subTerm = nil
+
+      if term["alias"]
+        aliases << term
+        next
+      end 
+      if term["pages"]
+        term["pages"].gsub!(/\(.*?\)/) do |fixNestedCommaBeforeSplit|
+          fixNestedCommaBeforeSplit.gsub!(',', '|')
+        end
+        term["pages"].split(/,|;/).each do |t|
+          _page = t.scan(/\d+/)[0]
+          project = Project.where('pages LIKE ?', "%#{_page.rjust(3, '0')}%").first
+          _tag = nil
+          if t.scan /[a-zA-Z]/
+            _subTerm = t.gsub(_page,'').squish.gsub('|',',')
+            _tag = "#{_name} #{_subTerm}"
+          else 
+            if _subTerm
+              _tag = "#{_name} #{_subTerm}"
+            else
+              _tag = "#{_name}"
+            end
+          end
+          project.tag_list.add(_tag)
+          project.save(validate: false)
+          if term["see_also"]
+            _t = Project.tagged_with(_tag).first.tags.first
+            if _t.see_also.nil?
+              _t.see_also = term["see_also"]
+              _t.save
+            else
+              unless _t.see_also.include?(term["see_also"])
+                _t.see_also = "#{_t.see_also}, #{term["see_also"]}" 
+                _t.save
+              end
+            end
+          end
+        end #term["pages"].split
+      end #if term["pages"]
+    end #terms.each
+    aliases
+  end
+
+  def self.and_create_terms(file: "/Users/edward/Desktop/emergencyINDEX/index1terms.html")
 
     #.split /,|;/
-    # json[0]["description"].each
-    terms = {}
-    _term = nil
-    _pages = nil
-    _seealso = nil
-    terms_json.each_with_index do |t,i|
-      next if t.squish.empty?
-      if t.scan /see /
-        _seealso = t.squish
-        next
-      end
-      if _term.nil?
-        _term = t.squish
-      else
-        _pages = t.squish
-      end
-      if _term and _pages
-        terms[_term] ||= {}
-        terms[_term]['pages'] = _pages
-        unless _seealso.nil?
-          terms[_term] ||= {}
-          terms[_term][_seealso] = t.squish
-        end
+    page = Nokogiri::HTML(open(file))
 
-        _term = nil
-        _pages = nil
+    terms = []
+    page.css('p').each do |_p|
+      begin
+        _term = {}
+        _term['name'] = _p.css('*[class*="INDEX-term"]').first.text.squish
+        
+        _see_also = false
+        _alias = false
+        _p.children[1..999].each do |child|
+          next if child.text.blank?
+
+          if child.text.match /see a/
+            _see_also = true
+          elsif _see_also
+            _term['see_also'] = child.text.gsub('lso ','').squish
+            _see_also = false
+          elsif child.text.match /see /
+            _alias = true
+          elsif _alias
+            _term['alias'] = child.text.squish
+            _alias = false
+          elsif child.text.match /\d+/
+            _term['pages'] = child.text.squish
+          end
+        end #_p.children .each
+        terms << _term
+
+      rescue 
+        raise "PARSE ERROR _p:\n#{_p}\n"
       end
     end
+
+    File.open("/Users/edward/Desktop/emergencyINDEX/index1terms.json","w"){|f| f.write(terms.to_json)}
+
   end
 
   def self.show_duplicates
@@ -228,24 +290,3 @@ module LoadProjects
     h[str].nil? ? str.to_i : h[str]
   end
 end
-
-# {
-#   "image" =>  "The_Island.jpg",
-#   "info" =>  [
-#     "THE ISLAND",
-#     "first performed on April 11, 2011",
-#     "Dixon Place, New York, NY",
-#     "performed once in 2011",
-#     "FLY BY NIGHT THEATER",
-#     "Matt Reeck",
-#     "Brooklyn, NY",
-#     "matt.reeck@gmail.com"
-#   ],
-#   "photo_credit" =>  "Rob Lariviere",
-#   "description" =>  [
-#     "THE ISLAND",
-#     "FLY BY NIGHT THEATER",
-#     "“The Island” addresses the problem of identity politics, or the stereotypes we assume from the identity-related information that appearance provides. This happens within the play and between the audience and the actors. Of the play’s three characters, two have unstable identities. The Woman finds the Boatman standing next to a boat, but he isn’t really a boatman (the boat is his brother’s). In addition, the Guide is really a religion student, willing to serve as a guide for uncertain, perhaps nefarious, reasons. The play tempts the audience to misread identity-related aspects of its staging. The play never names its setting, and the characters themselves aren’t named. It takes place in a zero-space, or minimalist, existential one, in which clues (cues) for nation, race and religion are few and, when present, send mixed messages. Casting choices help confuse the sense of place and identity. The Boatman and the Guide share a language that the Woman doesn’t, but they are hostile to each other, marking them as relatively foreign as well. Then, the persons playing these two roles must clearly not be from the same “native” country: they must be different races. This frustrates the audience’s ability to fill in absent identity-related information by extrapolating from “real-world” details read off the actors’ bodies. Instead of coming to a firm conclusion, the play hopes to invalidate whatever stopgap answers the audience arrived at during its course. ",
-#     "The situation of this play is roughly postcolonial, and as such echoes Edouard Glissant’s poetics of relation. Glissant argues that cultures are largely opaque to each other, and when persons of different cultures inhabit a shared space they should approach each other slowly and with the constant expectation of strangeness. The world may be uniformly visible, but its visibility can be the immediate source of error when we facilely over-read, or over-interpret, its signs. “The Island” riffs on this sort of projection. The Woman has uncompromising but naïve expectations about finding a particular wall on a particular island that her guidebook asserts exists but about which the natives are ambivalent. Yet they are eager to please, and they don’t seem to have anything better to do. They go along with the Woman, trying their best to satisfy her, reshaping an ambiguous reality to meet her demands for factuality and clarity."
-#   ]
-# }

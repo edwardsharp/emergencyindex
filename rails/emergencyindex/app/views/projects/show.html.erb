@@ -5,7 +5,7 @@ $(document).on('ready turbolinks:load', function() {
 </script>
 
 <div class='row'>
-  <div class="col s12 m4">
+  <div class="col s12 m4 project-info">
     <%- if @project.attachment.present? %>
       
       <%= image_tag @project.attachment.url(:large), class: 'materialboxed project-img', 'data-caption': "photo: #{@project.photo_credit}"  %>
@@ -70,9 +70,9 @@ $(document).on('ready turbolinks:load', function() {
     <p>
       <span>Tags:</span>
       <% @project.all_tags_list.each_with_index do |tag, idx| %>
-        <b>
-          <%= tag %><%= ',' if idx < @project.all_tags_list.count - 1 %>
-        </b>
+        <%= link_to index_term_path(tag) do %>
+          <%= tag %><%= ';' if idx < @project.all_tags_list.count - 1 %>
+        <% end %>
       <% end %>
     </p>
     <% end %>

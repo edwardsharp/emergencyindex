@@ -110,14 +110,10 @@ label[for="project_already_submitted"], label[for="project_description_monospace
   margin-bottom: 100px;
 }
 
-.fixed-margin{
-  margin-right: 300px;
+.project-info{
+  overflow-wrap: break-word;
 }
-@media #{$medium-and-down} {
-  .fixed-margin{
-    margin-right: 0;
-  }
-}
+
 
 @media #{$small-and-down} {
   .project-img{

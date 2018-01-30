@@ -202,7 +202,9 @@ ALTER SEQUENCE taggings_id_seq OWNED BY taggings.id;
 CREATE TABLE tags (
     id bigint NOT NULL,
     name character varying,
-    taggings_count integer DEFAULT 0
+    taggings_count integer DEFAULT 0,
+    see_also character varying,
+    alias character varying
 );
 
 
@@ -537,6 +539,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180118212248'),
 ('20180119013453'),
 ('20180119224012'),
-('20180124070817');
+('20180124070817'),
+('20180130045044');
 
 
