@@ -48,7 +48,7 @@ class ProjectsController < ApplicationController
     @project.volume_id ||= Volume.order(:year).last.id
 
     respond_to do |format|
-      if @project.save
+      if @project.save(validate: !current_user.admin?)
         format.html { redirect_to @project, notice: 'Project was successfully created.' }
         format.json { render :show, status: :created, location: @project }
       else
@@ -61,8 +61,11 @@ class ProjectsController < ApplicationController
   # PATCH/PUT /projects/1
   # PATCH/PUT /projects/1.json
   def update
+
+    @project.assign_attributes(project_params)
+
     respond_to do |format|
-      if @project.update(project_params)
+      if @project.save(validate: !current_user.admin?)
         format.html { redirect_to @project, notice: 'Project was successfully updated.' }
         format.json { render :show, status: :ok, location: @project }
       else

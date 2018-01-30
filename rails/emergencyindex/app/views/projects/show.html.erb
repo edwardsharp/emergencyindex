@@ -26,12 +26,12 @@ $(document).on('ready turbolinks:load', function() {
       performed <%= @project.times_performed_text %> in <%= @project.volume.year %>.
     </p>
 
-    <h5>
+    <h5<%= " class=project-name-with-collaborators" unless @project.collaborators.blank?  %>>
       <strong><%= @project.name %></strong>
     </h5>
 
     <%- unless @project.collaborators.blank? %>
-    <p>
+    <p class="project-collaborators">
       <%= @project.collaborators %>
     </p>
     <%- end %>
@@ -43,10 +43,16 @@ $(document).on('ready turbolinks:load', function() {
       <%- unless @project.links.blank? %>
         <br />
         <% @project.links.split.each do |link| %>
-          <%= link_to(link, link) %>
+          <%= link_to(link, "http://#{link}") %>
         <% end %>
       <%- end %>
     </p>
+
+    <%- unless @project.footnote.blank? %>
+    <p>
+      <%= @project.footnote %>
+    </p>
+    <%- end %>
   </div>
 
   <div class="col s12 m8 right-panel">
@@ -58,9 +64,7 @@ $(document).on('ready turbolinks:load', function() {
       <strong><%= @project.contact_name %></strong>
     </h6>
 
-    <p class="description">
-      <%= @project.description %>
-    </p>
+    <p class="description"><%= @project.description.gsub /\n/, "\n\n" %></p>
 
     <% unless @project.all_tags_list.blank? %>
     <p>

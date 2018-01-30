@@ -5,6 +5,63 @@ require "json"
 
 module LoadProjects
 
+  def self.and_create_terms(file: "/Users/edward/Desktop/emergencyINDEX/index1terms.json")
+
+    #.split /,|;/
+    # json[0]["description"].each
+    terms = {}
+    _term = nil
+    _pages = nil
+    _seealso = nil
+    terms_json.each_with_index do |t,i|
+      next if t.squish.empty?
+      if t.scan /see /
+        _seealso = t.squish
+        next
+      end
+      if _term.nil?
+        _term = t.squish
+      else
+        _pages = t.squish
+      end
+      if _term and _pages
+        terms[_term] ||= {}
+        terms[_term]['pages'] = _pages
+        unless _seealso.nil?
+          terms[_term] ||= {}
+          terms[_term][_seealso] = t.squish
+        end
+
+        _term = nil
+        _pages = nil
+      end
+    end
+  end
+
+  def self.show_duplicates
+    Project.unscope(:order).select(:title,:name).group(:title,:name).having("count(*) > 1").size
+  end
+
+  def self.and_create_pages(dir: "/Users/edward/Desktop/emergencyINDEX/eps/txt/*.txt")
+    projects_updated = 0
+    Dir[dir].each do |txt|
+      f = IO.readlines(txt)
+      page = f[-1].squish.split('PAGE ')[1].split(' ')[0] rescue next
+      next if page.to_i.even?
+      title_be_like = f[0].squish.gsub(/[^a-z0-9\s]/i, '%')
+      projects = Project.where('title ILIKE ?', "%#{title_be_like}%")
+      if projects.count > 1
+        projects = Project.where('title ILIKE ? AND name ILIKE ?', "%#{title_be_like}%", "%#{f[1].squish}%")
+      end
+      raise "multiple projecs found!" if projects.count > 1
+      project = projects.first
+      project.pages = "#{(page.to_i - 1).to_s.rjust(3, '0')}-#{page.rjust(3, '0')}"
+      project.save(validate: false)
+      projects_updated += 1
+    end
+    projects_updated
+  end
+
   def self.and_create_images(file: "/Users/edward/Desktop/emergencyINDEX/index1projects.json")
     file = File.read file
     problemz = []
@@ -79,7 +136,7 @@ module LoadProjects
       begin
         h = {}
         h = info_from(project["info"])
-        h["photo_credit"] = project["photo_credit"]
+        h["photo_credit"] = project["photo_credit"].squish
         # h["image"] = project["image"]
         project["description"][0].upcase!
         if h["title"].upcase != project["description"][0].upcase

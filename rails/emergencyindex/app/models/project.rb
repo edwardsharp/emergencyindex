@@ -16,7 +16,7 @@ class Project < ApplicationRecord
   validate :project_description
   validate :image_dimensions
 
-  default_scope { order(created_at: :desc) }
+  default_scope { order(pages: :asc) }
 
   scope :published, -> { where(published: true) }
   

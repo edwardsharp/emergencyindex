@@ -3,17 +3,17 @@
 
 Dropzone.autoDiscover = false;
 
-var projectRowClick = function(e,url){
-  // console.log('projectRowClick! e:',e,'url:',url);
-  window.location = url;
-}
-
 function getParameterByName(name) {
   var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
   return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
 
 $(document).on('ready turbolinks:load', function() {
+
+  $('#projects-table tbody tr td:not(:last-child)').unbind('click');
+  $('#projects-table tbody tr td:not(:last-child)').click(function () {
+    location.href = $(this).parent().data('project-href');
+  });
 
 	setTimeout(function(){
 		// $('#project_description').focus();
