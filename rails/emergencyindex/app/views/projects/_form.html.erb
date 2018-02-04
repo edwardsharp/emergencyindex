@@ -11,7 +11,7 @@
     </div>
   <% end %>
 
-  <div class="col s6">
+  <div class="col s12 m6">
   <% if project and project.attachment.url %>
     <%= form.hidden_field :attachment_file_name, value: project.attachment_file_name %>  
     <%= form.hidden_field :attachment_url, value: project.attachment.url(:large) %>
@@ -122,7 +122,7 @@
     </div>
 
   </div>
-  <div class="col s6">
+  <div class="col s12 m6">
     <div class="input-field">
       <%= form.text_area :description, id: :project_description, class: 'materialize-textarea validate', required: true %>
       <%= form.label :description %>
