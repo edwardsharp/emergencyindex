@@ -3,6 +3,7 @@
 
 		<span>Name: <%= volume.name %></span> 
 		<span>Year: <%= volume.year %></span>
+		<% if volume.official %><span>(Official)</span><% end %>
 		<span>Open: <%= volume.open_date_string %></span>
 		<span>Close: <%= volume.close_date_string %></span>
 		<span>(<%= volume.projects.count %> Project<%= 's' if volume.projects.count == 0 or volume.projects.count > 1 %>)</span>

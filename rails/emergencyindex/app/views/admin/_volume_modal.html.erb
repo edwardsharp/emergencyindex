@@ -19,6 +19,10 @@
       <%= form.text_field :close_date_string, id: :volume_close_date, class: 'datepicker' %>
       <%= form.label :close_date %>
     </div>
+    <div>
+      <%= form.check_box :official, id: :volume_official %>
+      <%= form.label :official %>
+    </div>
   <% end %>
 </div>
 <div class="modal-footer">

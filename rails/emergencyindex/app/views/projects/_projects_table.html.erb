@@ -6,17 +6,17 @@
       <tr>
         <% if user_signed_in? and current_user.admin? %>
         <th class="ellipsis maxwidth">
-          <%= sort_link(@q, :submitted) %>
+          <%= sort_link(@q, :submitted, {}, {remote: true}) %>
         </th>
-        <th class="ellipsis maxwidth"><%= sort_link(@q, :published) %></th>
+        <th class="ellipsis maxwidth"><%= sort_link(@q, :published, {}, {remote: true}) %></th>
         <% end %>
-        <th class="ellipsis maxwidth"><%= sort_link(@q, :volume) %></th>
-        <th class="ellipsis"><%= sort_link(@q, :name) %></th>
-        <th class="ellipsis"><%= sort_link(@q, :title) %></th>
-        <th class="ellipsis"><%= sort_link(@q, :first_date) %></th>
-        <th class="ellipsis"><%= sort_link(@q, :venue) %></th>
-        <th class="ellipsis"><%= sort_link(@q, :home) %></th>
-        <th class="ellipsis"><%= sort_link(@q, :times_performed, '#') %></th>
+        <th class="ellipsis maxwidth"><%= sort_link(@q, :volume, {}, {remote: true}) %></th>
+        <th class="ellipsis"><%= sort_link(@q, :name, {}, {remote: true}) %></th>
+        <th class="ellipsis"><%= sort_link(@q, :title, {}, {remote: true}) %></th>
+        <th class="ellipsis"><%= sort_link(@q, :first_date, {}, {remote: true}) %></th>
+        <th class="ellipsis"><%= sort_link(@q, :venue, {}, {remote: true}) %></th>
+        <th class="ellipsis"><%= sort_link(@q, :home, {}, {remote: true}) %></th>
+        <th class="ellipsis">#</th>
         <th></th>
       </tr>
     </thead>

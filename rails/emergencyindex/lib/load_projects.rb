@@ -6,7 +6,7 @@ require 'nokogiri'
 
 module LoadProjects
 
-  #this one will take a bit...
+  #this one will take a bit... it would be faster to create a hash of page numberz => [..tags]
   def self.and_create_term_tags(file: "/Users/edward/Desktop/emergencyINDEX/index1terms.json")
 
     f = File.read file

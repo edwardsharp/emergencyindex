@@ -272,7 +272,8 @@ CREATE TABLE volumes (
     open_date_string character varying,
     close_date_string character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    official boolean DEFAULT false
 );
 
 
@@ -540,6 +541,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180119013453'),
 ('20180119224012'),
 ('20180124070817'),
-('20180130045044');
+('20180130045044'),
+('20180204003421');
 
 
