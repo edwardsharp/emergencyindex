@@ -22,12 +22,14 @@
 //= require_tree .
 
 $(document).on('turbolinks:load', function() {
-  $('.mat-select').material_select('destroy');
-  $('.mat-select').material_select();
-  try{
-  	// M.updateTextFields();
-  	Materialize.updateTextFields();
-  }catch(e){
-  	//eh...
-  }
+  setTimeout(function(){
+    $('.mat-select').material_select('destroy');
+    $('.mat-select').material_select();
+    try{
+      // M.updateTextFields();
+      Materialize.updateTextFields();
+    }catch(e){
+      //eh...
+    }
+  },600)
 });
