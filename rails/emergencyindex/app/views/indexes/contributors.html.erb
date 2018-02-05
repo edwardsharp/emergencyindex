@@ -1,17 +1,19 @@
-<ul class="collapsible popout fixed-margin" data-collapsible="accordion">
-  <li class="collection-item header"><h4><%= link_to 'Index', indexes_path %> &rarr; Contributors</h4></li>
-  <% @contributors.each do |project| %>
-	  <li>
-	    <div class="collapsible-header flex-header"><span><%= project.contact_name %></span><!-- <span class="new badge" data-badge-caption="project<%# 's' if project.count != 1 %>"><%# project.count %></span> --></div>
-	    <div class="collapsible-body">
-	    	
-	    	<div class="collection">
-	    		<b>&nbsp;Projects</b>
-		    	<%= link_to  "<b>VOLUME #{project.volume_name}:</b> ".html_safe + "#{project.title} - #{project.contact_name}", project_path(project.id), class: 'collection-item' %>
-		    </div>
+<div class="fixed-margin">
+  <ul class="collapsible popout" data-collapsible="accordion">
+    <li class="collection-item header"><h4><%= link_to 'Index', indexes_path %> &rarr; Contributors</h4></li>
+    <% @contributors.each do |project| %>
+      <li>
+        <div class="collapsible-header flex-header"><span><%= project.contact_name %></span><!-- <span class="new badge" data-badge-caption="project<%# 's' if project.count != 1 %>"><%# project.count %></span> --></div>
+        <div class="collapsible-body">
+          
+          <div class="collection">
+            <b>&nbsp;Projects</b>
+            <%= link_to  "<b>VOLUME #{project.volume_name}:</b> ".html_safe + "#{project.title} - #{project.contact_name}", project_path(project.id), class: 'collection-item' %>
+          </div>
 
-	    </div>
-	  </li>
-	<% end %>
-</ul>
-<%= will_paginate @contributors %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+  <%= will_paginate @contributors %>
+</div>

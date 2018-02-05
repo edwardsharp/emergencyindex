@@ -1,24 +1,24 @@
 <%= search_form_for @q, url: '/admin/projects-list', remote: true, class: 'row' do |f| %>
 
-	<div class="col s12">
-		<%= f.check_box :attachment_file_name_null %>
-		<%= f.label :attachment_file_name_null, 'No Image' %>
-	</div>
-	<div class="col s6 m3 l2">
-  	<%= f.select :published_in, [['Published', true],['Unpublished', false]], {}, multiple: true, class: 'mat-select' %>
-	</div>
-	<div class="col s6 m3 l2">
-  	<%= f.select :volume_year_in, Volume.all.collect {|p| [ p.year, p.year ] }.unshift(['Volume','Volume']), { disabled: 'Volume'}, multiple: true, class: 'mat-select' %>
-	</div>
-	<div class="input-field col s9 m4 l7">
-	  <%= f.search_field :name_or_title_or_venue_or_home_or_first_date_or_tags_name_or_description_cont %>
-	  <%= f.label :name_or_title_or_venue_or_home_or_first_date_or_tags_name_or_description_cont, "Search" %>
-	</div>
-	<div class="input-field col s3 m2 l1">
-		<button class="btn waves-effect waves-light tooltipped" type="submit" name="submit" data-tooltip="Search Projects">
-	    <i class="material-icons">search</i>
-	  </button>
-	</div>
+  <div class="col s12">
+    <%= f.check_box :attachment_file_name_null %>
+    <%= f.label :attachment_file_name_null, 'No Image' %>
+  </div>
+  <div class="col s6 m3 l2">
+    <%= f.select :published_in, [['Published', true],['Unpublished', false]], {}, multiple: true, class: 'mat-select' %>
+  </div>
+  <div class="col s6 m3 l2">
+    <%= f.select :volume_year_in, Volume.all.collect {|p| [ p.year, p.year ] }.unshift(['Volume','Volume']), { disabled: 'Volume'}, multiple: true, class: 'mat-select' %>
+  </div>
+  <div class="input-field col s9 m4 l7">
+    <%= f.search_field :name_or_title_or_venue_or_home_or_first_date_or_tags_name_or_description_cont %>
+    <%= f.label :name_or_title_or_venue_or_home_or_first_date_or_tags_name_or_description_cont, "Search" %>
+  </div>
+  <div class="input-field col s3 m2 l1">
+    <button class="btn waves-effect waves-light tooltipped" type="submit" name="submit" data-tooltip="Search Projects">
+      <i class="material-icons">search</i>
+    </button>
+  </div>
 
 <% end %>
 
@@ -29,6 +29,6 @@
 
 
 <div id="projects-list">
-	<%= render 'projects_list' %>
+  <%= render 'projects_list' %>
 </div>
 

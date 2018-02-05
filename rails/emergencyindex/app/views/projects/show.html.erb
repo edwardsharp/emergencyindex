@@ -68,10 +68,9 @@ $(document).on('ready turbolinks:load', function() {
 
     <% unless @project.all_tags_list.blank? %>
     <p>
-      <span>Tags:</span>
-      <% @project.all_tags_list.each_with_index do |tag, idx| %>
-        <%= link_to index_term_path(tag) do %>
-          <%= tag %><%= ';' if idx < @project.all_tags_list.count - 1 %>
+      <% @project.all_tags_list.each do |tag| %>
+        <%= link_to index_term_path(tag), class: 'chip' do %>
+          <%= tag %>
         <% end %>
       <% end %>
     </p>

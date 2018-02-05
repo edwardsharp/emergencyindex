@@ -2,9 +2,9 @@
   <div class="col s12">
     <% @projects.each do |id, pages| %>
       <div id="<%= id %>" class="section scrollspy">
-      	<h1><%= pages %></h1>
+        <h1><%= pages %></h1>
         <div class="progress">
-        	<div class="indeterminate"></div>
+          <div class="indeterminate"></div>
         </div>
       </div>
     <% end %>
@@ -38,13 +38,13 @@ $(function() {
     // }, 500);
 
     if($(this).find('.progress').length){
-    	console.log('gonna AJAX!');
-    	$.ajax({
-	      url: '/volume/project/'+$(this).attr('id'),
-	      method: "GET"
-	    });
+      console.log('gonna AJAX!');
+      $.ajax({
+        url: '/volume/project/'+$(this).attr('id'),
+        method: "GET"
+      });
     }else{
-    	console.log('NO AJAX 4U...');
+      console.log('NO AJAX 4U...');
     }
     
 

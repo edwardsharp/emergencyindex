@@ -1,17 +1,19 @@
-<ul class="collapsible popout fixed-margin" data-collapsible="accordion">
-  <li class="collection-item header"><h4><%= link_to 'Index', indexes_path %> &rarr; Terms</h4></li>
-  <% @terms.each do |term| %>
-	  <li>
-	    <div class="collapsible-header flex-header"><span><%= term.name %></span><span class="new badge" data-badge-caption="project<%= 's' if term.taggings_count != 1 %>"><%= term.taggings_count %></span></div>
-	    <div class="collapsible-body">
-	    	<div class="collection">
-	    		<b>&nbsp;Projects</b>
-		    	<% Project.published.tagged_with(term.name).pluck(:title, :name, :id).each do |project| %>
-			    	<%= link_to "#{project[0]} - #{project[1]}", project_path(project[2]), class: 'collection-item' %>
-		    	<% end %>
-		    </div>
-	    </div>
-	  </li>
-	<% end %>
-</ul>
-<%= will_paginate @terms %>
+<div class="fixed-margin">
+  <ul class="collapsible popout" data-collapsible="accordion">
+    <li class="collection-item header"><h4><%= link_to 'Index', indexes_path %> &rarr; Terms</h4></li>
+    <% @terms.each do |term| %>
+      <li>
+        <div class="collapsible-header flex-header"><span><%= term.name %></span><span class="new badge" data-badge-caption="project<%= 's' if term.taggings_count != 1 %>"><%= term.taggings_count %></span></div>
+        <div class="collapsible-body">
+          <div class="collection">
+            <b>&nbsp;Projects</b>
+            <% Project.published.tagged_with(term.name).pluck(:title, :name, :id).each do |project| %>
+              <%= link_to "#{project[0]} - #{project[1]}", project_path(project[2]), class: 'collection-item' %>
+            <% end %>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+  <%= will_paginate @terms %>
+</div>
