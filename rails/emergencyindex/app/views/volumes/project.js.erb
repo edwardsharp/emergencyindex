@@ -1,0 +1,3 @@
+$('.material-tooltip').remove();
+$('#<%= @project.id %>').html("<%= j render(template: 'projects/show') %>");
+$('.tooltipped').tooltip();

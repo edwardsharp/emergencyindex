@@ -1,5 +1,9 @@
 <%= search_form_for @q, url: '/admin/projects-list', remote: true, class: 'row' do |f| %>
 
+	<div class="col s12">
+		<%= f.check_box :attachment_file_name_null %>
+		<%= f.label :attachment_file_name_null, 'No Image' %>
+	</div>
 	<div class="col s6 m3 l2">
   	<%= f.select :published_in, [['Published', true],['Unpublished', false]], {}, multiple: true, class: 'mat-select' %>
 	</div>
@@ -15,6 +19,7 @@
 	    <i class="material-icons">search</i>
 	  </button>
 	</div>
+
 <% end %>
 
  <!--  <div class="col s2">

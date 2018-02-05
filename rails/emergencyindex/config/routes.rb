@@ -39,4 +39,7 @@ Rails.application.routes.draw do
   get 'indexes/contributors'
   get 'indexes/places'
 
+  get 'volume/:volume', to: 'volumes#index', as: 'volume'
+  get 'volume/project/:id', to: 'volumes#project', as: 'volume_project'
+  
 end

@@ -1,0 +1,66 @@
+<div class="row fixed-margin">
+  <div class="col s12">
+    <% @projects.each do |id, pages| %>
+      <div id="<%= id %>" class="section scrollspy">
+      	<h1><%= pages %></h1>
+        <div class="progress">
+        	<div class="indeterminate"></div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  
+</div>
+<script type="text/javascript">
+$(function() {
+
+  $('.scrollspy').scrollSpy();
+
+
+  var scrollSpyEnter = function() {
+    // console.log('scrollSpy:enter! $(this):', $(this));
+    var $navElem = $('#scrollspy-nav').find('a[href="#' + $(this).attr('id') + '"]');
+    $navElem.addClass('active');
+
+    // console.log('scrollSpyEnter!');
+    // console.log('animate from top: $("#scrollspy-nav").offset().top:',$('#scrollspy-nav').offset().top, ' $navElem.offset().top:',$navElem.offset().top );
+    // console.log('scrollTop:',$navElem.offset().top - $('#scrollspy-nav').offset().top);
+    $('#slide-out').animate({
+        scrollTop: $navElem.offset().top - $('#scrollspy-nav').offset().top
+    }, 100);
+
+    for(i=0;i < $('.collapsible-nav-item').length; i++){
+      $('.collapsible-nav').collapsible('close',i);
+    }
+    var _this = $(this);
+    // setTimeout(function(){
+    //   _this.find('.progress').remove();
+    // }, 500);
+
+    if($(this).find('.progress').length){
+    	console.log('gonna AJAX!');
+    	$.ajax({
+	      url: '/volume/project/'+$(this).attr('id'),
+	      method: "GET"
+	    });
+    }else{
+    	console.log('NO AJAX 4U...');
+    }
+    
+
+  }
+
+  $('.scrollspy').on('scrollSpy:enter', $.debounce(100, scrollSpyEnter) );
+  $('.scrollspy').on('scrollSpy:exit', function() {
+    // console.log('scrollSpy:exit! $(this):', $(this));
+    $('#scrollspy-nav').find('a[href="#' + $(this).attr('id') + '"]').removeClass('active');
+  });
+
+
+
+  // $('.scrollspy').waypoint(function(direction) {
+  //   console.log('WAYPOINT!! direction:',direction);
+  //   jQuery(this).addClass('on').next();
+  // });
+});
+</script>
