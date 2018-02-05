@@ -73,13 +73,25 @@
     <% end %>
 
     <li><div class="divider"></div></li>
+    <li>
+      <%= search_form_for @q, class: 'nav-search-row' do |f| %>
+  <!--       <div class="col s4 m3 l2">
+          <%# f.select :volume_year_in, Volume.all.collect {|p| [ p.year, p.year ] }.unshift(['Volume','Volume']), { disabled: 'Volume'}, multiple: true, class: 'mat-select' %>
+        </div> -->
+        <div class="input-field">
+          <button class="prefix btn btn-flat btn-icon waves-effect waves-light" type="submit" name="submit">
+            <i class="material-icons">search</i>
+          </button>
+          <%= f.search_field :name_or_title_or_venue_or_home_or_first_date_or_tags_name_or_description_cont %>
+          <%= f.label :name_or_title_or_venue_or_home_or_first_date_or_tags_name_or_description_cont, 'Search' %>
+        </div>
+    
+      <% end %>
+    </li>
 
     <% if user_signed_in? %>
       <li><a href="/my_projects" class="waves-effect">My Projects</a></li>
-      <li><a href="/projects" class="waves-effect">Search Projects</a></li>
       <li><%= link_to('Submit New Project', new_project_path, class: 'waves-effect') %></li>
-    <% else %>
-      <li><a href="/projects" class="waves-effect">Search Projects</a></li>
     <% end %>
 
     <% if controller_name == 'projects' && action_name == 'show' %>

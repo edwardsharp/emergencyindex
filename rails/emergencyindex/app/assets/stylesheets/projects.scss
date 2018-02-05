@@ -115,6 +115,20 @@ label[for="project_already_submitted"], label[for="project_description_monospace
   overflow-wrap: break-word;
 }
 
+.nav-search-row {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  max-width: 280px;
+}
+
+.nav-search-row input[type=search]{
+  height: 3.5rem;
+}
+
+#project_search .input-field {
+  display: flex;
+  align-items: center;
+}
 
 @media #{$small-and-down} {
   .project-img{

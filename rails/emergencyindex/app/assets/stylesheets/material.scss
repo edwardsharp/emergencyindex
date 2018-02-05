@@ -32,6 +32,14 @@ button{
   margin-right: 300px;
 }
 
+.btn-pad{
+  padding-bottom: 3rem;
+}
+
+.btn-flat:hover{
+  color: white;
+}
+
 @media #{$medium-and-down} {
   .btn-icon {
     padding: 0 2rem;

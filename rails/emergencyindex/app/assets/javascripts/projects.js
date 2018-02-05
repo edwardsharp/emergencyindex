@@ -22,6 +22,11 @@ $(document).on('ready turbolinks:load', function() {
 		$('textarea').each(function() {
 	    $(this).trigger('autoresize');
 	  });
+
+    if( $('.nav-search-row input[type="search"]').val().length && $('.projects-search-field').length ){
+      $('.projects-search-field').val($('.nav-search-row input[type="search"]').val());
+    }
+
 	}, 100);
   
 
