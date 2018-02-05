@@ -154,3 +154,19 @@ label {
   height: 1.4em;
   line-height: 1.5; 
 }
+
+
+@media #{$small-and-down} {
+  body{
+    margin: 0;
+    padding: 0 0.5rem;
+  }
+
+  .collapsible.popout > li{
+    margin: 0;
+  }
+
+  h1{
+    margin: 0 1rem 1rem 1rem;
+  }
+}
