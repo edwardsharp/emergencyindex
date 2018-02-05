@@ -16,18 +16,18 @@ $(document).on('ready turbolinks:load', function() {
   });
   $('#projects-table tbody tr td.has-action').unbind('click');
 
-	setTimeout(function(){
-		// $('#project_description').focus();
-		// console.log('gonna resize a textarea!!!');
-		$('textarea').each(function() {
-	    $(this).trigger('autoresize');
-	  });
+  setTimeout(function(){
+    // $('#project_description').focus();
+    // console.log('gonna resize a textarea!!!');
+    $('textarea').each(function() {
+      $(this).trigger('autoresize');
+    });
 
     if( $('.nav-search-row input[type="search"]').val().length && $('.projects-search-field').length ){
       $('.projects-search-field').val($('.nav-search-row input[type="search"]').val());
     }
 
-	}, 100);
+  }, 100);
   
 
   if(getParameterByName('q%5Bname_or_title_or_venue_or_home_or_first_date_or_tags_name_or_description_cont%5D')){
