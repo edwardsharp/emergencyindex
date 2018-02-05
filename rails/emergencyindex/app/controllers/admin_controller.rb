@@ -207,7 +207,7 @@ class AdminController < ApplicationController
     ransack_projects
 
     respond_to do |format|
-      if @project.save
+      if @project.save(validate: false)
         format.js { render json: {}, status: 200 }
       else
         format.json { render json: {}, status: :unprocessable_entity }

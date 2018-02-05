@@ -30,4 +30,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  time:
+    formats:
+      table: "%m/%d/%y"
+      table_title: "%b %e, %Y,%l:%M %p"

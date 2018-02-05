@@ -10,10 +10,11 @@ function getParameterByName(name) {
 
 $(document).on('ready turbolinks:load', function() {
 
-  $('#projects-table tbody tr td:not(:last-child)').unbind('click');
-  $('#projects-table tbody tr td:not(:last-child)').click(function () {
+  $('#projects-table tbody tr td').unbind('click');
+  $('#projects-table tbody tr td').click(function () {
     location.href = $(this).parent().data('project-href');
   });
+  $('#projects-table tbody tr td.has-action').unbind('click');
 
 	setTimeout(function(){
 		// $('#project_description').focus();

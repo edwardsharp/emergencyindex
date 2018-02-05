@@ -34,12 +34,12 @@ Rails.application.routes.draw do
   get 'scrollspy', to: 'projects#scrollspy'
 
   get 'indexes', to: 'indexes#index'
-  get 'indexes/terms'
+  match 'indexes/terms', to: 'indexes#terms', via: [:get, :post]
   get 'indexes/terms/:term', to: 'indexes#term', as: 'index_term'
-  get 'indexes/contributors'
-  get 'indexes/places'
+  match 'indexes/contributors', to: 'indexes#contributors', via: [:get, :post]
+  match 'indexes/places', to: 'indexes#places', via: [:get, :post]
 
   get 'volume/:volume', to: 'volumes#index', as: 'volume'
   get 'volume/project/:id', to: 'volumes#project', as: 'volume_project'
-  
+
 end

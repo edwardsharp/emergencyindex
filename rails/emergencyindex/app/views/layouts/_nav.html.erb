@@ -74,23 +74,21 @@
 
     <li><div class="divider"></div></li>
 
-    <li><a href="/indexes" class="waves-effect">Indexes</a></li>
-
     <% if user_signed_in? %>
       <li><a href="/my_projects" class="waves-effect">My Projects</a></li>
-      <li><a href="/scrollspy" class="waves-effect">All Projects</a></li>
+      <li><a href="/projects" class="waves-effect">Search Projects</a></li>
       <li><%= link_to('Submit New Project', new_project_path, class: 'waves-effect') %></li>
     <% else %>
-      <li><a href="/scrollspy" class="waves-effect">Projects</a></li>
+      <li><a href="/projects" class="waves-effect">Search Projects</a></li>
     <% end %>
 
     <% if controller_name == 'projects' && action_name == 'show' %>
       <li><%= link_to 'Edit this project', edit_project_path(@project), class: 'waves-effect' %></li>
     <% end %>
 
-    <ul class="collapsible collapsible-nav" data-collapsible="accordion">
+    <ul class="collapsible-nav" data-collapsible="accordion">
       <li class="collapsible-nav-item">
-        <div class="collapsible-header">Indexes</div>
+        <div class="collapsible-header">Indexes <i class="material-icons indicator">keyboard_arrow_down</i></div>
         <div class="collapsible-body">
           <ul>
             <li><a href="/indexes/contributors" class="waves-effect">Contributors</a></li>
@@ -101,7 +99,7 @@
       </li>
       <% unless Volume.official.empty? %>
       <li class="collapsible-nav-item">
-        <div class="collapsible-header">Volume<%= 's' unless controller_name == 'volumes' %> <%= params[:volume] rescue '' %></div>
+        <div class="collapsible-header">Volume<%= 's' unless controller_name == 'volumes' %> <%= params[:volume] rescue '' %> <i class="material-icons indicator">keyboard_arrow_down</i></div>
         <div class="collapsible-body">
           <ul>
             <% Volume.official.each do |volume| %>
@@ -138,6 +136,17 @@
       draggable: true
     }
   );
+  
+  $('.collapsible-nav').collapsible({
+    onOpen: function(el) { 
+      console.log('open closed?:',el.find('.closed').length,' opened?:',el.find('.opened').length); 
+      el.find('.indicator').animateRotate(180);
+    },
+    onClose: function(el) { 
+      console.log('Closed el:',el); 
+      el.find('.indicator').animateRotate(0);
+    }
+  });
 
   // var nav = document.getElementById("nav");
   // var mouseoverTimeout;
@@ -154,6 +163,5 @@
  //   event.target.style.backgroundColor = "";
  //    clearTimeout(mouseoverTimeout)
  //  }, false);
-  
 
 </script>

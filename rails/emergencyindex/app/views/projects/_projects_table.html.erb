@@ -5,10 +5,10 @@
     <thead>
       <tr>
         <% if user_signed_in? and current_user.admin? %>
-        <th class="ellipsis maxwidth">
-          <%= sort_link(@q, :submitted, {}, {remote: true}) %>
-        </th>
-        <th class="ellipsis maxwidth"><%= sort_link(@q, :published, {}, {remote: true}) %></th>
+          <th class="ellipsis maxwidth" title="Submitted On (MM/DD/YY)">
+            <%= sort_link(@q, :submitted, {}, {remote: true}) %>
+          </th>
+          <th class="ellipsis" title="Publish Toggle">&nbsp;</th>
         <% end %>
         <th class="ellipsis maxwidth"><%= sort_link(@q, :volume, {}, {remote: true}) %></th>
         <th class="ellipsis"><%= sort_link(@q, :name, {}, {remote: true}) %></th>
@@ -16,7 +16,7 @@
         <th class="ellipsis"><%= sort_link(@q, :first_date, {}, {remote: true}) %></th>
         <th class="ellipsis"><%= sort_link(@q, :venue, {}, {remote: true}) %></th>
         <th class="ellipsis"><%= sort_link(@q, :home, {}, {remote: true}) %></th>
-        <th class="ellipsis">#</th>
+        <th class="ellipsis" title="Times Performed">#</th>
         <th></th>
       </tr>
     </thead>
@@ -25,12 +25,8 @@
       <% @projects.each do |project| %>
         <tr data-project-href="<%= project_path(project)%>">
           <% if user_signed_in? and current_user.admin? %>
-            <td class="ellipsis maxwidth"><%= l project.created_at, format: :short %></td>
-            <td class="ellipsis maxwidth center">
-              <%# project.published %>
-            <!--   <button class="toggle-publish btn btn-flat btn-icon waves-effect" data-project-id="<%= project.id %>" data-project-published="<%= project.published ? 'Publish' : 'Unpublish' %>">
-                <%= (project.published ? 'Unpublish' : 'Publish')  %>
-              </button> -->
+            <td class="ellipsis maxwidth" title="<%= l project.created_at, format: :table_title %>"><%= l project.created_at, format: :table %></td>
+            <td class="ellipsis center has-action" title="Publish Toggle">
               <input id="ck<%= project.id %>" type="checkbox" <%= "checked" if project.published %> class="toggle-publish" data-project-id="<%= project.id %>">
               <label class="project-pub" for="ck<%= project.id %>"></label>
               
@@ -38,13 +34,13 @@
             </td>
           <% end %>
           <td class="maxwidth"><%= project.volume.year %>
-          <td class="ellipsis minwidth"><%= project.name %></td>
-          <td class="ellipsis minwidth"><%= project.title %></td>
-          <td class="ellipsis"><%= project.first_date %></td>
-          <td class="ellipsis"><%= project.venue %></td>
-          <td class="ellipsis"><%= project.home %></td>
-          <td class="ellipsis"><%= project.times_performed %></td>
-          <td>
+          <td class="ellipsis minwidth" title="<%= project.name %>"><%= project.name %></td>
+          <td class="ellipsis minwidth" title="<%= project.title %>"><%= project.title %></td>
+          <td class="ellipsis" title="First Performed: <%= project.first_date %>"><%= project.first_date %></td>
+          <td class="ellipsis" title="Venue: <%= project.venue %>"><%= project.venue %></td>
+          <td class="ellipsis" title="Home: <%= project.home %>"><%= project.home %></td>
+          <td class="ellipsis" title="performed <%= project.times_performed_text %> in <%= project.volume.year %>"><%= project.times_performed %></td>
+          <td class="has-action">
             <%= link_to '<i class="material-icons prefix tooltipped" data-tooltip="Permalink">link</i>'.html_safe, project, class: 'btn btn-flat btn-icon waves-effect' %>
             <% if user_signed_in? %>
               <%= link_to '<i class="material-icons prefix tooltipped" data-tooltip="Edit">edit</i>'.html_safe, edit_project_path(project), onclick: 'event.cancelBubble=true', class: 'btn btn-flat btn-icon waves-effect' if current_user.admin? or current_user.id == project.user_id %>
@@ -103,10 +99,12 @@ $( function() {
 
   });
 
-  $('#projects-table tbody tr td:not(:last-child)').unbind('click');
-  $('#projects-table tbody tr td:not(:last-child)').click(function () {
+  $('#projects-table tbody tr td').unbind('click');
+  $('#projects-table tbody tr td').click(function () {
     location.href = $(this).parent().data('project-href');
   });
+  $('#projects-table tbody tr td.has-action').unbind('click');
+
 
 });
 </script>

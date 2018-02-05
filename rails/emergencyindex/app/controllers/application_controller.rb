@@ -36,6 +36,6 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    @projects = @q.result(distinct: true).page(params[:page])
+    @projects = @q.result(distinct: true).paginate({page: params[:page], per_page: 25})
   end
 end

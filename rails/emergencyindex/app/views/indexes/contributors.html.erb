@@ -1,6 +1,23 @@
 <div class="fixed-margin">
   <ul class="collapsible popout" data-collapsible="accordion">
-    <li class="collection-item header"><h4><%= link_to 'Index', indexes_path %> &rarr; Contributors</h4></li>
+    <li class="collection-item header">
+      <h4><%= link_to 'Index', indexes_path %> &rarr; Contributors</h4>
+      <%= search_form_for @q, url: indexes_contributors_path, class: 'row search-row' do |f| %>
+        <div class="col s4">
+          <%= f.select :volume_year_in, Volume.all.collect {|p| [ p.year, p.year ] }.unshift(['Volume','Volume']), { disabled: 'Volume'}, multiple: true, class: 'mat-select' %>
+        </div>
+        <div class="input-field col s5">
+          <%= f.search_field :contact_name_cont %>
+          <%= f.label :contact_name_cont, 'Find Contributor' %>
+        </div>
+        <div class="input-field col s3">
+          <button class="btn btn-flat waves-effect waves-light" type="submit" name="submit">
+            <i class="material-icons">search</i>
+          </button>
+        </div>
+      <% end %>
+    </li>
+
     <% @contributors.each do |project| %>
       <li>
         <div class="collapsible-header flex-header"><span><%= project.contact_name %></span><!-- <span class="new badge" data-badge-caption="project<%# 's' if project.count != 1 %>"><%# project.count %></span> --></div>
