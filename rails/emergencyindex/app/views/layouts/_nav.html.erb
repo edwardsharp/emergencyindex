@@ -150,14 +150,8 @@
   );
   
   $('.collapsible-nav').collapsible({
-    onOpen: function(el) { 
-      console.log('open closed?:',el.find('.closed').length,' opened?:',el.find('.opened').length); 
-      el.find('.indicator').animateRotate(180);
-    },
-    onClose: function(el) { 
-      console.log('Closed el:',el); 
-      el.find('.indicator').animateRotate(0);
-    }
+    onOpen: function(el) { el.find('.indicator').animateRotate(180); },
+    onClose: function(el) { el.find('.indicator').animateRotate(0); }
   });
 
   // var nav = document.getElementById("nav");

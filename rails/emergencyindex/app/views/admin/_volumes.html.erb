@@ -1,14 +1,14 @@
 <ul id="volumes-collection" class="collection with-header">
   
-	<li class="collection-header">
-		<span> </span>
-		<button id="volume-modal-trigger" class="waves-effect waves-light btn tooltipped" data-tooltip="Create New Volume"><i class="material-icons">add</i></button>
-	</li>
+  <li class="collection-header">
+    <span> </span>
+    <button id="volume-modal-trigger" class="waves-effect waves-light btn tooltipped" data-tooltip="Create New Volume"><i class="material-icons">add</i></button>
+  </li>
 
-	<%= '<p>...no volumes yet</p>'.html_safe if Volume.all.blank? %>
+  <%= '<p>...no volumes yet</p>'.html_safe if Volume.all.blank? %>
   <div id="volumes-list">
-	  <%= render 'volumes_list' %>
-	</div>
+    <%= render 'volumes_list' %>
+  </div>
 </ul>
 
 <div id="volume-modal" class="modal modal-fixed-footer">
@@ -17,31 +17,31 @@
 
 <script type="text/javascript">
 $(document).on('turbolinks:load', function() {
-	//jesus-fuck turbolinkz/jquery (!!!)
-	function showNewVolumeModal() {
-	  $.ajax({
-		  url: "/admin/edit_volume",
-		  method: "GET"
-		});
-	}
-	if($('#volume-modal-trigger').length > 0){
-		$('#volume-modal-trigger').off('click', showNewVolumeModal);
-		$('#volume-modal-trigger').on('click', showNewVolumeModal);
-	}
+  //jesus-fuck turbolinkz/jquery (!!!)
+  function showNewVolumeModal() {
+    $.ajax({
+      url: "/admin/edit_volume",
+      method: "GET"
+    });
+  }
+  if($('#volume-modal-trigger').length > 0){
+    $('#volume-modal-trigger').off('click', showNewVolumeModal);
+    $('#volume-modal-trigger').on('click', showNewVolumeModal);
+  }
 
-	$('#save-volume').click(function(){
-		$('#new-volume-error').html('');
-		$('#volume-form').submit();
-	});
+  $('#save-volume').click(function(){
+    $('#new-volume-error').html('');
+    $('#volume-form').submit();
+  });
 
 
-	$("#volume-form").bind('ajax:success', function() {
-		$('#volume-modal').modal('close');
+  $("#volume-form").bind('ajax:success', function() {
+    $('#volume-modal').modal('close');
   });
 
   $("#volume-form").bind('ajax:error', function(e,resp) {
-  	console.log('_volumes volume-form ajax:err resp',resp);
-		$('#new-volume-error').html('Error: ' + resp.responseJSON[0]);
+    // console.log('_volumes volume-form ajax:err resp',resp);
+    $('#new-volume-error').html('Error: ' + resp.responseJSON[0]);
   });
 
 });
