@@ -18,11 +18,12 @@ $(function() {
 
   var scrollSpyEnter = function() {
     var $navElem = $('#scrollspy-nav').find('a[href="#' + $(this).attr('id') + '"]');
-    $navElem.addClass('active');
-
-    $('#slide-out').animate({
-        scrollTop: $navElem.offset().top - $('#scrollspy-nav').offset().top
-    }, 100);
+    if( $navElem.length ){
+      $navElem.addClass('active');
+      $('#slide-out').animate({
+          scrollTop: $navElem.offset().top - $('#scrollspy-nav').offset().top
+      }, 100);
+    }
 
     for(i=0;i < $('.collapsible-nav-item').length; i++){
       $('.collapsible-nav').collapsible('close',i);
