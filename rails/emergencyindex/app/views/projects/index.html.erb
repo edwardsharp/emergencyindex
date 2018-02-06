@@ -6,15 +6,13 @@
       <%= f.select :volume_year_in, Volume.all.collect {|p| [ p.year, p.year ] }.unshift(['Volume','Volume']), { disabled: 'Volume'}, multiple: true, class: 'mat-select' %>
     </div>
     <div class="input-field col s6 hide-on-large-only">
-      <button class="prefix btn btn-flat btn-icon waves-effect waves-light" type="submit" name="submit">
-        <i class="material-icons">search</i>
-      </button>
-      <%= f.search_field :name_or_title_or_venue_or_home_or_first_date_or_tags_name_or_description_cont, class: 'projects-search-field'%>
+      <%= f.search_field :name_or_title_or_venue_or_home_or_first_date_or_tags_name_or_description_cont, class: 'projects-search-field' %>
       <%= f.label :name_or_title_or_venue_or_home_or_first_date_or_tags_name_or_description_cont, 'Search' %>
     </div>
     <div class="input-field col s3 m3">
       <button class="btn btn-flat btn-pad waves-effect waves-light" type="submit" name="submit">
-        <i class="material-icons">filter_list</i> Filter
+        <span class="hide-on-large-only"><i class="material-icons">search</i> Search</span>
+        <span class="hide-on-med-and-down"><i class="material-icons">filter_list</i> Filter</span>
       </button>
     </div>
   <% end %>

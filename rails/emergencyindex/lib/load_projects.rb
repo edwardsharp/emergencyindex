@@ -185,11 +185,55 @@ module LoadProjects
     problemz
   end
 
-  def self.and_export_json(file: "/Users/edward/Desktop/emergencyINDEX/index1projects_PARSED.json")
-    File.open(file,"w") do |f|
-      f.write(LoadProjects.from_json.to_json)
+  def self.and_export_json(file: "/Users/edward/Desktop/emergencyINDEX/indesign_dump_2_4_2018/2012/html/2012_projects.json",
+    out: "/Users/edward/Desktop/emergencyINDEX/index1projects_PARSED.json")
+    File.open(out,"w") do |f|
+      f.write(LoadProjects.from_json(file: file).to_json)
     end
+    p "wrote json file #{out}"
   end
+
+  #
+  # start here, and move up!
+  #
+  def self.and_scrape_html(file: "/Users/edward/Desktop/emergencyINDEX/indesign_dump_2_4_2018/2012/html/2012.html", 
+    out: "/Users/edward/Desktop/emergencyINDEX/indesign_dump_2_4_2018/2012/html/2012_projects.json")
+
+    page = Nokogiri::HTML(open(file))
+
+    #remove empty divz...
+    page.xpath('/html/body/div/div').each do |div|
+      throw "EMPTY DIV! #{div}" if (div.content.strip.empty? and div.children.count <= 1)
+    end
+
+    projects = []
+
+    page.xpath('/html/body/div').each_slice(4) do |div|
+      project = {}
+      project['image'] = div[0].css('img').collect{|i| i['src']}[0].split('/').last rescue nil
+      unless project['image']
+        project['image'] = div[0].css('img').collect{|i| i['src']} rescue nil
+      end
+      project['info'] = div[1].css('p span').collect{|i| i.text} rescue nil
+      project['photo_credit'] = div[2].css('p span').collect{|i| i.text}[0] rescue nil
+      unless project['photo_credit']
+        project['photo_credit'] = div[2].css('p span').collect{|i| i.text} rescue nil
+      end
+      project['description'] = div[3].css('p span').collect{|i| i.text} rescue nil
+      projects << project
+    end
+
+    File.open(out,"w") do |f|
+      f.write(projects.to_json)
+    end
+
+    p "wrote projects to: #{out}"
+    p "probably can: LoadProjects.and_export_json(file: #{out})"
+
+  end
+
+
+private
 
   def self.from_json(file: "/Users/edward/Desktop/emergencyINDEX/index1projects.json")
     file = File.read file
@@ -269,11 +313,6 @@ module LoadProjects
     end
   end
 
-  def self.description_from(description_json)
-
-  end
-
-  private
   def self.intfstr(str)
     h = {
       'once'  =>  1,

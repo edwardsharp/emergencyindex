@@ -3,6 +3,6 @@
 
 $(document).on('ready turbolinks:load', function() {
   $('.indexes-collapsible').collapsible({
-    onOpen: function(el) { el[0].scrollIntoView(); }
+    onOpen: function(el) { setTimeout(function(){el[0].scrollIntoView()}, 250) }
   });
 });

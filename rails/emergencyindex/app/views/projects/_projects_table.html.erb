@@ -4,16 +4,16 @@
   <table class="highlight responsive-table" id="projects-table">
     <thead>
       <tr>
-        <% if user_signed_in? and current_user.admin? %>
+        <% if user_signed_in? and current_user.admin? and controller_name == 'admin' %>
           <th class="ellipsis maxwidth" title="Submitted On (MM/DD/YY)">
             <%= sort_link(@q, :submitted, {}, {remote: true}) %>
           </th>
           <th class="ellipsis" title="Publish Toggle">&nbsp;</th>
         <% end %>
         <th class="ellipsis maxwidth"><%= sort_link(@q, :volume, {}, {remote: true}) %></th>
+        <th class="ellipsis"><%= sort_link(@q, :first_date, {}, {remote: true}) %></th>
         <th class="ellipsis"><%= sort_link(@q, :name, {}, {remote: true}) %></th>
         <th class="ellipsis"><%= sort_link(@q, :title, {}, {remote: true}) %></th>
-        <th class="ellipsis"><%= sort_link(@q, :first_date, {}, {remote: true}) %></th>
         <th class="ellipsis"><%= sort_link(@q, :venue, {}, {remote: true}) %></th>
         <th class="ellipsis"><%= sort_link(@q, :home, {}, {remote: true}) %></th>
         <th class="ellipsis" title="Times Performed">#</th>
@@ -24,7 +24,7 @@
     <tbody>
       <% @projects.each do |project| %>
         <tr data-project-href="<%= project_path(project)%>">
-          <% if user_signed_in? and current_user.admin? %>
+          <% if user_signed_in? and current_user.admin? and controller_name == 'admin' %>
             <td class="ellipsis maxwidth" title="<%= l project.created_at, format: :table_title %>"><%= l project.created_at, format: :table %></td>
             <td class="ellipsis center has-action" title="Publish Toggle">
               <input id="ck<%= project.id %>" type="checkbox" <%= "checked" if project.published %> class="toggle-publish" data-project-id="<%= project.id %>">
@@ -33,10 +33,10 @@
               
             </td>
           <% end %>
-          <td class="maxwidth"><%= project.volume.year %>
+          <td class="maxwidth"><%= project.volume.year %></td>
+          <td class="ellipsis" title="First Performed: <%= project.first_date %>"><%= project.first_date %></td>
           <td class="ellipsis minwidth" title="<%= project.name %>"><%= project.name %></td>
           <td class="ellipsis minwidth" title="<%= project.title %>"><%= project.title %></td>
-          <td class="ellipsis" title="First Performed: <%= project.first_date %>"><%= project.first_date %></td>
           <td class="ellipsis" title="Venue: <%= project.venue %>"><%= project.venue %></td>
           <td class="ellipsis" title="Home: <%= project.home %>"><%= project.home %></td>
           <td class="ellipsis" title="performed <%= project.times_performed_text %> in <%= project.volume.year %>"><%= project.times_performed %></td>
